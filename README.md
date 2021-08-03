@@ -10,6 +10,7 @@
 - Patches directory are taken from: [Divested-WRT: UNOFFICIAL OpenWrt builds](https://divested.dev/unofficial-openwrt-builds/mvebu-linksys/patches/)
 - mwlwifi is taken from: [Lean's Openwrt source code repository](https://github.com/coolsnowwolf/lede/tree/master/package/kernel/mwlwifi)
 - modifications to action script By Eliminater74
+- NetData SQM char from: https://github.com/Fail-Safe/netdata-chart-sqm
 _______________________________________________________________________
 ![GitHub Downloads](https://img.shields.io/github/release-date/DevOpenWRT-Router/Action_OpenWRT_AutoBuild_Linksys_Devices?style=plastic)
 

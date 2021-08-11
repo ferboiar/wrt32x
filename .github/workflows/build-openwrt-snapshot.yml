@@ -61,14 +61,18 @@ env:
   INSTALL_PACKAGES: true
   INDEX_PACKAGES: true
   ### ------------------------------------------------------------------ ###
+  ## Enable DEBUG will show more INFO
   DEBUG_COMPILE: false
+  ## Enable IGNORE is debug with IGNORE_ERRORS=1
   IGNORE_COMPILE: false
+  ### ------------------------------------------------------------------ ###
   KMODS: true
   ACL_LUCI: true
+  GITLOGA: true
+  GITLOGB: true
   RUN_BEFORE_BUILD: false
   RUN_AFTER_BUILD: false
   UPLOAD_BUILD_LOGS: true
-  UPLOAD_BUILDLOG: false
   UPLOAD_PACKAGES: false
   UPLOAD_BIN_DIR: false
   UPLOAD_FIRMWARE: true
@@ -227,6 +231,11 @@ jobs:
         chmod +x scripts/$BEFORE_BUILD
         /bin/bash ${GITHUB_WORKSPACE}/scripts/before_build.sh
 
+    - name: Current Commit Before Feeds/Patches
+      if: env.GITLOGA == 'true' && !cancelled()
+      run: |
+         git log --pretty=oneline -n 1
+
     - name: Load custom feeds
       run: |
         [ -e configs/$FEEDS_CONF ] && mv configs/$FEEDS_CONF openwrt/feeds.conf.default
@@ -313,6 +322,12 @@ jobs:
         mv configs/patches openwrt/patches
         cd openwrt
         git am patches/*.patch
+
+    - name: Current Commit After Feeds/Patches
+      if: env.GITLOGB == 'true' && !cancelled()
+      run: |
+         cd openwrt
+         git log --pretty=oneline -n 1
 
     - name: Smart chmod
       run: |
@@ -487,12 +502,18 @@ jobs:
       run: |
         cd openwrt
         echo -e "$(nproc) thread compile"
-        make -j$(nproc) || make -j1 V=s 2>&1 | tee logs/build.log | grep -i -E "^make.*(error|[12345]...Entering directory)"
+        make -j$(nproc)
         echo "::set-output name=status::success"
         grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*DEVICE_(.*)=y/\1/' > DEVICE_NAME
         [ -s DEVICE_NAME ] && echo "DEVICE_NAME=_$(cat DEVICE_NAME)" >> $GITHUB_ENV
         echo "FILE_DATE=_$(date +"%Y%m%d%H%M")" >> $GITHUB_ENV
 
+    - name: If Error
+      uses: actions/upload-artifact@main
+      if: steps.compile.outcome == 'failure' && env.UPLOAD_BUILD_LOGS == 'true'
+      with:
+        name: OpenWrt_logs${{ env.DEVICE_NAME }}${{ env.FILE_DATE }}
+        path: openwrt/logs/
 ############################################################################################################################
 
     - name: SSH connection to Actions After Build
@@ -538,17 +559,10 @@ jobs:
 
     - name: Upload logs directory
       uses: actions/upload-artifact@main
-      if: env.UPLOAD_BUILD_LOGS == 'true' && !cancelled()
+      if: env.UPLOAD_BUILD_LOGS == 'true'
       with:
         name: OpenWrt_logs${{ env.DEVICE_NAME }}${{ env.FILE_DATE }}
         path: openwrt/logs/
-
-    - name: Upload build.log
-      uses: actions/upload-artifact@main
-      if: env.UPLOAD_BUILDLOG == 'true' && !cancelled()
-      with:
-        name: OpenWrt_buildlog${{ env.DEVICE_NAME }}${{ env.FILE_DATE }}
-        path: ${GITHUB_WORKSPACE}/openwrt/build.log
 
     - name: Organize files
       id: organize
@@ -619,7 +633,8 @@ jobs:
         echo "::set-output name=status::success"
 
     - name: Upload firmware to release
-      uses: softprops/action-gh-release@master
+#      uses: softprops/action-gh-release@master
+      uses: softprops/action-gh-release@59c3b4891632ff9a897f99a91d7bc557467a3a22
       if: steps.tag.outputs.status == 'success' && !cancelled()
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

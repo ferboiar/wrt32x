@@ -48,7 +48,7 @@ env:
   EXT_INIT_ENV: environment.sh
   USE_FILES: true
   USE_DIYP2: true
-  USE_PATCHES: true
+  USE_PATCHES: false
   USE_DEVOPENWRT: true
   USE_COOLSNOWWOLF: true
   USE_SIRPDBOY: true

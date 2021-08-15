@@ -48,7 +48,8 @@ env:
   EXT_INIT_ENV: environment.sh
   USE_FILES: true
   USE_DIYP2: true
-  USE_PATCHES: false
+  USE_CUST_THEMES: true
+  USE_PATCHES: true
   USE_DEVOPENWRT: true
   USE_COOLSNOWWOLF: true
   USE_SIRPDBOY: true
@@ -233,6 +234,12 @@ jobs:
         chmod +x scripts/$DIY_P1_SH
         cd openwrt
         $GITHUB_WORKSPACE/scripts/$DIY_P1_SH
+    - name: Load LUCI custom Themes
+      if: env.USE_CUST_THEMES == 'true' && !cancelled()
+      run: |
+        chmod +x scripts/luci_themes.sh
+        cd openwrt
+        $GITHUB_WORKSPACE/scripts/luci_themes.sh
     - name: Set LUCI Source
       id: setLuci
       run: |
@@ -461,11 +468,14 @@ jobs:
         echo "FILE_DATE=_$(date +"%Y%m%d%H%M")" >> $GITHUB_ENV
     - name: Compile the firmware
       id: compile
+      continue-on-error: true
       if: env.DEBUG_COMPILE == 'false' && env.IGNORE_COMPILE == 'false'
       run: |
         cd openwrt
         echo -e "$(nproc) thread compile"
-        make -j$(nproc)
+        let Make_Process=$(nproc)+2
+        make -j${Make_Process} || make -j${Make_Process} V=s
+        echo $?
         echo "::set-output name=status::success"
         grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*DEVICE_(.*)=y/\1/' > DEVICE_NAME
         [ -s DEVICE_NAME ] && echo "DEVICE_NAME=_$(cat DEVICE_NAME)" >> $GITHUB_ENV

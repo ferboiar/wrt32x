@@ -1,4 +1,4 @@
-![OpenWRT](images/openwrt-logo.jpg)
+![OpenWRT](images/openwrt_logo.png)
 
 # GitHub Action Script Custom Modded By Eliminater74
 ## Original from [P3TERX](https://github.com/P3TERX/Actions-OpenWrt)

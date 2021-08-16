@@ -5,7 +5,7 @@
 ### Created to make building OpenWRT easier using github actions.
 
 <p align="center">
-  <img src="images/wrt32x.jpg">
+  <img width="300" height="auto" src="images/wrt32x.jpg">
 </p>
 
 ## Notes:

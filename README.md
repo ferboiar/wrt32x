@@ -79,6 +79,23 @@ git am patches / *. patch
 ```
 after 4 or 5h of compilation you will see two new files into "Artifacs":
 
+If you are not sure about your kernel partition size do a sysupgrade from command line [Increasing mamba and venom kernel partition to 6MB](https://forum.openwrt.org/t/increasing-mamba-and-venom-kernel-partition-to-6mb)
+
+1. Verify compatibility
+```
+ - $ fw_printenv | grep "pri_kern_size"; #mamba MUST equal 0x400000
+ - $ fw_printenv | grep "priKernSize"; #venom MUST equal 0x0600000
+```
+Do not try to change them!
+
+2. Flashing process:
+You must always use a factory image when flashing to or away from a resized build.
+- Create a backup tar
+- Flash the image via sysupgrade: `sysupgrade -F squashfs-factory.img`
+- Restore the backup
+
+Two times, to do the change from both boot partitions.
+
 _______________________________________________________________________
 
 ### TIPS

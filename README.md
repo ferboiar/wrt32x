@@ -4,8 +4,11 @@
 ## Original from [P3TERX](https://github.com/P3TERX/Actions-OpenWrt)
 ### Created to make building OpenWRT easier using github actions.
 
-<center>![LinksysWRT3200ACM](images/wrt32x.jpg)</center>
-<center><img src="images/wrt32x.jpg"></center>
+
+
+<p align="center">
+  <img src="images/wrt32x.jpg">
+</p>
 
 ## Notes:
 - Patches directory are taken from: [Divested-WRT: UNOFFICIAL OpenWrt builds](https://divested.dev/unofficial-openwrt-builds/mvebu-linksys/patches/)

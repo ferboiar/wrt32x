@@ -7,7 +7,7 @@
 
 
 <p align="center">
-  <img src="images/wrt32x.jpg">
+  <img width="460" height="300"  src="images/wrt32x.jpg">
 </p>
 
 ## Notes:

@@ -5,6 +5,7 @@
 ### Created to make building OpenWRT easier using github actions.
 
 <center>![LinksysWRT3200ACM](images/wrt32x.jpg)</center>
+<center><img src="images/wrt32x.jpg"></center>
 
 ## Notes:
 - Patches directory are taken from: [Divested-WRT: UNOFFICIAL OpenWrt builds](https://divested.dev/unofficial-openwrt-builds/mvebu-linksys/patches/)

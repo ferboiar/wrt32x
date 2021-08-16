@@ -14,7 +14,7 @@
 - OpenWRTScripts from: https://github.com/richb-hanover/OpenWrtScripts
 - autoSQM script from: https://github.com/baguswahyu/autoSQM-damasus.bagus More info here: https://forum.openwrt.org/t/help-to-make-sh-script-for-adjust-sqm-automaticaly/58754
 _______________________________________________________________________
-![GitHub Downloads](https://img.shields.io/github/release-date/DevOpenWRT-Router/Action_OpenWRT_AutoBuild_Linksys_Devices?style=plastic)
+![GitHub Downloads](https://img.shields.io/github/release-date/ferboiar/wrt32x?style=flat-square&logo=openwrt)
 
 ### Latest Release Downloads:
 ![GitHub Downloads](https://img.shields.io/github/downloads/DevOpenWRT-Router/Action_OpenWRT_AutoBuild_Linksys_Devices/latest/total?style=for-the-badge)

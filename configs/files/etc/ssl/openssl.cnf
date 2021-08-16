@@ -4,7 +4,7 @@
 #
 
 # Note that you can include other files from the main configuration
-# file using the .include directive.
+# file using the .include directive. 
 #.include filename
 
 # This definition stops the following lines choking if HOME isn't

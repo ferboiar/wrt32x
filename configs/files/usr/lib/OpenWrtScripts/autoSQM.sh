@@ -13,9 +13,9 @@
  download=`cat /tmp/download.txt  | awk -f median.awk`
  upload=`cat /tmp/upload.txt  | awk -f median.awk`
  
- #convert to Kbps & adjust to 80% speed
- downloadKbps=$(awk "BEGIN {download = $download; print download*1000*80/100}")
- uploadKbps=$(awk "BEGIN {upload = $upload; print upload*1000*80/100}")
+ #convert to Kbps & adjust to 90% speed
+ downloadKbps=$(awk "BEGIN {download = $download; print download*1000*90/100}")
+ uploadKbps=$(awk "BEGIN {upload = $upload; print upload*1000*90/100}")
  echo $downloadKbps
  echo $uploadKbps
  
@@ -31,5 +31,5 @@
  logger -t autoSQM -p info "Set download = $downloadKbps, upload = $uploadKbps"
  fi
  
- echo "auto sqm DONE!"
- logger -t autoSQM -p info "Set download = $downloadKbps, upload = $uploadKbps"
+ #echo "auto sqm DONE!"
+ #logger -t autoSQM -p info "Set download = $downloadKbps, upload = $uploadKbps"

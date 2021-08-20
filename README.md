@@ -1,6 +1,6 @@
 ![OpenWRT](images/openwrt_logo.png)
 
-# GitHub Action Script Custom Modded By Eliminater74
+# GitHub Action Script Custom Modded By [Eliminater74](https://github.com/DevOpenWRT-Router/Action_OpenWRT_AutoBuild_Linksys_Devices)
 ## Original from [P3TERX](https://github.com/P3TERX/Actions-OpenWrt)
 ### Created to make building OpenWRT easier using github actions.
 

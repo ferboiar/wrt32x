@@ -8,7 +8,7 @@
   <img width="300" height="auto" src="images/wrt32x.jpg">
 </p>
 
-- Snapshot changelog: https://git.openwrt.org/?p=openwrt/openwrt.git;a=shortlog
+> Snapshot changelog: https://git.openwrt.org/?p=openwrt/openwrt.git;a=shortlog
 
 ## Notes:
 - Patches directory are taken from: [Divested-WRT: UNOFFICIAL OpenWrt builds](https://divested.dev/unofficial-openwrt-builds/mvebu-linksys/patches/)

@@ -23,16 +23,14 @@ git clone https://github.com/MapesxGM/luci-app-eqos.git package/luci-app-eqos
 git clone https://github.com/rufengsuixing/luci-app-onliner.git package/luci-app-onliner
 ### luci-app-fileassistant
 git clone https://github.com/gztingting/luci-app-fileassistant.git package/luci-app-fileassistant
-### luci-app-wifimac
-git clone https://github.com/qianmuyixiao/luci-app-wifimac.git package/luci-app-wifimac
 ### luci-app-shortcutmenu
 git clone https://github.com/doushang/luci-app-shortcutmenu.git package/luci-app-shortcutmenu
 ### luci-app-rtorrent
 git clone https://github.com/wolandmaster/luci-app-rtorrent.git package/luci-app-rtorrent
 ### luci-app-zospusher
 git clone https://github.com/zhengwenxiao/luci-app-zospusher.git package/luci-app-zospusher
-### luci-app-sfe
-git clone https://github.com/lsydy1021/luci-app-sfe.git package/luci-app-sfe
+### helmiwrt-packages
+git clone https://github.com/helmiau/helmiwrt-packages.git package/helmiwrt-packages
 
 
 ### luci-app-control-weburl

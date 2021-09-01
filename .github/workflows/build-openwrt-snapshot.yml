@@ -108,30 +108,20 @@ jobs:
           [ -f /etc/issue ] && cat /etc/issue
           ulimit -a
       - name: Free disk space
-        run: >
+        run: |
           sudo -E swapoff -a
-
           sudo -E rm -f /swapfile
-
           sudo -E snap set system refresh.retain=2
-
           sudo -E apt-get -qq purge azure* dotnet* firefox ghc* google* hhvm llvm* mono* mysql* openjdk* php* zulu*
-
           sudo -E apt-get -qq remove --purge powershell mysql* mssql-tools msodbcsql17 android*
-
           sudo -E apt-get -qq autoremove --purge
-
           sudo -E apt-get clean -qq
-
           sudo -E rm -rf /usr/share/dotnet /usr/local/lib/android/sdk /etc/mysql /etc/php /usr/local/share/boost
-
           sudo -E rm -rf /etc/apt/sources.list.d/* /usr/share/dotnet /etc/mysql /etc/php /usr/local/lib/android /opt/ghc /swapfile
-
           [ -n "$AGENT_TOOLSDIRECTORY" ] && sudo rm -rf "$AGENT_TOOLSDIRECTORY"
-
           df -h
       - name: Initialization environment
-        run: >
+        run: |
           sudo -E apt-get update -qq
           sudo -E apt-get -qq update
           sudo -E apt-get -qq full-upgrade
@@ -223,7 +213,7 @@ jobs:
           fi
       - name: Clone source code
         working-directory: /workdir
-        run: >
+        run: |
           df -hT $PWD
           git clone ${{ steps.setSource.outputs.sourceString }} -b ${{ steps.setSource.outputs.branchString }} openwrt
           ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
@@ -238,7 +228,7 @@ jobs:
           cd openwrt
           git log --pretty=oneline -n 1
       - name: Load custom feeds
-        run: >
+        run: |
           [ -e configs/$FEEDS_CONF ] && mv configs/$FEEDS_CONF openwrt/feeds.conf.default
           chmod +x scripts/$DIY_P1_SH
           cd openwrt
@@ -309,7 +299,7 @@ jobs:
         run: |
           [ -e configs/files ] && mv configs/files openwrt/files
       - name: Copy (.config)
-        run: >
+        run: |
           [ -e configs/${{ steps.setConfig.outputs.hardwareString }} ] && mv configs/${{ steps.setConfig.outputs.hardwareString }} openwrt/.config
       - name: Run Custom OpenWRT Patches
         if: env.USE_OPENWRT_PATCHES == 'true' && !cancelled()
@@ -338,7 +328,7 @@ jobs:
           cd openwrt
           git log --pretty=oneline -n 1
       - name: Smart chmod
-        run: >
+        run: |
           MY_Filter=$(mktemp)
           echo '/\.git' >  ${MY_Filter}
           echo '/\.svn' >> ${MY_Filter}
@@ -437,7 +427,7 @@ jobs:
       - name: Building packages
         id: makepackages
         if: env.BUILD_PACKAGES == 'true' && !cancelled()
-        run: >
+        run: |
           df -h
           cd openwrt
           let make_process=$(nproc)+2
@@ -445,7 +435,7 @@ jobs:
       - name: Installing packages
         id: installpackages
         if: env.INSTALL_PACKAGES == 'true' && !cancelled()
-        run: >
+        run: |
           df -h
           cd openwrt
           let make_process=$(nproc)+2
@@ -459,7 +449,7 @@ jobs:
       - name: Indexing packages
         id: indexingpackages
         if: env.INDEX_PACKAGES == 'true' && !cancelled()
-        run: >
+        run: |
           df -h
           cd openwrt
           let make_process=$(nproc)+2
@@ -468,7 +458,7 @@ jobs:
       - name: Compile the firmware (Debug)
         id: compiledebug
         if: env.DEBUG_COMPILE == 'true' && env.IGNORE_COMPILE == 'false'
-        run: >
+        run: |
           cd openwrt
           echo -e "$(nproc) thread compile"
           make -j$(nproc) V=s 2>&1 | tee logs/build.log | grep -i -E "^make.*(error|[12345]...Entering directory)"
@@ -479,7 +469,7 @@ jobs:
       - name: Compile the firmware (ignore Errors)
         id: compileignore
         if: env.IGNORE_COMPILE == 'true' && env.DEBUG_COMPILE == 'false'
-        run: >
+        run: |
           cd openwrt
           echo -e "$(nproc) thread compile"
           IGNORE_ERRORS=1 make -j$(nproc) -i V=s 2>&1 | tee logs/build.log | grep -i -E "^make.*(error|[12345]...Entering directory)"
@@ -491,7 +481,7 @@ jobs:
         id: compile
         continue-on-error: true
         if: env.DEBUG_COMPILE == 'false' && env.IGNORE_COMPILE == 'false'
-        run: >
+        run: |
           cd openwrt
           echo -e "$(nproc) thread compile"
           let Make_Process=$(nproc)+2
@@ -627,7 +617,7 @@ jobs:
           path: '${{ env.FIRMWARE }}'
       - name: tar.gz bin/packages
         if: env.TARGZIP_PACKAGES == 'true' && !cancelled()
-        run: >
+        run: |
           cd openwrt/bin/packages
           tar -cvzf OpenWrt_bin_packages${{ env.DEVICE_NAME }}${{ env.FILE_DATE }}.tar.gz ./*
           mv OpenWrt_bin_packages${{ env.DEVICE_NAME }}${{ env.FILE_DATE }}.tar.gz ${GITHUB_WORKSPACE}/openwrt/bin/targets/mvebu/cortexa9/
@@ -635,7 +625,7 @@ jobs:
         id: gofile
         if: >-
           steps.organize.outputs.status == 'success' && env.UPLOAD_GOFILE == 'true' && !cancelled()
-        run: >
+        run: |
           curl -fsSL git.io/file-transfer | sh
           ./transfer gof -s --no-progress ${FIRMWARE} 2>&1 | tee gofile.log
           echo "::warning file=gofile.io::$(cat gofile.log | grep https)"
@@ -644,7 +634,7 @@ jobs:
         id: litterbox
         if: >-
           steps.organize.outputs.status == 'success' && env.UPLOAD_LITTERBOX == 'true' && !cancelled()
-        run: >
+        run: |
           curl -fsSL git.io/file-transfer | sh
           ./transfer lit --no-progress ${FIRMWARE} 2>&1 | tee litterbox.log
           echo "::warning file=litterbox.catbox.moe::$(cat litterbox.log | grep https)"
@@ -653,7 +643,7 @@ jobs:
         id: catbox
         if: >-
           steps.organize.outputs.status == 'success' && env.UPLOAD_CATBOX == 'true' && !cancelled()
-        run: >
+        run: |
           curl -fsSL git.io/file-transfer | sh
           ./transfer cat --no-progress ${FIRMWARE} 2>&1 | tee catbox.log
           echo "::warning file=catbox.moe::$(cat catbox.log | grep https)"
@@ -662,7 +652,7 @@ jobs:
         id: fileio
         if: >-
           steps.organize.outputs.status == 'success' && env.UPLOAD_FILEIO == 'true' && !cancelled()
-        run: >
+        run: |
           curl -fsSL git.io/file-transfer | sh
           ./transfer fio --no-progress ${FIRMWARE} 2>&1 | tee fileio.log
           echo "::warning file=file.io::$(cat fileio.log | grep https)"

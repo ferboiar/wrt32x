@@ -15,6 +15,7 @@
 - mwlwifi is taken from: [Lean's Openwrt source code repository](https://github.com/coolsnowwolf/lede/tree/master/package/kernel/mwlwifi)
 - modifications to action script By Eliminater74
 - NetData SQM char from: https://github.com/Fail-Safe/netdata-chart-sqm
+     edit "wrt32x/configs/files/etc/netdata/charts.d/sqm.conf" to modify your WAN interface
 - OpenWRTScripts from: https://github.com/richb-hanover/OpenWrtScripts
 - autoSQM script from: https://github.com/baguswahyu/autoSQM-damasus.bagus More info here: https://forum.openwrt.org/t/help-to-make-sh-script-for-adjust-sqm-automaticaly/58754
 - Network interfaces ports status from: https://github.com/tano-systems/luci-app-tn-netports

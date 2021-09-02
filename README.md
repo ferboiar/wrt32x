@@ -17,7 +17,7 @@
 - NetData SQM char from: https://github.com/Fail-Safe/netdata-chart-sqm (edit "wrt32x/configs/files/etc/netdata/charts.d/sqm.conf" to modify your WAN interface)
 - OpenWRTScripts from: https://github.com/richb-hanover/OpenWrtScripts
 - autoSQM script from: https://github.com/baguswahyu/autoSQM-damasus.bagus More info here: https://forum.openwrt.org/t/help-to-make-sh-script-for-adjust-sqm-automaticaly/58754 (edit your scheluded tasks to set "0 6,14,22 * * * /usr/lib/OpenWrtScripts/autoSQM.sh")
-- Network interfaces ports status from: https://github.com/tano-systems/luci-app-tn-netports
+- Network interfaces ports status from: https://github.com/tano-systems/luci-app-tn-netports (edit "wrt32x/configs/files/etc/config/luci_netports" file to set your interfaces)
 _______________________________________________________________________
 ![GitHub Downloads](https://img.shields.io/github/release-date/ferboiar/wrt32x?style=flat-square&logo=openwrt)
 

@@ -14,6 +14,17 @@ set -u  # script fails if trying to access to an undefined variable
 D="$(date +"%Y.%m.%d-%H%M")"
 
 echo "[+] Action start"
+SOURCE_DIRECTORY_A="openwrt/bin/packages/arm_cortex-a9_vfpv3-d16"
+SOURCE_DIRECTORY_B="openwrt/bin/targets/mvebu/cortexa9/kmods/$KMOD_DIR"
+DESTINATION_GITHUB_USERNAME="DevOpenWRT-Router"
+DESTINATION_REPOSITORY_NAME="Linksys_OpenWRT_Releases"
+USER_EMAIL="BuildBot2021@gmail.com"
+USER_NAME="BuildBot2021"
+DESTINATION_REPOSITORY_USERNAME="DevOpenWRT-Router"
+TARGET_BRANCH="main"
+COMMIT_MESSAGE="Updated: $D"
+TARGET_DIRECTORY_A="packages"
+TARGET_DIRECTORY_B="kmods/$KMOD_DIR"
 
 if [ -z "$DESTINATION_REPOSITORY_USERNAME" ]
 then
@@ -144,5 +155,7 @@ echo "[+] Pushing git commit"
 git push "https://$USER_NAME:$API_TOKEN_GITHUB@github.com/$DESTINATION_REPOSITORY_USERNAME/$DESTINATION_REPOSITORY_NAME.git" --set-upstream "$TARGET_BRANCH"
 
 echo "[+] Files Pushed successfully"
+
+echo "[+] Find your Files Here: https://github.com/$DESTINATION_REPOSITORY_USERNAME/$DESTINATION_REPOSITORY_NAME.git"
 
 exit 0

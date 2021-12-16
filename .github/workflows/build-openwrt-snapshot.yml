@@ -84,11 +84,6 @@ env:
   UPLOAD_RELEASE: true
   TARGZIP_PACKAGES: true
 ### -------------------- ###
-  UPLOAD_GOFILE: false
-  UPLOAD_LITTERBOX: false
-  UPLOAD_CATBOX: false
-  UPLOAD_FILEIO: false
-### -------------------- ###
 ### [ GITHUB PUSH ENV ] ###
   SOURCE_DIRECTORY_A: "openwrt/bin/packages/arm_cortex-a9_vfpv3-d16"
   SOURCE_DIRECTORY_B: "openwrt/bin/targets/mvebu/cortexa9/kmods/$KMOD_DIR"
@@ -647,46 +642,6 @@ jobs:
           cd openwrt/bin/packages
           tar -cvzf OpenWrt_bin_packages${{ env.DEVICE_NAME }}${{ env.FILE_DATE }}.tar.gz ./*
           mv OpenWrt_bin_packages${{ env.DEVICE_NAME }}${{ env.FILE_DATE }}.tar.gz ${GITHUB_WORKSPACE}/openwrt/bin/targets/mvebu/cortexa9/
-### ------------------------------------------------------------------------------ ###
-      - name: Upload firmware to gofile
-        id: gofile
-        if: >-
-          steps.organize.outputs.status == 'success' && env.UPLOAD_GOFILE == 'true' && !cancelled()
-        run: |
-          curl -fsSL git.io/file-transfer | sh
-          ./transfer gof -s --no-progress ${FIRMWARE} 2>&1 | tee gofile.log
-          echo "::warning file=gofile.io::$(cat gofile.log | grep https)"
-          echo "::set-output name=url::$(cat gofile.log | grep https | cut -f3 -d" ")"
-### ------------------------------------------------------------------------------ ###
-      - name: Upload firmware to litterbox
-        id: litterbox
-        if: >-
-          steps.organize.outputs.status == 'success' && env.UPLOAD_LITTERBOX == 'true' && !cancelled()
-        run: |
-          curl -fsSL git.io/file-transfer | sh
-          ./transfer lit --no-progress ${FIRMWARE} 2>&1 | tee litterbox.log
-          echo "::warning file=litterbox.catbox.moe::$(cat litterbox.log | grep https)"
-          echo "::set-output name=url::$(cat litterbox.log | grep https | cut -f3 -d" ")"
-### ------------------------------------------------------------------------------ ###
-      - name: Upload firmware to catbox
-        id: catbox
-        if: >-
-          steps.organize.outputs.status == 'success' && env.UPLOAD_CATBOX == 'true' && !cancelled()
-        run: |
-          curl -fsSL git.io/file-transfer | sh
-          ./transfer cat --no-progress ${FIRMWARE} 2>&1 | tee catbox.log
-          echo "::warning file=catbox.moe::$(cat catbox.log | grep https)"
-          echo "::set-output name=url::$(cat catbox.log | grep https | cut -f3 -d" ")"
-### ------------------------------------------------------------------------------ ###
-      - name: Upload firmware to fileio
-        id: fileio
-        if: >-
-          steps.organize.outputs.status == 'success' && env.UPLOAD_FILEIO == 'true' && !cancelled()
-        run: |
-          curl -fsSL git.io/file-transfer | sh
-          ./transfer fio --no-progress ${FIRMWARE} 2>&1 | tee fileio.log
-          echo "::warning file=file.io::$(cat fileio.log | grep https)"
-          echo "::set-output name=url::$(cat fileio.log | grep https | cut -f3 -d" ")"
 ### ------------------------------------------------------------------------------ ###
       - name: Generate release tag
         id: tag

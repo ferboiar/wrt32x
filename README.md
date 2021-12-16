@@ -68,7 +68,7 @@ cp wrt32x/configs/wrt32x.config openwrt/
 ./scripts/feeds install -a
 ./scripts/feeds uninstall bluld
 cp wrt32x.config .config
-git am patches / *. patch
+git am patches/*.patch
 ./diy-part2.sh
 ```
 5. then `make menuconfig`, load your .config file and choose the packages you want.

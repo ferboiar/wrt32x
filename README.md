@@ -87,8 +87,8 @@ If you are not sure about your kernel partition size do a sysupgrade from comman
 
 1. Verify compatibility
 ```
- - $ fw_printenv | grep "pri_kern_size"; #mamba MUST equal 0x400000
- - $ fw_printenv | grep "priKernSize"; #venom MUST equal 0x0600000
+   $ fw_printenv | grep "pri_kern_size"; #mamba MUST equal 0x400000
+   $ fw_printenv | grep "priKernSize"; #venom MUST equal 0x0600000
 ```
 Do not try to change them!
 

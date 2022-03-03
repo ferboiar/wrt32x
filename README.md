@@ -32,9 +32,9 @@ _______________________________________________________________________
 
 [![Cleaning](https://github.com/ferboiar/wrt32x/actions/workflows/cleanup.yml/badge.svg)](https://github.com/ferboiar/wrt32x/actions/workflows/cleanup.yml)
 
-[![Build OpenWrt Snapshot (TESTING)](https://github.com/ferboiar/wrt32x/actions/workflows/build-openwrt-snapshot.yml/badge.svg)](https://github.com/ferboiar/wrt32x/actions/workflows/build-openwrt-snapshot.yml)
+[![Build wrt32x firmware](https://github.com/ferboiar/wrt32x/actions/workflows/build-wrt32x.yml/badge.svg)](https://github.com/ferboiar/wrt32x/actions/workflows/build-wrt32x.yml)
 
-[![Build OpenWrt Snapshot (TESTING)](https://github.com/ferboiar/wrt32x/actions/workflows/build-openwrt-snapshot.yml/badge.svg?branch=linksys&event=workflow_run)](https://github.com/ferboiar/wrt32x/actions/workflows/build-openwrt-snapshot.yml)
+[![Build wrt32x firmware](https://github.com/ferboiar/wrt32x/actions/workflows/build-wrt32x.yml/badge.svg?branch=linksys&event=workflow_run)](https://github.com/ferboiar/wrt32x/actions/workflows/build-wrt32x.yml)
 
 ### Repo Updated:
 [![Updated Badge](https://badges.pufler.dev/updated/ferboiar/wrt32x)](https://badges.pufler.dev)
@@ -73,13 +73,8 @@ git am patches/*.patch
 ```
 5. then `make menuconfig`, load your .config file and choose the packages you want.
 6. upload your .config file to your repo "/configs" as wrt32x.config
-7. launch "**Actions**" > "**Build OpenWrt Snapshot (TESTING)**"> "**Run workflow**" and choose from your repo:
-```
-2 (as wrt32x)
-0 (as snapshot)
-0 (as snapshot luci feeds location)
-0 (as none ngrok / ssh after build)
-```
+7. launch "**Actions**" > "**Build wrt32x (Lynksis Device)**"> "**Run workflow**" on YOUR repo
+
 after 4 or 5h of compilation you will see two new files into "Artifacs":
 
 ### Flashing process

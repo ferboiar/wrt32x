@@ -32,9 +32,9 @@ _______________________________________________________________________
 
 [![Cleaning](https://github.com/ferboiar/wrt32x/actions/workflows/cleanup.yml/badge.svg)](https://github.com/ferboiar/wrt32x/actions/workflows/cleanup.yml)
 
-[![Build wrt32x firmware](https://github.com/ferboiar/wrt32x/actions/workflows/build-wrt32x.yml/badge.svg)](https://github.com/ferboiar/wrt32x/actions/workflows/build-wrt32x.yml)
+[![Build wrt32x firmware ](https://github.com/ferboiar/wrt32x/actions/workflows/build-wrt32x.yml/badge.svg)](https://github.com/ferboiar/wrt32x/actions/workflows/build-wrt32x.yml)
 
-[![Build wrt32x firmware](https://github.com/ferboiar/wrt32x/actions/workflows/build-wrt32x.yml/badge.svg?branch=linksys&event=workflow_run)](https://github.com/ferboiar/wrt32x/actions/workflows/build-wrt32x.yml)
+[![Build wrt32x firmware ](https://github.com/ferboiar/wrt32x/actions/workflows/build-wrt32x.yml/badge.svg?branch=linksys&event=workflow_run)](https://github.com/ferboiar/wrt32x/actions/workflows/build-wrt32x.yml)
 
 ### Repo Updated:
 [![Updated Badge](https://badges.pufler.dev/updated/ferboiar/wrt32x)](https://badges.pufler.dev)
@@ -75,7 +75,7 @@ git am patches/*.patch
 6. upload your .config file to your repo "/configs" as wrt32x.config
 7. launch "**Actions**" > "**Build wrt32x (Lynksis Device)**"> "**Run workflow**" on YOUR repo
 
-after 4 or 5h of compilation you will see two new files into "Artifacs":
+after 4 or 5h of compilation you will see new files into "Artifacs".
 
 ### Flashing process
 If you are not sure about your kernel partition size do a sysupgrade from command line [Increasing mamba and venom kernel partition to 6MB](https://forum.openwrt.org/t/increasing-mamba-and-venom-kernel-partition-to-6mb)

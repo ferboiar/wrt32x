@@ -10,7 +10,7 @@
 # Description: Build OpenWrt using GitHub Actions
 #
 
-name: wrt32x (Linksys Device)
+name: Build wrt32x firmware (Linksys Device)
 'on':
   repository_dispatch: null
   workflow_dispatch:

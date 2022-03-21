@@ -59,21 +59,18 @@ cp wrt32x/configs/wrt32x.config openwrt/
 ```
 4. run, from "openwrt/" the commands contained in "manual_generate.sh" script:
 ```
-./diy-part1.sh
 ./luci_themes.sh
-./DevOpenWRT-Router.sh
-./lean_packages.sh
-./sirpdboy-package.sh
+./fetch_packages.sh
 ./scripts/feeds update -a
 ./scripts/feeds install -a
 ./scripts/feeds uninstall bluld
 cp wrt32x.config .config
 git am patches/*.patch
-./diy-part2.sh
+./custom_configuration.sh
 ```
 5. then `make menuconfig`, load your .config file and choose the packages you want.
 6. upload your .config file to your repo "/configs" as wrt32x.config
-7. launch "**Actions**" > "**Build wrt32x (Linksys Device)**"> "**Run workflow**" on YOUR repo
+7. launch "**Actions**" > "**Build wrt32x firmware (Linksys Device) **"> "**Run workflow**" on YOUR repo
 
 after 4 or 5h of compilation you will see new files into "Artifacs".
 

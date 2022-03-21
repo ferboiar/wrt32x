@@ -13,14 +13,20 @@
 #  MAIN BUILD CONTROL SECTION:                                                 #
 ################################################################################
 
-name: OpenWRT AutoBuild (T) (Linksys Devices)
+name: Build wrt32x firmware (Linksys Device)
 'on':
-  repository_dispatch:
-#  workflow_dispatch:
+  repository_dispatch: null
+  workflow_dispatch:
+  schedule:
+          # * is a special character in YAML so you have to quote this string
+          # * “At 12:00.”
+          # el primer día de cada mes a las 00:00
+    #- cron:  '00 12 * * *'
+    - cron:  '00 00 01 * *'
 
 env:
-  HARDWARE_ID: ${{ github.event.client_payload.message.HARDWARE_ID }}
-  HARDWARE_DEVICE: ${{ github.event.client_payload.message.HARDWARE_DEVICE }}
+  HARDWARE_ID: "wrt32x"
+  HARDWARE_DEVICE: "wrt32x"
   FEEDS_CONF: feeds.conf.default
   CUSTC_SH: custom_configuration.sh
   BEFORE_BUILD: before_build.sh

@@ -26,8 +26,8 @@ name: Build wrt32x firmware (Linksys Device)
 
 env:
 ### --------------------------- ###
-  HARDWARE_ID: '${{ github.event.client_payload.message.HARDWARE_ID }}'
-  HARDWARE_DEVICE: '${{ github.event.client_payload.message.HARDWARE_DEVICE }}'
+  HARDWARE_ID: "wrt32x"
+  HARDWARE_DEVICE: "wrt32x"
   FEEDS_CONF: feeds.conf.default
   FUNCTIONS_SH: functions.sh
   CREATE_ACL_SH: create_acl_for_luci.sh

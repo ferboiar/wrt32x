@@ -68,7 +68,7 @@ cp wrt32x.config .config
 git am patches/*.patch
 ./functions.sh BUILD_USER_DOMAIN
 ./functions.sh PRE_DEFCONFIG_ADDONS
-./functions.sh CCACHE_SETUP
+sudo ./functions.sh CCACHE_SETUP
 ./functions.sh DEFAULT_THEME_CHANGE
 ```
 5. then `make menuconfig`, load your .config file and choose the packages you want.

@@ -36,6 +36,7 @@ env:
   KERNEL_VERSION: kernel_version.sh
   GITHUB_RUN: github_push.sh
   EXT_INIT_ENV: environment.sh
+  DEVICE_NAME: ''
 ### --------------------------- ###
   USE_FILES: true
   USE_CUST_THEMES: true
@@ -231,12 +232,13 @@ jobs:
           [ -e configs/${HARDWARE_DEVICE}.config ] && mv configs/${HARDWARE_DEVICE}.config openwrt/.config
 ### ----------------------------------------------------------------- ###
       - name: Run Custom OpenWRT Patches
+        id: patches
+        continue-on-error: false
         if: env.USE_OPENWRT_PATCHES == 'true' && !cancelled()
         run: |
-          mv configs/patches openwrt/patches
+          chmod +x scripts/$FUNCTIONS_SH
           cd openwrt
-          git am patches/*.patch
-          rm -rf patches
+          $GITHUB_WORKSPACE/scripts/$FUNCTIONS_SH APPLY_PATCHES
 ### ----------------------------------------------------------------- ###
       - name: Current Commit After Feeds/Patches
         if: env.GITLOGB == 'true' && !cancelled()
@@ -565,6 +567,7 @@ jobs:
         id: tag
         if: env.UPLOAD_RELEASE == 'true' && !cancelled()
         run: "echo \"::set-output name=release_tag::$HARDWARE_DEVICE-$(date +\"%Y.%m.%d-%H%M\")\"\ntouch release.txt\necho \"::set-output name=status::success\"\n"
+### ----------------------------------------------------------------- ###
       - name: Upload firmware to release
         uses: softprops/action-gh-release@master
         if: steps.tag.outputs.status == 'success' && !cancelled()

@@ -23,19 +23,19 @@ sed -i 's/luci-theme-bootstrap/luci-theme-opentomato/g' feeds/luci/collections/l
 }
 
 ###  Modify the default login IP address OpenWrt
-#MODIFY_DEFAULT_IP() {
-#sed -i 's/192.168.1.1/192.168.50.5/g' package/base-files/files/bin/config_generate
-#}
+MODIFY_DEFAULT_IP() {
+sed -i 's/192.168.1.1/192.168.50.5/g' package/base-files/files/bin/config_generate
+}
 
 ### Modify default PassWord
-#MODIFY_DEFAULT_PASSWORD() {
-#sed -i 's/root::0:0:99999:7:::/root:$1$ScQIGKsX$q0qEf\/tAQ2wpTR6zIUIjo.:0:0:99999:7:::/g' package/base-files/files/etc/shadow
-#}
+MODIFY_DEFAULT_PASSWORD() {
+sed -i "s/root::0:0:99999:7:::/root:$1$ScQIGKsX$q0qEf\/tAQ2wpTR6zIUIjo.:0:0:99999:7:::/g" package/base-files/files/etc/shadow
+}
 
 ### Modify hostname
-#MODIFY_DEFAULT_HOSTNAME() {
-#sed -i 's/OpenWrt/Newifi-D2/g' package/base-files/files/bin/config_generate
-#}
+MODIFY_DEFAULT_HOSTNAME() {
+sed -i 's/OpenWrt/Newifi-D2/g' package/base-files/files/bin/config_generate
+}
 
 ###  version replace
 MODIFY_DEFAULT_VERSION() {
@@ -49,9 +49,9 @@ sed -i 's/KERNEL_TESTING_PATCHVER:=5.10/KERNEL_TESTING_PATCHVER:=5.4/g' target/l
 }
 
 ### Change the time zone
-#CHANGE_TIMEZONE() {
-#sed -i "s/'UTC'/'CST-8'\n        set system.@system[-1].zonename='America/New York'/g" package/base-files/files/bin/config_generate
-#}
+CHANGE_TIMEZONE() {
+sed -i "s/'UTC'/'CST-8'\n        set system.@system[-1].zonename='America/New York'/g" package/base-files/files/bin/config_generate
+}
 
 ### ------------------------------------------------------------------------------------------------------- ###
 
@@ -104,14 +104,27 @@ CACHE_DIRECTORY_SETUP() {
 		ln -s ../../build_dir/host build_dir/host
 }
 
+APPLY_PATCHES(){
+  mv "$GITHUB_WORKSPACE"/configs/patches "$GITHUB_WORKSPACE"/openwrt/patches
+  cd "$GITHUB_WORKSPACE"/openwrt || exit
+  git am patches/*.patch
+  if [ $? = 0 ] ; then
+    echo "[*] 'git am patches/*.patch' Ran successfully."
+  else
+    echo "[*] 'git am patches/*.patch' FAILED."
+  fi
+  rm -rf patches
+
+}
+
 GETDEVICE() {
-if [ $HARDWARE_DEVICE != "wrtmulti" ]; then
+if [ "$HARDWARE_DEVICE" != "wrtmulti" ]; then
   grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*DEVICE_(.*)=y/\1/' > DEVICE_NAME
-  [ -s DEVICE_NAME ] && echo "DEVICE_NAME=_$(cat DEVICE_NAME)" >> $GITHUB_ENV
+  [ -s DEVICE_NAME ] && echo "DEVICE_NAME=_$(cat DEVICE_NAME)" >> "$GITHUB_ENV"
 else echo "linksys_wrtmulti" > DEVICE_NAME
-     [ -s DEVICE_NAME ] && echo "DEVICE_NAME=_$(cat DEVICE_NAME)" >> $GITHUB_ENV
+     [ -s DEVICE_NAME ] && echo "DEVICE_NAME=_$(cat DEVICE_NAME)" >> "$GITHUB_ENV"
 fi
-  echo "FILE_DATE=_$(date +"%Y%m%d%H%M")" >> $GITHUB_ENV
+  echo "FILE_DATE=_$(date +"%Y%m%d%H%M")" >> "$GITHUB_ENV"
 }
 
 kernel_version() {

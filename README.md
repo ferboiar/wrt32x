@@ -59,14 +59,16 @@ cp wrt32x/configs/wrt32x.config openwrt/
 ```
 4. run, from "openwrt/" the commands contained in "manual_generate.sh" script:
 ```
-./luci_themes.sh
 ./fetch_packages.sh
 ./scripts/feeds update -a
 ./scripts/feeds install -a
 ./scripts/feeds uninstall bluld
 cp wrt32x.config .config
 git am patches/*.patch
-./custom_configuration.sh
+./functions.sh BUILD_USER_DOMAIN
+./functions.sh PRE_DEFCONFIG_ADDONS
+./functions.sh CCACHE_SETUP
+./functions.sh DEFAULT_THEME_CHANGE
 ```
 5. then `make menuconfig`, load your .config file and choose the packages you want.
 6. upload your .config file to your repo "/configs" as wrt32x.config

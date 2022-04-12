@@ -18,22 +18,25 @@
 ### favorite into the other (do not select the default theme theme will automatically,
 ### have the effect of those changes to)
 DEFAULT_THEME_CHANGE() {
-#echo "Changing default luci-theme-bootstap to luci-theme-opentomato"
+echo "DISABLED: Changing default luci-theme-bootstap to luci-theme-opentomato"
 #sed -i 's/luci-theme-bootstrap/luci-theme-opentomato/g' feeds/luci/collections/luci/Makefile
 }
 
 ###  Modify the default login IP address OpenWrt
 MODIFY_DEFAULT_IP() {
+echo "DISABLED: Changing default IP adress"
 #sed -i 's/192.168.1.1/192.168.50.5/g' package/base-files/files/bin/config_generate
 }
 
 ### Modify default PassWord
 MODIFY_DEFAULT_PASSWORD() {
+echo "DISABLED: Changing default password"
 #sed -i "s/root::0:0:99999:7:::/root:$1$ScQIGKsX$q0qEf\/tAQ2wpTR6zIUIjo.:0:0:99999:7:::/g" package/base-files/files/etc/shadow
 }
 
 ### Modify hostname
 MODIFY_DEFAULT_HOSTNAME() {
+echo "DISABLED: Changing default hostname"
 #sed -i 's/OpenWrt/Newifi-D2/g' package/base-files/files/bin/config_generate
 }
 
@@ -50,6 +53,7 @@ sed -i 's/KERNEL_TESTING_PATCHVER:=5.10/KERNEL_TESTING_PATCHVER:=5.4/g' target/l
 
 ### Change the time zone
 CHANGE_TIMEZONE() {
+echo "DISABLED: Changing default time zone"
 #sed -i "s/'UTC'/'CST-8'\n        set system.@system[-1].zonename='America/New York'/g" package/base-files/files/bin/config_generate
 }
 

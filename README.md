@@ -52,6 +52,7 @@ git clone https://github.com/ferboiar/wrt32x.git *change it for your brand new r
 3. Copy in the new folder "openwrt/" the scripts and the configuration files from your repo:
 ```
 cp wrt32x/scripts/*.sh openwrt/
+chmod +x openwrt/*.sh
 mkdir openwrt/patches/
 cp -r wrt32x/configs/patches/ openwrt/
 cp wrt32x/configs/feeds.conf.default openwrt/

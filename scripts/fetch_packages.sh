@@ -23,6 +23,8 @@ git clone https://github.com/DevOpenWRT-Router/luci-app-log.git package/luci-app
 git clone https://github.com/DevOpenWRT-Router/luci-app-mqos.git package/luci-app-mqos
 ### luci-default-settings
 git clone https://github.com/DevOpenWRT-Router/luci-default-settings.git package/luci-default-settings
+### my-default-settings (LUCI)
+git clone https://github.com/DevOpenWRT-Router/my-default-settings.git package/my-default-settings
 
 echo "END Fetching From DevOpenWRT-Router:"
 }
@@ -54,7 +56,7 @@ echo "Downloading Kenzok8's small-packages"
 i=0
 len=0
 unset packages
-while read line
+while read -r line
 do
     packages[ $i ]="$line"
     (( i++ ))
@@ -65,7 +67,7 @@ len=${#packages[@]}
 echo "$len Packages"
 
 ## Use bash for loop
-for (( i=0; i<$len; i++ ))
+for (( i=0; i<len; i++ ))
 do
   echo "${packages[$i]}"
   svn co https://github.com/kenzok8/small-package/trunk/"${packages[$i]}" package/kenzok8/"${packages[$i]}"
@@ -89,7 +91,7 @@ echo "Downloading coolsnowwolf's lean packages"
 i=0
 len=0
 unset packages
-while read line
+while read -r line
 do
     packages[ $i ]="$line"
     (( i++ ))
@@ -100,7 +102,7 @@ len=${#packages[@]}
 echo "$len Packages"
 
 ## Use bash for loop
-for (( i=0; i<$len; i++ ))
+for (( i=0; i<len; i++ ))
 do
   echo "${packages[$i]}"
   svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/"${packages[$i]}" package/lean/"${packages[$i]}"
@@ -147,7 +149,7 @@ echo "Downloading sirpdboy's packages"
 i=0
 len=0
 unset packages
-while read line
+while read -r line
 do
     packages[ $i ]="$line"
     (( i++ ))
@@ -158,7 +160,7 @@ len=${#packages[@]}
 echo "$len Packages"
 
 ## Use bash for loop
-for (( i=0; i<$len; i++ ))
+for (( i=0; i<len; i++ ))
 do
   echo "${packages[$i]}"
   svn co https://github.com/sirpdboy/sirpdboy-package/trunk/"${packages[$i]}" package/sirpdboy/"${packages[$i]}"
@@ -200,7 +202,7 @@ echo "From sirpdboy's BUILD packages"
 i=0
 len=0
 unset packages
-while read line
+while read  -r line
 do
     packages[ $i ]="$line"
     (( i++ ))
@@ -211,7 +213,7 @@ len=${#packages[@]}
 echo "$len Packages"
 
 ## Use bash for loop
-for (( i=0; i<$len; i++ ))
+for (( i=0; i<len; i++ ))
 do
   echo "${packages[$i]}"
   svn co https://github.com/sirpdboy/build/trunk/"${packages[$i]}" package/sirpdboy/"${packages[$i]}"
@@ -247,7 +249,7 @@ echo "Downloading helmiau's packages"
 i=0
 len=0
 unset packages
-while read line
+while read -r line
 do
     packages[ $i ]="$line"
     (( i++ ))
@@ -258,7 +260,7 @@ len=${#packages[@]}
 echo "$len Packages"
 
 ## Use bash for loop
-for (( i=0; i<$len; i++ ))
+for (( i=0; i<len; i++ ))
 do
   echo "${packages[$i]}"
   svn co https://github.com/helmiau/helmiwrt-packages/trunk/"${packages[$i]}" package/helmiau/"${packages[$i]}"

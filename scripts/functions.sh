@@ -141,19 +141,22 @@ rm -rf VERMAGIC KERNELVERSION                              # remove both files, 
 cd bin/targets/*/* || return
 echo "TARGET_DIR=$PWD" >>"$GITHUB_ENV"
 # TARGET_DIR=$PWD
+echo "kv: $kv" # testing
+echo "vm: $vm" # testing
 KERNEL_VER=$kv"-"$vm                      # add together to complete
+echo "KERNEL_VER_a: $KERNEL_VER" # testing
 KMOD_DIR=$kv"-"$vm                        # add together to complete
+echo "KMOD_DIR_a: $KMOD_DIR" # testing
+
 echo "GITHUB_ENV_A: $GITHUB_ENV" # testing
 echo "KERNEL_VER=$kv"-"$vm" >>"$GITHUB_ENV" # store in get actions
 echo "GITHUB_ENV_B: $GITHUB_ENV" # testing
 echo "KMOD_DIR=$kv"-"$vm" >>"$GITHUB_ENV"   # store in get actions
 echo "GITHUB_ENV_C: $GITHUB_ENV" # testing
 echo "------------------------------------------------"
-echo "kv: $kv" # testing
-echo "vm: $vm"
-echo "Kernel: $KERNEL_VER"
-echo "DIR: $KMOD_DIR"
-echo "GITHUB_ENV_D: $GITHUB_ENV"
+echo "Kernel: $KERNEL_VER" # testing
+echo "DIR: $KMOD_DIR" # testing
+echo "GITHUB_ENV_D: $GITHUB_ENV" # testing
 echo "------------------------------------------------"
 echo "$KMOD_DIR" >> "$GITHUB_WORKSPACE"/openwrt/kmod
 cat kmod

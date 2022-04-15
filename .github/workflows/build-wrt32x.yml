@@ -93,17 +93,17 @@ env:
   TARGZIP_PACKAGES: true
 ### --------------------------- ###
 ### [ GITHUB PUSH ENV ] ###
-  SOURCE_DIRECTORY_A: "openwrt/bin/packages/arm_cortex-a9_vfpv3-d16"
-  SOURCE_DIRECTORY_B: "openwrt/bin/targets/mvebu/cortexa9/kmods/$KMOD_DIR"
-  DESTINATION_GITHUB_USERNAME: "DevOpenWRT-Router"
-  DESTINATION_REPOSITORY_NAME: "Linksys_OpenWRT_Releases"
-  USER_EMAIL: "BuildBot2021@gmail.com"
-  USER_NAME: "BuildBot2021"
-  DESTINATION_REPOSITORY_USERNAME: "DevOpenWRT-Router"
-  TARGET_BRANCH: "main"
-  COMMIT_MESSAGE: "Updated: $D"
-  TARGET_DIRECTORY_A: "packages"
-  TARGET_DIRECTORY_B: "kmods/$KMOD_DIR"
+  SOURCE_DIRECTORY_A: openwrt/bin/packages/arm_cortex-a9_vfpv3-d16
+  SOURCE_DIRECTORY_B: openwrt/bin/targets/mvebu/cortexa9/kmods/$KMOD_DIR
+  DESTINATION_GITHUB_USERNAME: DevOpenWRT-Router
+  DESTINATION_REPOSITORY_NAME: Linksys_OpenWRT_Releases
+  USER_EMAIL: BuildBot2021@gmail.com
+  USER_NAME: BuildBot2021
+  DESTINATION_REPOSITORY_USERNAME: DevOpenWRT-Router
+  TARGET_BRANCH: main
+  COMMIT_MESSAGE: 'Updated: $D'
+  TARGET_DIRECTORY_A: packages
+  TARGET_DIRECTORY_B: kmods/$KMOD_DIR
 ### -------------------- ###
   TZ: Europe/Madrid
 jobs:
@@ -166,8 +166,8 @@ jobs:
       - name: Set source and branch
         id: setSource
         run: |
-                  echo "::set-output name=sourceString::https://github.com/openwrt/openwrt.git"
-                  echo "::set-output name=branchString::master"
+          echo "::set-output name=sourceString::https://github.com/openwrt/openwrt.git"
+          echo "::set-output name=branchString::master"
 ### ------------------------------------------------------------------------------ ###
       - name: Clone source code
         working-directory: /workdir
@@ -195,9 +195,9 @@ jobs:
       - name: Set LUCI Source
         id: setLuci
         run: |
-              cd openwrt
-              sed -i 's#/git.openwrt.org/project/luci.git#/git.openwrt.org/project/luci.git#g' feeds.conf.default
-              sed -i 's#/github.com/coolsnowwolf/luci#/git.openwrt.org/project/luci.git#g' feeds.conf.default
+          cd openwrt
+          sed -i 's#/git.openwrt.org/project/luci.git#/git.openwrt.org/project/luci.git#g' feeds.conf.default
+          sed -i 's#/github.com/coolsnowwolf/luci#/git.openwrt.org/project/luci.git#g' feeds.conf.default
 ### ----------------------------------------------------------------- ###
       - name: Load fetch_packages.sh
         if: env.USE_FETCH_PACKAGES == 'true' && !cancelled()
@@ -340,9 +340,9 @@ jobs:
         # Send connection info to Telegram (optional)
         # You can find related documents here: https://core.telegram.org/bots
         env:
-          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-### ------------------------------------------------------------------------------ ###
+          TELEGRAM_BOT_TOKEN: '${{ secrets.TELEGRAM_BOT_TOKEN }}'
+          TELEGRAM_CHAT_ID: '${{ secrets.TELEGRAM_CHAT_ID }}'
+### ----------------------------------------------------------------- ###
       - name: Start SSH via ngrok
         uses: P3TERX/ssh2actions@main
         if: env.SSH_NGROK == 'true' && !cancelled()
@@ -351,19 +351,19 @@ jobs:
         env:
           # After sign up on the https://ngrok.com
           # You can find this token here: https://dashboard.ngrok.com/auth/your-authtoken
-         NGROK_TOKEN: ${{ secrets.NGROK_TOKEN }}
+         NGROK_TOKEN: '${{ secrets.NGROK_TOKEN }}'
 
          # ngrok server region [us, eu, au, ap, sa, jp, in] (optional, default: us)
          # You can find this server region here: https://ngrok.com/docs#global-locations
          NGROK_REGION: us
 
          # This password you will use when authorizing via SSH
-         SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
+         SSH_PASSWORD: '${{ secrets.SSH_PASSWORD }}'
 
          # Send connection info to Telegram (optional)
          # You can find related documents here: https://core.telegram.org/bots
-         TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-         TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+         TELEGRAM_BOT_TOKEN: '${{ secrets.TELEGRAM_BOT_TOKEN }}'
+         TELEGRAM_CHAT_ID: '${{ secrets.TELEGRAM_CHAT_ID }}'
 ### ----------------------------------------------------------------- ###
       - name: Make Download
         id: makedownload

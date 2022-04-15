@@ -135,8 +135,15 @@ kernel_version() {
 cd openwrt || return
 find build_dir/ -name .vermagic -exec cat {} \; >VERMAGIC  # Find hash
 find build_dir/ -name "linux-5.*.*" -type d >KERNELVERSION # find kernel version
+echo "___________"
+echo "cat KERNELVERSION"
 cat KERNELVERSION
+echo "___________"
+echo "tail -n +2 KERNELVERSION"
 tail -n +2 KERNELVERSION
+echo "___________"
+echo "tail -n +2 KERNELVERSION | sed 's/.*x-//"
+echo "___________"
 kv=$(tail -n +2 KERNELVERSION | sed 's/.*x-//')
 echo "kv: $kv" # testing
 vm=$(head -n 1 VERMAGIC)
@@ -150,11 +157,8 @@ echo "KERNEL_VER_a: $KERNEL_VER" # testing
 KMOD_DIR=$kv"-"$vm                        # add together to complete
 echo "KMOD_DIR_a: $KMOD_DIR" # testing
 
-echo "GITHUB_ENV_A: $GITHUB_ENV" # testing
 echo "KERNEL_VER=$kv"-"$vm" >>"$GITHUB_ENV" # store in get actions
-echo "GITHUB_ENV_B: $GITHUB_ENV" # testing
 echo "KMOD_DIR=$kv"-"$vm" >>"$GITHUB_ENV"   # store in get actions
-echo "GITHUB_ENV_C: $GITHUB_ENV" # testing
 echo "------------------------------------------------"
 echo "Kernel: $KERNEL_VER" # testing
 echo "DIR: $KMOD_DIR" # testing

@@ -139,12 +139,12 @@ echo "___________"
 echo "cat KERNELVERSION"
 cat KERNELVERSION
 echo "___________"
-echo "tail -n +2 KERNELVERSION"
-tail -n +2 KERNELVERSION
+echo "tail -n 1 KERNELVERSION"
+tail -n 1 KERNELVERSION
 echo "___________"
-echo "tail -n +2 KERNELVERSION | sed 's/.*x-//"
+echo "tail -n 1 KERNELVERSION | sed 's/.*x-//"
 echo "___________"
-kv=$(tail -n +2 KERNELVERSION | sed 's/.*x-//')
+kv=$(tail -n 1 KERNELVERSION | sed 's/.*x-//')
 echo "kv: $kv" # testing
 vm=$(head -n 1 VERMAGIC)
 echo "vm: $vm" # testing                             # read kernel hash from file                                     # Get last 7 chars from kernel version

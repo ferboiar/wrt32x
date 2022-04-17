@@ -25,13 +25,13 @@ Wireguard
 wireguard-tools
 luci-proto-wireguard
 luci-app-wireguard
+kmod-wireguard
 
 OpenVPN client/server
 =====================
 openvpn-openssl
 openvpn-easy-rsa
 luci-app-openvpn
-kmod-wireguard
 
 Atheros AR9271 WTXUP 802.11n Driver (USB Wifi)
 ==============================================
@@ -107,43 +107,43 @@ nano
 various
 =======
 base-files
-blockd
-boost
-boost-chrono
-boost-random
+?blockd
+?boost
+?boost-chrono
+?boost-random
 busybox
 ca-certificates
 collectd-mod-cpufreq
 collectd-mod-syslog
 collectd-mod-thermal
-coreutils-nohup
+?coreutils-nohup
 cpulimit
 ddns-scripts-cloudflare
 ddns-scripts-noip
 dnsmasq
 dropbear
 htop
-icu69
+?icu69
 igmpproxy
 ip-bridge
 iperf3
 iptables-mod-filter
 irqbalance
 mcproxy
-msmtp
-mtd
+msmtp (para banip)
+?mtd
 mtr
 mwlwifi-firmware-88w8964
 netperf
-odhcp6c
-odhcpd-ipv6only
-pdnsd-alt
+?odhcp6c
+?odhcpd-ipv6only
+pdnsd-alt (para dnscrypt-proxy)
 ppp
 ppp-mod-pppoe
 procd
 px5g-mbedtls
-python3
-qt5-network
+?python3
+------qt5-network
 qt5-xml
 rclone-ng
 rclone-webui-react
@@ -162,3 +162,6 @@ wol
 wpad-openssl
 wsdd2
 zoneinfo-europe
+
+revisar xa instalar
+https://github.com/frainzy1477/luci-app-trojan

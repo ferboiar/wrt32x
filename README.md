@@ -103,7 +103,9 @@ Target Profile: "Linksys Venom (Linksys WRT32X)" and "Linksys WRT32X"
 - The DFS channels don't work, despite leaving the region code as it comes by default... So BT was removed (kmod-mwifiex-sdio, mwifiex-sdio-firmware, kmod- bluetooth, kmod-btmrvl, kmod-mmc) to see if this way the DFS channels work
 - Packages included:
   - Wireguard (wireguard-tools, luci-proto-wireguard, luci-app-wireguard, kmod-wireguard)
-  - USB Storage (kmod-usb-storage, kmod-usb-storage-extras, kmod-usb-storage-uas, kmod-usb-ohci, kmod-usb-uhci, kmod-usb2, kmod-usb3, kmod-fs-ext4, kmod-fs-vfat, kmod-fs-ntfs, kmod-scsi-core, kmod-nls-cp437, kmod-nls-iso8859-1, block-mount, block-hotplug, e2fsprogs, usbutils, usbids)
+  - OpenVPN server/client (openvpn-openssl, openvpn-easy-rsa, luci-app-openvpn, kmod-tun)
+  - USB Storage (kmod-usb-storage, kmod-usb-storage-extras, kmod-usb-storage-uas, kmod-usb-ohci, kmod-usb-uhci, kmod-usb2, kmod-usb3, kmod-fs-ext4, kmod-fs-vfat, kmod-fs-ntfs, kmod-scsi-core, kmod-nls-cp437, kmod-nls-iso8859-1, block-mount, block-hotplug, e2fsprogs, usbutils, usbids, ntfs-3g)
+  - Atheros 9k WIFI driver (ath9k-htc-firmware, kmod-ath, kmod-ath9k-common, kmod-ath9k-htc)
 - Scripts installed:
   - /usr/local/bin/opkg_list_installed.sh: list the user installed packages (https://gist.github.com/benok/10eec2efbe09070150ed2100d29dc743)
 _______________________________________________________________________

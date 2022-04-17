@@ -108,7 +108,7 @@ CACHE_DIRECTORY_SETUP() {
 		ln -s ../../build_dir/host build_dir/host
 }
 
-APPLY_PATCHES(){
+APPLY_PATCHES() {
   mv "$GITHUB_WORKSPACE"/configs/patches "$GITHUB_WORKSPACE"/openwrt/patches
   cd "$GITHUB_WORKSPACE"/openwrt || exit
   git am patches/*.patch
@@ -153,9 +153,7 @@ cd bin/targets/*/* || return
 echo "TARGET_DIR=$PWD" >>"$GITHUB_ENV"
 # TARGET_DIR=$PWD
 KERNEL_VER=$kv"-"$vm                      # add together to complete
-echo "KERNEL_VER_a: $KERNEL_VER" # testing
 KMOD_DIR=$kv"-"$vm                        # add together to complete
-echo "KMOD_DIR_a: $KMOD_DIR" # testing
 
 echo "KERNEL_VER=$kv"-"$vm" >>"$GITHUB_ENV" # store in get actions
 echo "KMOD_DIR=$kv"-"$vm" >>"$GITHUB_ENV"   # store in get actions

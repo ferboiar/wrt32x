@@ -14,10 +14,93 @@
 - Patches directory are taken from: [Divested-WRT: UNOFFICIAL OpenWrt builds](https://divested.dev/unofficial-openwrt-builds/mvebu-linksys/patches/)
 - mwlwifi is taken from: [Lean's Openwrt source code repository](https://github.com/coolsnowwolf/lede/tree/master/package/kernel/mwlwifi)
 - modifications to action script By Eliminater74
-- NetData SQM char from: https://github.com/Fail-Safe/netdata-chart-sqm (edit "wrt32x/configs/files/etc/netdata/charts.d/sqm.conf" to modify your WAN interface)
+- NetData SQM char from: https://github.com/Fail-Safe/netdata-chart-sqm (edit "wrt32x/configs/files/etc/netdata/charts.d/sqm.conf" to modify your WAN interface). Packages included:
+```
+bash 
+coreutils-timeout 
+curl
+```
+added these files:
+```
+https://github.com/ferboiar/wrt32x/blob/linksys/configs/files/etc/netdata/charts.d.conf 
+https://github.com/ferboiar/wrt32x/blob/linksys/configs/files/etc/netdata/charts.d/sqm.conf
+https://github.com/ferboiar/wrt32x/blob/linksys/configs/files/usr/lib/netdata/charts.d/sqm.chart.sh
+```
+edited https://github.com/ferboiar/wrt32x/blob/linksys/configs/files/etc/netdata/netdata.conf changing "charts.d" to "yes"
 - OpenWRTScripts from: https://github.com/richb-hanover/OpenWrtScripts
 - autoSQM script from: https://github.com/baguswahyu/autoSQM-damasus.bagus More info here: https://forum.openwrt.org/t/help-to-make-sh-script-for-adjust-sqm-automaticaly/58754 (edit your scheluded tasks to set "0 6,14,22 * * * /usr/lib/OpenWrtScripts/autoSQM.sh")
 - Network interfaces ports status from: https://github.com/tano-systems/luci-app-tn-netports (edit "wrt32x/configs/files/etc/config/luci_netports" file to set your interfaces)
+- .config file as
+```
+Target System: "Marvell EBU Armada"
+Subtarget: "Marvell Armada 37x / 37x / XP"
+Target Profile: "Linksys Venom (Linksys WRT32X)" and "Linksys WRT32X"
+```
+- Cryptographic Hardware Accelerators (https://openwrt.org/docs/techref/hardware/cryptographic.hardware.accelerators):
+```yaml
+  #
+  # SSL
+  #
+  # CONFIG_PACKAGE_libgnutls is not set
+  # CONFIG_PACKAGE_libgnutls-dane is not set
+  # CONFIG_PACKAGE_libmbedtls is not set
+  # CONFIG_PACKAGE_libnss is not set
+  CONFIG_PACKAGE_libopenssl=y
+  
+  #
+  # Build Options
+  #
+  CONFIG_OPENSSL_OPTIMIZE_SPEED=y
+  CONFIG_OPENSSL_WITH_ASM=y
+  CONFIG_OPENSSL_WITH_DEPRECATED=y
+  # CONFIG_OPENSSL_NO_DEPRECATED is not set
+  CONFIG_OPENSSL_WITH_ERROR_MESSAGES=y
+  
+  #
+  # Protocol Support
+  #
+  CONFIG_OPENSSL_WITH_TLS13=y
+  # CONFIG_OPENSSL_WITH_DTLS is not set
+  # CONFIG_OPENSSL_WITH_NPN is not set
+  CONFIG_OPENSSL_WITH_SRP=y
+  CONFIG_OPENSSL_WITH_CMS=y
+  
+  #
+  # Algorithm Selection
+  #
+  # CONFIG_OPENSSL_WITH_EC2M is not set
+  CONFIG_OPENSSL_WITH_CHACHA_POLY1305=y
+  CONFIG_OPENSSL_PREFER_CHACHA_OVER_GCM=y
+  CONFIG_OPENSSL_WITH_PSK=y
+  
+  #
+  # Less commonly used build options
+  #
+  # CONFIG_OPENSSL_WITH_ARIA is not set
+  # CONFIG_OPENSSL_WITH_CAMELLIA is not set
+  # CONFIG_OPENSSL_WITH_IDEA is not set
+  # CONFIG_OPENSSL_WITH_SEED is not set
+  # CONFIG_OPENSSL_WITH_SM234 is not set
+  # CONFIG_OPENSSL_WITH_BLAKE2 is not set
+  # CONFIG_OPENSSL_WITH_MDC2 is not set
+  # CONFIG_OPENSSL_WITH_WHIRLPOOL is not set
+  # CONFIG_OPENSSL_WITH_COMPRESSION is not set
+  # CONFIG_OPENSSL_WITH_RFC3779 is not set
+  
+  #
+  # Engine/Hardware Support
+  #
+  CONFIG_OPENSSL_ENGINE=y
+  # CONFIG_OPENSSL_ENGINE_BUILTIN is not set
+  # CONFIG_PACKAGE_libopenssl-afalg is not set
+  # CONFIG_PACKAGE_libopenssl-afalg_sync is not set
+  CONFIG_PACKAGE_libopenssl-conf=y
+  CONFIG_PACKAGE_libopenssl-devcrypto=y
+  # CONFIG_PACKAGE_libopenssl-gost_engine is not set
+  # CONFIG_PACKAGE_libwolfssl is not set
+  # end of SSL
+```  
+- The DFS channels don't work, despite leaving the region code as it comes by default... So BT was removed (kmod-mwifiex-sdio, mwifiex-sdio-firmware, kmod- bluetooth, kmod-btmrvl, kmod-mmc) to see if this way the DFS channels work
 _______________________________________________________________________
 ![GitHub Downloads](https://img.shields.io/github/release-date/ferboiar/wrt32x?style=flat-square&logo=openwrt)
 

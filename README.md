@@ -101,6 +101,8 @@ Target Profile: "Linksys Venom (Linksys WRT32X)" and "Linksys WRT32X"
   # end of SSL
 ```  
 - The DFS channels don't work, despite leaving the region code as it comes by default... So BT was removed (kmod-mwifiex-sdio, mwifiex-sdio-firmware, kmod- bluetooth, kmod-btmrvl, kmod-mmc) to see if this way the DFS channels work
+- Packages included:
+  - wireguard (wireguard-tools, luci-proto-wireguard, luci-app-wireguard, kmod-wireguard)
 _______________________________________________________________________
 ![GitHub Downloads](https://img.shields.io/github/release-date/ferboiar/wrt32x?style=flat-square&logo=openwrt)
 

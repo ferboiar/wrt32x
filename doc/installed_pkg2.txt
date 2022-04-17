@@ -43,6 +43,7 @@ kmod-ath9k-htc
 NetData 
 =======
 netdata
+luci-app-netdata
 bash
 coreutils-timeout
 curl
@@ -52,12 +53,11 @@ LuCI Apps (not listed before)
 luci-app-argon-config
 luci-app-cpu-status
 luci-app-cpufreq
-luci-app-diskman
-luci-app-filebrowser
-luci-app-filetransfer
+-luci-app-diskman
+-luci-app-filebrowser
+-luci-app-filetransfer
 luci-app-log
 luci-app-mqos
-luci-app-netdata
 luci-app-netspeedtest
 luci-app-ramfree
 luci-app-temp-status

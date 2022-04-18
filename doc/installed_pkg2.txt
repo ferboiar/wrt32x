@@ -11,8 +11,10 @@ kmod-fs-ext4
 kmod-fs-vfat
 kmod-fs-ntfs
 kmod-scsi-core
+kmod-nls-base
 kmod-nls-cp437
 kmod-nls-iso8859-1
+kmod-nls-utf8
 block-mount
 block-hotplug
 e2fsprogs
@@ -107,7 +109,7 @@ nano
 various
 =======
 base-files
-?blockd
+blockd
 ?boost
 ?boost-chrono
 ?boost-random
@@ -143,25 +145,33 @@ ppp-mod-pppoe
 procd
 px5g-mbedtls
 ?python3
-------qt5-network
-qt5-xml
+?qt5-network
+?qt5-xml
 rclone-ng
 rclone-webui-react
-smartmontools-drivedb
-sysfsutils
-tc-tiny
-tcpdump
-uboot-envtools
-uci
-uclibcxx
-urandom-seed
-urngd
-usbids
-usbutils
+?smartmontools-drivedb
+?sysfsutils
+?tc-tiny
+?tcpdump
+?uboot-envtools
+?uci
+?uclibcxx
+?urandom-seed
+?urngd
 wol
 wpad-openssl
-wsdd2
+?wsdd2
 zoneinfo-europe
 
 revisar xa instalar
 https://github.com/frainzy1477/luci-app-trojan
+
+Belkin RT32 FW (openssl):
+	OPENWRT_REMOVE_PACKAGES="luci-ssl (wolfssl) wpad-basic-wolfssl libustream-wolfssl* px5g-wolfssl libwolfssl*"
+	OPENWRT_ADD_REC_PACKAGES="libustream-openssl luci luci-ssl-openssl kmod-mtd-rw"
+
+				luci luci-ssl-openssl -luci-ssl \
+				-libustream-wolfssl -wpad-basic-wolfssl -px5g-wolfssl libustream-openssl
+
+@davidc502 FW (wolfssl)
+nano irqbalance iperf3 luci-app-advanced-reboot luci-app-sqm luci-app-wireguard luci-app-adblock luci-app-upnp luci-app-samba4 block-mount kmod-usb-storage kmod-usb-storage-uas kmod-usb-ohci-pci kmod-usb-ohci kmod-usb-uhci kmod-ata-marvell-sata kmod-usb3 kmod-usb2 kmod-usb2-pci ntfs-3g fdisk luci-app-hd-idle

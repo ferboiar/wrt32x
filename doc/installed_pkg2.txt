@@ -4,8 +4,10 @@ kmod-usb-storage
 kmod-usb-storage-extras
 kmod-usb-storage-uas
 kmod-usb-ohci
+kmod-usb-ohci-pci
 kmod-usb-uhci
 kmod-usb2
+kmod-usb2-pci
 kmod-usb3
 kmod-fs-ext4
 kmod-fs-vfat
@@ -78,6 +80,7 @@ luci-app-omcproxy
 luci-app-opkg
 luci-app-qos
 luci-app-rebootschedule
+luci-app-samba4
 luci-app-sqm
 luci-app-statistics
 luci-app-timecontrol
@@ -131,6 +134,7 @@ ip-bridge
 iperf3
 iptables-mod-filter
 irqbalance
+kmod-ata-marvell-sata
 mcproxy
 msmtp (para banip)
 ?mtd
@@ -163,15 +167,15 @@ wpad-openssl
 ?wsdd2
 zoneinfo-europe
 
+-luci-ssl
+-libustream-wolfssl
+-wpad-basic-wolfssl
+-libustream-wolfssl*
+-px5g-wolfssl
+-libwolfssl*
+luci
+luci-ssl-openssl
+libustream-openssl   
+
 revisar xa instalar
 https://github.com/frainzy1477/luci-app-trojan
-
-Belkin RT32 FW (openssl):
-	OPENWRT_REMOVE_PACKAGES="luci-ssl (wolfssl) wpad-basic-wolfssl libustream-wolfssl* px5g-wolfssl libwolfssl*"
-	OPENWRT_ADD_REC_PACKAGES="libustream-openssl luci luci-ssl-openssl kmod-mtd-rw"
-
-				luci luci-ssl-openssl -luci-ssl \
-				-libustream-wolfssl -wpad-basic-wolfssl -px5g-wolfssl libustream-openssl
-
-@davidc502 FW (wolfssl)
-nano irqbalance iperf3 luci-app-advanced-reboot luci-app-sqm luci-app-wireguard luci-app-adblock luci-app-upnp luci-app-samba4 block-mount kmod-usb-storage kmod-usb-storage-uas kmod-usb-ohci-pci kmod-usb-ohci kmod-usb-uhci kmod-ata-marvell-sata kmod-usb3 kmod-usb2 kmod-usb2-pci ntfs-3g fdisk luci-app-hd-idle

@@ -18,7 +18,7 @@ kmod-nls-cp437
 kmod-nls-iso8859-1
 kmod-nls-utf8
 block-mount
-block-hotplug
+block-hotplug (no aparece en make menuconfig, revisar para que es)
 e2fsprogs
 usbutils
 usbids
@@ -36,6 +36,7 @@ OpenVPN client/server
 openvpn-openssl
 openvpn-easy-rsa
 luci-app-openvpn
+luci-app-openvpn-server
 
 Atheros AR9271 WTXUP 802.11n Driver (USB Wifi)
 ==============================================
@@ -72,7 +73,7 @@ luci-app-banip
 luci-app-bcp38
 luci-app-dcwapd
 luci-app-ddns
-luci-app-dnscrypt-proxy
+luci-app-dnscrypt-proxy (dnscrypt2?)
 luci-app-firewall
 luci-app-hd-idle
 luci-app-nlbwmon
@@ -147,7 +148,7 @@ pdnsd-alt (para dnscrypt-proxy)
 ppp
 ppp-mod-pppoe
 procd
-px5g-mbedtls
+?px5g-mbedtls
 ?python3
 ?qt5-network
 ?qt5-xml
@@ -179,3 +180,5 @@ libustream-openssl
 
 revisar xa instalar
 https://github.com/frainzy1477/luci-app-trojan
+
+https://forum.openwrt.org/t/davidc502-wrt1200ac-wrt1900acx-wrt3200acm-wrt32x-builds/15839/5788

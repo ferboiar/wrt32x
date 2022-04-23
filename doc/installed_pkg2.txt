@@ -56,8 +56,8 @@ curl
 LuCI Apps (not listed before)
 =============================
 luci-app-argon-config
-luci-app-cpu-status (buscar en https://github.com/gSpotx2f/luci-app-cpu-status)
-luci-app-cpufreq
+luci-app-cpu-status (no está, buscar en https://github.com/gSpotx2f/luci-app-cpu-status)
+luci-app-cpufreq (no está, buscar en https://github.com/coolsnowwolf/luci/tree/master/applications/luci-app-cpufreq)
 -luci-app-diskman
 -luci-app-filebrowser
 -luci-app-filetransfer
@@ -65,7 +65,7 @@ luci-app-log
 luci-app-mqos
 luci-app-netspeedtest
 luci-app-ramfree
-luci-app-temp-status
+luci-app-temp-status (no está, buscar en https://github.com/gSpotx2f/luci-app-temp-status)
 luci-app-acme
 luci-app-adblock
 luci-app-advanced-reboot
@@ -73,14 +73,14 @@ luci-app-banip
 luci-app-bcp38
 luci-app-dcwapd
 luci-app-ddns
-luci-app-dnscrypt-proxy (dnscrypt2?)
+luci-app-dnscrypt-proxy
 luci-app-firewall
 luci-app-hd-idle
 luci-app-nlbwmon
 luci-app-omcproxy
 luci-app-opkg
 luci-app-qos
-luci-app-rebootschedule
+luci-app-rebootschedule (no está, buscar en https://github.com/ferboiar/luci-app-rebootschedule)
 luci-app-samba4
 luci-app-sqm
 luci-app-statistics
@@ -182,3 +182,6 @@ revisar xa instalar
 https://github.com/frainzy1477/luci-app-trojan
 
 https://forum.openwrt.org/t/davidc502-wrt1200ac-wrt1900acx-wrt3200acm-wrt32x-builds/15839/5788
+
+
+voy por luci-app-autoreboot

@@ -56,7 +56,7 @@ curl
 LuCI Apps (not listed before)
 =============================
 luci-app-argon-config
-luci-app-cpu-status
+luci-app-cpu-status (buscar en https://github.com/gSpotx2f/luci-app-cpu-status)
 luci-app-cpufreq
 -luci-app-diskman
 -luci-app-filebrowser

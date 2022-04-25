@@ -1,4 +1,5 @@
 #!/bin/bash
+# shellcheck source=/dev/null
 #
 # Copyright (c) 2021 - 2022 By Eliminater74
 #
@@ -12,6 +13,11 @@
 ###         [MAKE SURE YOU KNOW WHAT YOUR DOING BEFORE CHANGING ALL THIS]              ###
 ### ---------------------------------------------------------------------------------- ###
 ##########################################################################################
+## BOOTSTRAP ##
+BOOTSTRAP_START() {
+source scripts/lib/oo-bootstrap.sh
+import util/log util/exception util/tryCatch util/namedParameters util/class
+}
 
 ### Modify default theme
 ### Modify  luci-theme-opentomato  as the default theme, you can modify according to your,
@@ -121,6 +127,14 @@ APPLY_PATCHES() {
 
 }
 
+CHANGE_DEFAULT_BANNER() {
+  if [ -f "$GITHUB_WORKSPACE/openwrt/package/base_files/files/etc/banner" ];
+  then 
+  rm -rf "$GITHUB_WORKSPACE"/openwrt/package/base_files/files/etc/banner
+  cp configs/DATA/banner "$GITHUB_WORKSPACE"/openwrt/package/base_files/files/etc/
+  fi
+}
+
 GETDEVICE() {
 if [ "$HARDWARE_DEVICE" != "wrtmulti" ]; then
   grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*DEVICE_(.*)=y/\1/' > DEVICE_NAME
@@ -135,32 +149,23 @@ kernel_version() {
 cd openwrt || return
 find build_dir/ -name .vermagic -exec cat {} \; >VERMAGIC  # Find hash
 find build_dir/ -name "linux-5.*.*" -type d >KERNELVERSION # find kernel version
-echo "___________"
-echo "cat KERNELVERSION"
-cat KERNELVERSION
-echo "___________"
-echo "tail -n 1 KERNELVERSION"
+echo "tail -n 1 KERNELVERSION:"
 tail -n 1 KERNELVERSION
-echo "___________"
-echo "tail -n 1 KERNELVERSION | sed 's/.*x-//"
 echo "___________"
 kv=$(tail -n 1 KERNELVERSION | sed 's/.*x-//')
 echo "kv: $kv" # testing
-vm=$(head -n 1 VERMAGIC)
-echo "vm: $vm" # testing                             # read kernel hash from file                                     # Get last 7 chars from kernel version
+vm=$(head -n 1 VERMAGIC)                                # read kernel hash from file                                     # Get last 7 chars from kernel version
 rm -rf VERMAGIC KERNELVERSION                              # remove both files, Not needed anymore
 cd bin/targets/*/* || return
 echo "TARGET_DIR=$PWD" >>"$GITHUB_ENV"
 # TARGET_DIR=$PWD
 KERNEL_VER=$kv"-"$vm                      # add together to complete
 KMOD_DIR=$kv"-"$vm                        # add together to complete
-
 echo "KERNEL_VER=$kv"-"$vm" >>"$GITHUB_ENV" # store in get actions
 echo "KMOD_DIR=$kv"-"$vm" >>"$GITHUB_ENV"   # store in get actions
 echo "------------------------------------------------"
 echo "Kernel: $KERNEL_VER" # testing
-echo "DIR: $KMOD_DIR" # testing
-echo "GITHUB_ENV_D: $GITHUB_ENV" # testing
+echo "DIR: $KMOD_DIR"
 echo "------------------------------------------------"
 echo "$KMOD_DIR" >> "$GITHUB_WORKSPACE"/openwrt/kmod
 cat kmod

@@ -56,6 +56,7 @@ curl
 LuCI Apps (not listed before)
 =============================
 luci-app-argon-config
+luci-app-autotimeset (voy por aquí, marcar si se ha perdido)
 luci-app-cpu-status (no está, buscar en https://github.com/gSpotx2f/luci-app-cpu-status)
 luci-app-cpufreq (no está, buscar en https://github.com/coolsnowwolf/luci/tree/master/applications/luci-app-cpufreq)
 -luci-app-diskman
@@ -184,4 +185,4 @@ https://github.com/frainzy1477/luci-app-trojan
 https://forum.openwrt.org/t/davidc502-wrt1200ac-wrt1900acx-wrt3200acm-wrt32x-builds/15839/5788
 
 
-voy por luci-app-autoreboot
+voy por 

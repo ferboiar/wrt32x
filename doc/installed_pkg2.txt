@@ -56,12 +56,11 @@ curl
 LuCI Apps (not listed before)
 =============================
 luci-app-argon-config
-luci-app-autotimeset (voy por aquí, marcar si se ha perdido)
+luci-app-autotimeset
 luci-app-cpu-status (no está, buscar en https://github.com/gSpotx2f/luci-app-cpu-status)
 luci-app-cpufreq (no está, buscar en https://github.com/coolsnowwolf/luci/tree/master/applications/luci-app-cpufreq)
--luci-app-diskman
--luci-app-filebrowser
--luci-app-filetransfer
+luci-app-fileassistant
+luci-app-iperf
 luci-app-log
 luci-app-mqos
 luci-app-netspeedtest
@@ -97,17 +96,19 @@ luci-app-wol
 
 LuCI Themes
 ===========
-luci-theme-argon
+luci-theme-argonne
+luci-theme-atmaterial_new
 luci-theme-bootstrap
 luci-theme-material
+luci-theme-mcat
 luci-theme-openwrt-2020
+luci-theme-tomato
 
 file manager/system bins
 ========================
 attr
 dmesg
 fdisk
-fuse-utils
 gzip
 nano
 
@@ -115,23 +116,23 @@ various
 =======
 base-files
 blockd
-?boost
-?boost-chrono
-?boost-random
 busybox
 ca-certificates
+collectd-mod-ethstat
 collectd-mod-cpufreq
+collectd-mod-iptables
+collectd-mod-openvpn
 collectd-mod-syslog
 collectd-mod-thermal
-?coreutils-nohup
+collectd-mod-wireless
+coreutils-nohup
 cpulimit
 ddns-scripts-cloudflare
 ddns-scripts-noip
 dnsmasq
 dropbear
 htop
-?icu69
-igmpproxy
+igmpproxy (seguir revisión a partir de aquí)
 ip-bridge
 iperf3
 iptables-mod-filter

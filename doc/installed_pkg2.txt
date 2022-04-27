@@ -63,7 +63,6 @@ luci-app-fileassistant
 luci-app-iperf
 luci-app-log
 luci-app-mqos
-luci-app-netspeedtest
 luci-app-ramfree
 luci-app-temp-status (no está, buscar en https://github.com/gSpotx2f/luci-app-temp-status)
 luci-app-acme
@@ -84,6 +83,7 @@ luci-app-rebootschedule (no está, buscar en https://github.com/ferboiar/luci-ap
 luci-app-samba4
 luci-app-sqm
 luci-app-statistics
+luci-app-tcpdump
 luci-app-timecontrol
 luci-app-uhttpd
 luci-app-upnp
@@ -132,50 +132,40 @@ ddns-scripts-noip
 dnsmasq
 dropbear
 htop
-igmpproxy (seguir revisión a partir de aquí)
 ip-bridge
 iperf3
-iptables-mod-filter
 irqbalance
 kmod-ata-marvell-sata
-mcproxy
 msmtp (para banip)
-?mtd
-mtr
+mtd
+mtr-json
 mwlwifi-firmware-88w8964
 netperf
-?odhcp6c
-?odhcpd-ipv6only
-pdnsd-alt (para dnscrypt-proxy)
+odhcp6c
+odhcpd-ipv6only
 ppp
 ppp-mod-pppoe
 procd
-?px5g-mbedtls
-?python3
-?qt5-network
-?qt5-xml
-rclone-ng
-rclone-webui-react
-?smartmontools-drivedb
-?sysfsutils
-?tc-tiny
-?tcpdump
-?uboot-envtools
-?uci
-?uclibcxx
-?urandom-seed
-?urngd
+sysfsutils
+tc-tiny
+tcpdump
+uboot-envtools
+uci
+urandom-seed
+urngd
 wol
 wpad-openssl
-?wsdd2
+wsdd2
 zoneinfo-europe
 
 -luci-ssl
 -libustream-wolfssl
 -wpad-basic-wolfssl
--libustream-wolfssl*
 -px5g-wolfssl
--libwolfssl*
+
+-libwolfssl* (seguir desde este)
+CONFIG_PACKAGE_curl=y
+CONFIG_LIBCURL_OPENSSL=y
 luci
 luci-ssl-openssl
 libustream-openssl   
@@ -184,6 +174,3 @@ revisar xa instalar
 https://github.com/frainzy1477/luci-app-trojan
 
 https://forum.openwrt.org/t/davidc502-wrt1200ac-wrt1900acx-wrt3200acm-wrt32x-builds/15839/5788
-
-
-voy por 

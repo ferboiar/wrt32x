@@ -75,6 +75,7 @@ luci-app-ddns
 luci-app-dnscrypt-proxy
 luci-app-firewall
 luci-app-hd-idle
+luci-app-https-dns-proxy
 luci-app-nlbwmon
 luci-app-omcproxy
 luci-app-opkg
@@ -140,6 +141,7 @@ msmtp (para banip)
 mtd
 mtr-json
 mwlwifi-firmware-88w8964
+nmap-full
 netperf
 odhcp6c
 odhcpd-ipv6only
@@ -170,7 +172,16 @@ luci
 luci-ssl-openssl
 libustream-openssl   
 
-revisar xa instalar
-https://github.com/frainzy1477/luci-app-trojan
 
 https://forum.openwrt.org/t/davidc502-wrt1200ac-wrt1900acx-wrt3200acm-wrt32x-builds/15839/5788
+
+ssl support: https://forum.openwrt.org/t/purefusion-wrt3200acm-wrt32x-wrt1200ac-wrt1900acs-wrt1900acv1-wrt1900acv2-builds/100399/45
+
+without bluetooth (https://forum.openwrt.org/t/purefusion-wrt3200acm-wrt32x-wrt1200ac-wrt1900acs-wrt1900acv1-wrt1900acv2-builds/100399/102)
+-kmod-bluetooth
+-kmod-btmrvl
+-kmod-mmc
+-kmod-mwifiex-sdio
+-mwifiex-sdio-firmware
+
+me he quedado revisando: Network > Web Servers/Proxies

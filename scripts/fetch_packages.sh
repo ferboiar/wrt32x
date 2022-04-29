@@ -82,6 +82,7 @@ rm -rf package/kenzok8/.github
 rm -rf package/kenzok8/main.sh
 rm -rf package/kenzok8/LICENSE
 rm -rf package/kenzok8/README.md
+rm -rf package/kenzok8/msmtp # no compila
 
 }
 ### -------------------------------------------------------------------------------------------------------------- ###

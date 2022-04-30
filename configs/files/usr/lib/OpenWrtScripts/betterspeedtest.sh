@@ -18,27 +18,33 @@
 # -i | --idle:   Don't send traffic, only measure idle latency
 # -n | --number: Number of simultaneous sessions (default - 5 sessions)
 
-# Copyright (c) 2014-2019 - Rich Brown rich.brown@blueberryhillsoftware.com
+# Copyright (c) 2014-2022 - Rich Brown rich.brown@blueberryhillsoftware.com
 # GPLv2
 
-# Summarize the contents of the ping's output file to show min, avg, median, max, etc.
-#   input parameter ($1) file contains the output of the ping command
+  # Process the ping times from the passed-in file, and summarize the results
+  # grep to keep lines that have "time=", then sed to isolate the time stamps, and sort them
+  # Use awk to build an array of those values, and print first & last (which are min, max) 
+  # and compute average.
+  # If the number of samples is >= 10, also compute median, and 10th and 90th percentile readings
+
+  # Display the values as:
+  #   Latency: (in msec, 11 pings, 8.33% packet loss)
+  #    Min: 16.556
+  #  10pct: 16.561
+  # Median: 22.370
+  #    Avg: 21.203
+  #  90pct: 23.202
+  #    Max: 23.394
 
 summarize_pings() {     
   
-  # Process the ping times, and summarize the results
-  # grep to keep lines that have "time=", then sed to isolate the time stamps, and sort them
-  # awk builds an array of those values, and prints first & last (which are min, max) 
-  # and computes average.
-  # If the number of samples is >= 10, also computes median, and 10th and 90th percentile readings
-
-  # stop pinging and drawing dots
-  kill_pings
-  kill_dots
-
-  sed 's/^.*time=\([^ ]*\) ms/\1/' < $1 | grep -v "PING" | sort -n | \
-  awk 'BEGIN {numdrops=0; numrows=0;} \
+grep "time" < "$1" | cat | \
+sed 's/^.*time=\([^ ]*\) ms/\1/'| \
+  # tee >&2 | \
+  sort -n | \
+  awk 'BEGIN {numdrops=0; numrows=0} \
     { \
+      # print ; \
       if ( $0 ~ /timeout/ ) { \
           numdrops += 1; \
       } else { \
@@ -50,16 +56,16 @@ summarize_pings() {
       pc10="-"; pc90="-"; med="-"; \
       if (numrows == 0) {numrows=1} \
       if (numrows>=10) \
-      {   ix=int(numrows/10); pc10=arr[ix]; ix=int(numrows*9/10);pc90=arr[ix]; \
+      { # get the 10th pctile - never the first one
+        ix=int(numrows/10); if (ix=1) {ix+=1}; pc10=arr[ix]; \
+        # get the 90th pctile
+        ix=int(numrows*9/10);pc90=arr[ix]; \
+        # get the median
         if (numrows%2==1) med=arr[(numrows+1)/2]; else med=(arr[numrows/2]); \
       }; \
       pktloss = numdrops/(numdrops+numrows) * 100; \
       printf("\n  Latency: (in msec, %d pings, %4.2f%% packet loss)\n      Min: %4.3f \n    10pct: %4.3f \n   Median: %4.3f \n      Avg: %4.3f \n    90pct: %4.3f \n      Max: %4.3f\n", numrows, pktloss, arr[1], pc10, med, sum/numrows, pc90, arr[numrows] )\
      }'
-
-  # and finally remove the PINGFILE
-  rm $1
-
 }
 
 # Print a line of dots as a progress indicator.
@@ -67,7 +73,7 @@ summarize_pings() {
 print_dots() {
   while : ; do
     printf "."
-    sleep 1s
+    sleep 1
   done
 }
 
@@ -75,8 +81,8 @@ print_dots() {
 
 kill_dots() {
   # echo "Pings: $ping_pid Dots: $dots_pid"
-  kill -9 $dots_pid
-  wait $dots_pid 2>/dev/null
+  kill -9 "$dots_pid"
+  wait "$dots_pid" 2>/dev/null
   dots_pid=0
 }
 
@@ -84,17 +90,29 @@ kill_dots() {
 
 kill_pings() {
   # echo "Pings: $ping_pid Dots: $dots_pid"
-  kill -9 $ping_pid 
-  wait $ping_pid 2>/dev/null
+  kill -9 "$ping_pid"
+  wait "$ping_pid" 2>/dev/null
   ping_pid=0
 }
 
-# Stop the current pings and dots, and exit
-# ping command catches (and handles) first Ctrl-C, so you have to hit it again...
-kill_pings_and_dots_and_exit() {
-  kill_dots
+
+# Clean up all the debris from the testing
+clean_up() {
   kill_pings
-  echo "\nStopped"
+  kill_dots
+  rm "$PINGFILE"
+  rm "$SPEEDFILE"
+}
+
+# Stop the current pings and dots, and exit
+catch_interrupt() {
+
+  printf "  Stopped!" 
+  kill_pings
+  kill_dots 
+  summarize_pings "$PINGFILE"
+  rm "$PINGFILE"
+  rm "$SPEEDFILE"
   exit 1
 }
 
@@ -104,7 +122,7 @@ kill_pings_and_dots_and_exit() {
 start_pings() {
 
   # Create temp file
-  PINGFILE=`mktemp /tmp/measurepings.XXXXXX` || exit 1
+  PINGFILE=$(mktemp /tmp/measurepings.XXXXXX) || exit 1
 
   # Start dots
   print_dots &
@@ -112,11 +130,11 @@ start_pings() {
   # echo "Dots PID: $dots_pid"
 
   # Start Ping
-  if [ $TESTPROTO -eq "-4" ]
+  if [ "$TESTPROTO" -eq "-4" ]
   then
-    "${PING4}"  $PINGHOST > $PINGFILE &
+    "$PING4"  "$PINGHOST" > "$PINGFILE" &
   else
-    "${PING6}"	$PINGHOST > $PINGFILE &
+    "$PING6"  "$PINGHOST" > "$PINGFILE" &
   fi
   ping_pid=$!
   # echo "Ping PID: $ping_pid"
@@ -131,14 +149,14 @@ start_pings() {
 measure_direction() {
 
   # Create temp file
-  SPEEDFILE=`mktemp /tmp/netperfUL.XXXXXX` || exit 1
+  SPEEDFILE=$(mktemp /tmp/netperfUL.XXXXXX) || exit 1
   DIRECTION=$1
   
   # start off the ping process
   start_pings
 
   # Start netperf with the proper direction
-  if [ $DIRECTION = "Download" ]; then
+  if [ "$DIRECTION" = "Download" ]; then
     dir="TCP_MAERTS"
   else
     dir="TCP_STREAM"
@@ -146,9 +164,9 @@ measure_direction() {
   
   # Start $MAXSESSIONS datastreams between netperf client and the netperf server
   # netperf writes the sole output value (in Mbps) to stdout when completed
-  for i in $( seq $MAXSESSIONS )
+  for i in $( seq "$MAXSESSIONS" )
   do
-    netperf $TESTPROTO -H $TESTHOST -t $dir -l $TESTDUR -v 0 -P 0 >> $SPEEDFILE &
+    netperf "$TESTPROTO" -H "$TESTHOST" -t "$dir" -l "$TESTDUR" -v 0 -P 0 >> "$SPEEDFILE" &
     # echo "Starting PID $! params: $TESTPROTO -H $TESTHOST -t $dir -l $TESTDUR -v 0 -P 0 >> $SPEEDFILE"
   done
   
@@ -156,20 +174,21 @@ measure_direction() {
   # echo "Process is $$"
   # echo `pgrep -P $$ netperf `
 
-  for i in `pgrep -P $$ netperf `   # gets a list of PIDs for child processes named 'netperf'
+  for i in $(pgrep -P $$ netperf )   # gets a list of PIDs for child processes named 'netperf'
   do
     #echo "Waiting for $i"
-    wait $i
+    wait "$i"
   done
 
   # Print TCP Download speed
   echo ""
-  awk -v dir="$1" '{s+=$1} END {printf " %s: %1.2f Mbps", dir, s}' < $SPEEDFILE 
+  awk -v dir="$1" '{s+=$1} END {printf " %s: %1.2f Mbps", dir, s}' < "$SPEEDFILE" 
 
   # When netperf completes, summarize the ping data
-  summarize_pings $PINGFILE
+  summarize_pings "$PINGFILE"
 
-  rm $SPEEDFILE
+  # stop the dots & pings, rm "$PINGFILE"
+  clean_up
 }
 
 # ------- Start of the main routine --------
@@ -232,27 +251,28 @@ done
 
 # Start the main test
 
-if [ $TESTPROTO -eq "-4" ]
+if [ "$TESTPROTO" -eq "-4" ]
 then
   PROTO="ipv4"
 else
   PROTO="ipv6"
 fi
-DATE=`date "+%Y-%m-%d %H:%M:%S"`
+DATE=$(date "+%Y-%m-%d %H:%M:%S")
 
-# Catch a Ctl-C and stop the pinging and the print_dots
-trap kill_pings_and_dots_and_exit HUP INT TERM
+# Catch a Ctl-C and close up
+trap catch_interrupt HUP INT TERM
 
 if $IDLETEST
 then
   echo "$DATE Testing idle line while pinging $PINGHOST ($TESTDUR seconds)"
+  SPEEDFILE=$(mktemp /tmp/netperfUL.XXXXXX) || exit 1
   start_pings
-  sleep $TESTDUR
-  summarize_pings $PINGFILE
+  sleep "$TESTDUR"
+  summarize_pings "$PINGFILE"
+  clean_up
 
 else
   echo "$DATE Testing against $TESTHOST ($PROTO) with $MAXSESSIONS simultaneous sessions while pinging $PINGHOST ($TESTDUR seconds in each direction)"
   measure_direction "Download" 
   measure_direction "  Upload" 
 fi
-

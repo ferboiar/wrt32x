@@ -56,7 +56,6 @@ curl
 LuCI Apps (not listed before)
 =============================
 luci-app-argon-config
-luci-app-autotimeset
 luci-app-cpu-status (no está, buscar en https://github.com/gSpotx2f/luci-app-cpu-status)
 luci-app-cpufreq (no está, buscar en https://github.com/coolsnowwolf/luci/tree/master/applications/luci-app-cpufreq)
 luci-app-fileassistant
@@ -136,7 +135,9 @@ htop
 ip-bridge
 iperf3
 irqbalance
+kmod
 kmod-ata-marvell-sata
+more
 msmtp (para banip)
 mtd
 mtr-json
@@ -148,7 +149,9 @@ odhcpd-ipv6only
 ppp
 ppp-mod-pppoe
 procd
+samba4-utils
 sysfsutils
+tcping
 tc-tiny
 tcpdump
 uboot-envtools
@@ -183,5 +186,3 @@ without bluetooth (https://forum.openwrt.org/t/purefusion-wrt3200acm-wrt32x-wrt1
 -kmod-mmc
 -kmod-mwifiex-sdio
 -mwifiex-sdio-firmware
-
-me he quedado revisando: Network > Web Servers/Proxies

@@ -30,7 +30,7 @@ https://github.com/ferboiar/wrt32x/blob/linksys/configs/files/usr/lib/netdata/ch
 edited https://github.com/ferboiar/wrt32x/blob/linksys/configs/files/etc/netdata/netdata.conf changing "charts.d" to "yes"
 - OpenWRTScripts from: https://github.com/richb-hanover/OpenWrtScripts
 - autoSQM script from: https://github.com/baguswahyu/autoSQM-damasus.bagus More info here: https://forum.openwrt.org/t/help-to-make-sh-script-for-adjust-sqm-automaticaly/58754 (edit your scheluded tasks to set "0 6,14,22 * * * /usr/lib/OpenWrtScripts/autoSQM.sh")
-- Network interfaces ports status from: https://github.com/tano-systems/luci-app-tn-netports (edit "wrt32x/configs/files/etc/config/luci_netports" file to set your interfaces)
+- Network interfaces ports status from: https://github.com/tano-systems/luci-app-tn-netports (edit "wrt32x/configs/files/etc/config/luci_netports" file to set your interfaces. Package required 'luabitop')
 - .config file as
 ```
 Target System: "Marvell EBU Armada"

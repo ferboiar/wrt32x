@@ -83,7 +83,7 @@ rm -rf package/kenzok8/main.sh
 rm -rf package/kenzok8/LICENSE
 rm -rf package/kenzok8/README.md
 rm -rf package/kenzok8/msmtp # no compila
-
+rm -rf package/kenzok8/luci-app-autotimeset # no compila
 }
 ### -------------------------------------------------------------------------------------------------------------- ###
 LEAN_PACKAGES() {

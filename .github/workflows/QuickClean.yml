@@ -9,16 +9,16 @@ on:
 
 jobs:
 
-  Cleanup-Old-Releases:
-    runs-on: ubuntu-20.04
-    steps:
-      - name: Delete Older Releases
-        uses: dev-drprasad/delete-older-releases@master
-        with:
-          keep_latest: 12
-          delete_tags: true
-          env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#  Cleanup-Old-Releases:
+#    runs-on: ubuntu-20.04
+#    steps:
+#      - name: Delete Older Releases
+#        uses: dev-drprasad/delete-older-releases@master
+#        with:
+#          keep_latest: 12
+#          delete_tags: true
+#          env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   Cleanup-Old-Artifacts:
     runs-on: ubuntu-20.04

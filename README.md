@@ -19,6 +19,7 @@
 bash 
 coreutils-timeout 
 curl
+netdata
 ```
 added these files:
 ```

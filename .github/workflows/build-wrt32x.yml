@@ -45,15 +45,18 @@ env:
   EXT_INIT_ENV: environment.sh
   DEVICE_NAME: ''
 ### --------------------------- ###
+  LOAD_FUNCTIONS: true
   BOOTSTRAP_START: false
   USE_FILES: true
   USE_CUST_THEMES: true
   USE_CUSTOM_CONFIGURATION: true
   USE_OPENWRT_PATCHES: true
+  USE_PR_OPENWRT_PATCHES: false
   USE_DEVOPENWRT: true
   USE_FETCH_PACKAGES: true
   USE_KERNEL_VERSION: true
   USE_CACHE: true
+  USE_SMART_CHMOD: true
   SSH_TMATE: false
   SSH_NGROK: false
   EXTERNAL_BUILD_USER_DOMAIN_SETUP: true
@@ -86,6 +89,7 @@ env:
   RUN_GITHUB_PUSH: false
   DEFAULT_THEME_CHANGE: false
   CHANGE_DEFAULT_BANNER: false
+  DELETE_DUPLICATES: false
 ### --------------------------- ###
   UPLOAD_BUILD_LOGS: true
   UPLOAD_KMODS: true
@@ -163,8 +167,8 @@ jobs:
         id: var
       - name: Initialization GIT environment
         run: |
-          git config --global user.email "BuildBot2021@gmail.com"
-          git config --global user.name "BuildBot"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
 ### ----------------------------------------------------------------- ###
       - name: Set source and branch
         id: setSource
@@ -191,11 +195,17 @@ jobs:
           du -h --max-depth=2 ./
           echo "=============================================="
 ### ----------------------------------------------------------------- ###
+      - name: Load Functions into Settings
+        if: env.LOAD_FUNCTIONS == 'true' && !cancelled()
+        run: |
+          chmod +x scripts/$FUNCTIONS_SH
+          source scripts/$FUNCTIONS_SH
+### ----------------------------------------------------------------- ###
       - name: Run BootStrap (Error Handler)
         if: env.BOOTSTRAP_START == 'true' && !cancelled()
         run: |
           chmod +x scripts/$FUNCTIONS_SH
-          scripts/$FUNCTIONS_SH BOOTSTRAP_START
+          source scripts/$FUNCTIONS_SH BOOTSTRAP_START
 ### ----------------------------------------------------------------- ###
       - name: Before Build
         if: env.RUN_BEFORE_BUILD == 'true' && !cancelled()
@@ -207,8 +217,9 @@ jobs:
         if: env.CHANGE_DEFAULT_BANNER == 'true' && !cancelled()
         run: |
           chmod +x scripts/$FUNCTIONS_SH
+          source scripts/$FUNCTIONS_SH
           cd openwrt
-          $GITHUB_WORKSPACE/scripts/$FUNCTIONS_SH CHANGE_DEFAULT_BANNER
+          CHANGE_DEFAULT_BANNER
 ### ----------------------------------------------------------------- ###
       - name: Current Commit Before Feeds/Patches
         if: env.GITLOGA == 'true' && !cancelled()
@@ -223,9 +234,10 @@ jobs:
       - name: Set LUCI Source
         id: setLuci
         run: |
+          chmod +x scripts/$FUNCTIONS_SH
+          source scripts/$FUNCTIONS_SH
           cd openwrt
-          sed -i 's#/git.openwrt.org/project/luci.git#/git.openwrt.org/project/luci.git#g' feeds.conf.default
-          sed -i 's#/github.com/coolsnowwolf/luci#/git.openwrt.org/project/luci.git#g' feeds.conf.default
+          SET_LUCI_SOURCE
 ### ----------------------------------------------------------------- ###
       - name: Load fetch_packages.sh
         if: env.USE_FETCH_PACKAGES == 'true' && !cancelled()
@@ -233,6 +245,16 @@ jobs:
           chmod +x scripts/$FETCHPACKAGES_SH
           cd openwrt
           $GITHUB_WORKSPACE/scripts/$FETCHPACKAGES_SH
+### ----------------------------------------------------------------- ###
+      - name: Delete Duplicate Packages (RMLINT)
+        id: PackagesRMLINT
+        continue-on-error: true
+        if: env.DELETE_DUPLICATES == 'true' && !cancelled()
+        run: |
+          chmod +x scripts/$FUNCTIONS_SH
+          source scripts/$FUNCTIONS_SH
+          cd openwrt
+          DELETE_DUPLICATES
 ### ----------------------------------------------------------------- ###
       - name: Look inside package Directory
         if: (!cancelled())
@@ -249,24 +271,50 @@ jobs:
 
       - name: Update feeds Package
         run: |
-          file=$GITHUB_WORKSPACE/scripts/data/feeds_update.txt
+          file=./scripts/data/feeds_update.txt
           while read -r line; do
-          cd $GITHUB_WORKSPACE/openwrt && ./scripts/feeds update $line
+          cd openwrt && ./scripts/feeds update $line
           done < "$file"
 ### ----------------------------------------------------------------- ###
       - name: Install feeds Package
         run: |
-          file=$GITHUB_WORKSPACE/scripts/data/feeds_install.txt
+          file=./scripts/data/feeds_install.txt
           while read -r line; do
-          cd $GITHUB_WORKSPACE/openwrt && ./scripts/feeds install $line
+          cd openwrt && ./scripts/feeds install $line
           done < "$file"
 ### ----------------------------------------------------------------- ###
       - name: Uninstall feeds Package
         run: |
-          file=$GITHUB_WORKSPACE/scripts/data/feeds_uninstall.txt
+          file=./scripts/data/feeds_uninstall.txt
           while read -r line; do
-          cd $GITHUB_WORKSPACE/openwrt && ./scripts/feeds uninstall $line
+          cd openwrt && ./scripts/feeds uninstall $line
           done < "$file"
+### ----------------------------------------------------------------- ###
+      - name: Run Custom OpenWRT Patches
+        id: patches
+        continue-on-error: false
+        if: env.USE_OPENWRT_PATCHES == 'true' && !cancelled()
+        run: |
+          chmod +x scripts/$FUNCTIONS_SH
+          source scripts/$FUNCTIONS_SH
+          cd openwrt
+          APPLY_PATCHES
+### ----------------------------------------------------------------- ###
+      - name: Pull Request OpenWRT Patches
+        id: PRpatches
+        continue-on-error: true
+        if: env.USE_PR_OPENWRT_PATCHES == 'true' && !cancelled()
+        run: |
+          chmod +x scripts/$FUNCTIONS_SH
+          source scripts/$FUNCTIONS_SH
+          cd openwrt
+          APPLY_PR_PATCHES
+### ----------------------------------------------------------------- ###
+      - name: Current Commit After Feeds/Patches
+        if: env.GITLOGB == 'true' && !cancelled()
+        run: |
+          cd openwrt
+          git log --pretty=oneline -n 1
 ### ----------------------------------------------------------------- ###
       - name: Copy (files) Dir
         if: env.USE_FILES == 'true' && !cancelled()
@@ -291,55 +339,42 @@ jobs:
         run: |
           [ -e configs/${{ steps.setConfig.outputs.config_fileString }} ] && mv configs/${{ steps.setConfig.outputs.config_fileString }} openwrt/.config
 ### ----------------------------------------------------------------- ###
-      - name: Run Custom OpenWRT Patches
-        id: patches
-        continue-on-error: false
-        if: env.USE_OPENWRT_PATCHES == 'true' && !cancelled()
+      - name: Smart Chmod
+        if: env.USE_SMART_CHMOD == 'true' && !cancelled()
         run: |
           chmod +x scripts/$FUNCTIONS_SH
+          source scripts/$FUNCTIONS_SH
           cd openwrt
-          $GITHUB_WORKSPACE/scripts/$FUNCTIONS_SH APPLY_PATCHES
-### ----------------------------------------------------------------- ###
-      - name: Current Commit After Feeds/Patches
-        if: env.GITLOGB == 'true' && !cancelled()
-        run: |
-          cd openwrt
-          git log --pretty=oneline -n 1
-### ----------------------------------------------------------------- ###
-      - name: Smart chmod
-        run: |
-          MY_Filter=$(mktemp)
-          echo '/\.git' >  ${MY_Filter}
-          echo '/\.svn' >> ${MY_Filter}
-          find ./ -maxdepth 1 | grep -v '\./$' | grep -v '/\.git' | xargs -s1024 chmod -R u=rwX,og=rX
-          find ./ -type f | grep -v -f ${MY_Filter} | xargs -s1024 file | grep 'executable\|ELF' | cut -d ':' -f1 | xargs -s1024 chmod 755
-          rm -f ${MY_Filter}
-          unset MY_Filter
+          SMART_CHMOD
 ### ----------------------------------------------------------------- ###
       - name: Change Build user/Domain
         run: |
           chmod +x scripts/$FUNCTIONS_SH
+          source scripts/$FUNCTIONS_SH
           cd openwrt
-          $GITHUB_WORKSPACE/scripts/$FUNCTIONS_SH BUILD_USER_DOMAIN
+          BUILD_USER_DOMAIN
 ### ----------------------------------------------------------------- ###
       - name: Pre Defconfig Addons
         run: |
           chmod +x scripts/$FUNCTIONS_SH
+          source scripts/$FUNCTIONS_SH
           cd openwrt
-          $GITHUB_WORKSPACE/scripts/$FUNCTIONS_SH PRE_DEFCONFIG_ADDONS
+          PRE_DEFCONFIG_ADDONS
 ### ----------------------------------------------------------------- ###
       - name: Set defconfig to use ccache
         run: |
           chmod +x scripts/$FUNCTIONS_SH
+          source scripts/$FUNCTIONS_SH
           cd openwrt
-          $GITHUB_WORKSPACE/scripts/$FUNCTIONS_SH CCACHE_SETUP
+          CCACHE_SETUP
 ### ----------------------------------------------------------------- ###
       - name: Change Default theme Settings
         if: env.DEFAULT_THEME_CHANGE == 'true' && !cancelled()
         run: |
           chmod +x scripts/$FUNCTIONS_SH
+          source scripts/$FUNCTIONS_SH
           cd openwrt
-          $GITHUB_WORKSPACE/scripts/$FUNCTIONS_SH DEFAULT_THEME_CHANGE
+          DEFAULT_THEME_CHANGE
 ### ----------------------------------------------------------------- ###
       - name: Add ACL
         if: env.ACL_LUCI == 'true' && !cancelled()
@@ -453,7 +488,8 @@ jobs:
         if: env.USE_KERNEL_VERSION == 'true' && !cancelled()
         run: |
           chmod +x scripts/$FUNCTIONS_SH
-          /bin/bash ${GITHUB_WORKSPACE}/scripts/$FUNCTIONS_SH kernel_version
+          source scripts/$FUNCTIONS_SH
+          kernel_version
 ### ----------------------------------------------------------------- ###
       - name: Building packages
         id: makepackages
@@ -478,7 +514,8 @@ jobs:
         if: env.USE_KERNEL_VERSION == 'true' && !cancelled()
         run: |
           chmod +x scripts/$FUNCTIONS_SH
-          /bin/bash ${GITHUB_WORKSPACE}/scripts/$FUNCTIONS_SH package_archive
+          source scripts/$FUNCTIONS_SH
+          package_archive
 ### ----------------------------------------------------------------- ###
       - name: Indexing packages
         id: indexingpackages
@@ -524,8 +561,6 @@ jobs:
           make -j${Make_Process} || make -j${Make_Process} V=s
           echo $?
           echo "::set-output name=status::success"
-          chmod +x scripts/$FUNCTIONS_SH
-          /bin/bash ${GITHUB_WORKSPACE}/scripts/$FUNCTIONS_SH GETDEVICE
 ### --------------------------- ###
       - name: If Error
         uses: actions/upload-artifact@main
@@ -533,6 +568,13 @@ jobs:
         with:
           name: 'OpenWrt_logs${{ env.DEVICE_NAME }}${{ env.FILE_DATE }}'
           path: openwrt/logs/
+### ----------------------------------------------------------------- ###
+      - name: Get Device ID Name (HARDWARE ID)
+        id: GET_DEVICEID
+        run: |
+          chmod +x scripts/$FUNCTIONS_SH
+          source scripts/$FUNCTIONS_SH
+          get_deviceID
 ### ----------------------------------------------------------------- ###
       - name: After Build
         if: env.RUN_AFTER_BUILD == 'true' && !cancelled()
@@ -652,4 +694,3 @@ jobs:
           delete_tags: true
         env:
           GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
-        

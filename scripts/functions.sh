@@ -13,6 +13,9 @@
 ###         [MAKE SURE YOU KNOW WHAT YOUR DOING BEFORE CHANGING ALL THIS]              ###
 ### ---------------------------------------------------------------------------------- ###
 ##########################################################################################
+echo "Loading Functions into Memory.."
+
+
 ## BOOTSTRAP ##
 BOOTSTRAP_START() {
 source scripts/lib/oo-bootstrap.sh
@@ -64,6 +67,38 @@ echo "DISABLED: Changing default time zone"
 }
 
 ### ------------------------------------------------------------------------------------------------------- ###
+### Some usefull command build tools ###
+function git_sparse_clone() (
+          branch="$1" rurl="$2" localdir="$3" && shift 3
+          git clone -b "$branch" --depth 1 --filter=blob:none --sparse "$rurl" "$localdir"
+          cd "$localdir" || exit
+          git sparse-checkout init --cone
+          git sparse-checkout set $@
+          mv -n $@ ../
+          cd ..
+          rm -rf "$localdir"
+        )
+
+function git_clone() (
+          git clone --depth 1 "$1" "$2" || true
+        )
+
+function mvdir() {
+          mv -n $(find $1/* -maxdepth 0 -type d) ./
+          rm -rf "$1"
+        }
+
+function latest() {
+          (curl -gs -H 'Content-Type: application/json' \
+             -H "Authorization: Bearer ${{ secrets.REPO_TOKEN }}" \
+             -X POST -d '{ "query": "query {repository(owner: \"'"$1"'\", name: \"'"$2"'\"){refs(refPrefix:\"refs/tags/\",last:1,orderBy:{field:TAG_COMMIT_DATE,direction:ASC}){edges{node{name target{commitUrl}}}}defaultBranchRef{target{...on Commit {oid}}}}}"}' https://api.github.com/graphql)
+        }
+### ------------------------------------------------------------------------------------------------------- ###
+SET_LUCI_SOURCE() {
+    echo "Setting LUCI souce to feed from."
+    sed -i 's#/git.openwrt.org/project/luci.git#/git.openwrt.org/project/luci.git#g' feeds.conf.default
+    sed -i 's#/github.com/coolsnowwolf/luci#/git.openwrt.org/project/luci.git#g' feeds.conf.default
+}
 
 BUILD_USER_DOMAIN() {
 ### Add kernel build user
@@ -98,7 +133,7 @@ echo "Setting ccache directory:"
 export CCACHE_DIR="$GITHUB_WORKSPACE"/openwrt/.ccache
 echo "Fix Sloppiness of ccache:"
 ccache --set-config=sloppiness=file_macro,locale,time_macros
-ccache -sv
+ccache -s
 }
 
 CACHE_DIRECTORY_SETUP() {
@@ -114,6 +149,16 @@ CACHE_DIRECTORY_SETUP() {
 		ln -s ../../build_dir/host build_dir/host
 }
 
+SMART_CHMOD() {
+  MY_Filter=$(mktemp)
+  echo '/\.git' >  "${MY_Filter}"
+  echo '/\.svn' >> "${MY_Filter}"
+  find ./ -maxdepth 1 | grep -v '\./$' | grep -v '/\.git' | xargs -s1024 chmod -R u=rwX,og=rX
+  find ./ -type f | grep -v -f "${MY_Filter}" | xargs -s1024 file | grep 'executable\|ELF' | cut -d ':' -f1 | xargs -s1024 chmod 755
+  rm -f "${MY_Filter}"
+  unset MY_Filter
+}
+
 APPLY_PATCHES() {
   mv "$GITHUB_WORKSPACE"/configs/patches "$GITHUB_WORKSPACE"/openwrt/patches
   cd "$GITHUB_WORKSPACE"/openwrt || exit
@@ -127,6 +172,14 @@ APPLY_PATCHES() {
 
 }
 
+APPLY_PR_PATCHES() {
+  file=./scripts/data/PR_patches.txt
+  while read -r line; do
+  cd "$GITHUB_WORKSPACE"/openwrt && wget https://patch-diff.githubusercontent.com/raw/openwrt/openwrt/pull/"$line".patch
+  git am "$line"
+  done < "$file"
+}
+
 CHANGE_DEFAULT_BANNER() {
   if [ -f "$GITHUB_WORKSPACE/openwrt/package/base_files/files/etc/banner" ];
   then 
@@ -135,7 +188,35 @@ CHANGE_DEFAULT_BANNER() {
   fi
 }
 
-GETDEVICE() {
+REMOVE_PO2LMO() {
+  echo "Removing all found po2lmo from Package Makefiles"
+  find ./package -iname "Makefile" -exec  sed -i '/po2lmo/d' {} \;
+}
+
+REMOVE_PO() {
+  echo "Removing all Directorys containing po"
+  find ./package -name "po" | xargs rm -rf;
+}
+
+REMOVE_SVN() {
+  echo "Removing all Directorys containing .svn"
+  find ./package -name ".svn" | xargs rm -rf;
+}
+
+REMOVE_GIT() {
+  echo "Removing all Directorys containing .git"
+  find ./package -name ".git" | xargs rm -rf;
+}
+
+
+DELETE_DUPLICATES() {
+  echo "Running rmlint:"
+  rmlint --types "dd" --paranoid --honour-dir-layout --merge-directories --max-depth=3 "$GITHUB_WORKSPACE"/openwrt/package || rmlint --types "dd" --paranoid --honour-dir-layout --merge-directories --max-depth=4 package
+  find . -name "rmlint.sh" | xargs rmlint.sh -c -q -d || ./rmlint.sh -c -q -d
+  find . -name "rmlint.json" | xargs rm -rf
+}
+
+get_deviceID() {
 if [ "$HARDWARE_DEVICE" != "wrtmulti" ]; then
   grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*DEVICE_(.*)=y/\1/' > DEVICE_NAME
   [ -s DEVICE_NAME ] && echo "DEVICE_NAME=_$(cat DEVICE_NAME)" >> "$GITHUB_ENV"
@@ -168,7 +249,7 @@ echo "Kernel: $KERNEL_VER" # testing
 echo "DIR: $KMOD_DIR"
 echo "------------------------------------------------"
 echo "$KMOD_DIR" >> "$GITHUB_WORKSPACE"/openwrt/kmod
-cat kmod
+cat "$GITHUB_WORKSPACE"/openwrt/kmod
 }
 
 package_archive() {
@@ -183,6 +264,6 @@ cd "$GITHUB_WORKSPACE"/openwrt || return
 }
 ### ------------------------------------------------------------------------------------------------------- ###
 
-"$1";
-echo "End of Functions.sh"
-exit 0
+#"$1";
+echo "Functions are now loaded into Memory."
+#exit 0 # <-- We dont want to exit fom souce command

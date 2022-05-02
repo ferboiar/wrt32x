@@ -31,6 +31,7 @@ edited https://github.com/ferboiar/wrt32x/blob/linksys/configs/files/etc/netdata
 - OpenWRTScripts from: https://github.com/richb-hanover/OpenWrtScripts
 - autoSQM script from: https://github.com/baguswahyu/autoSQM-damasus.bagus More info here: https://forum.openwrt.org/t/help-to-make-sh-script-for-adjust-sqm-automaticaly/58754 (edit your scheluded tasks to set "0 6,14,22 * * * /usr/lib/OpenWrtScripts/autoSQM.sh")
 - Network interfaces ports status from: https://github.com/tano-systems/luci-app-tn-netports (edit "wrt32x/configs/files/etc/config/luci_netports" file to set your interfaces. Package required 'luabitop')
+troubleshooting: If no data is displayed, form CLI: 'echo '{}' | /usr/libexec/rpcd/netports call getPortsInfo' to check if output is ok. If so, do '/etc/init.d/rpcd restart' and check again. If nothing works: "/etc/init.d/uhttpd stop; rm -rf /tmp/luci-*; /etc/init.d/uhttpd start"
 - .config file as
 ```
 Target System: "Marvell EBU Armada"

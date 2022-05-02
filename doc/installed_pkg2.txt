@@ -56,14 +56,14 @@ curl
 LuCI Apps (not listed before)
 =============================
 luci-app-argon-config
-luci-app-cpu-status (no está, buscar en https://github.com/gSpotx2f/luci-app-cpu-status)
-luci-app-cpufreq (no está, buscar en https://github.com/coolsnowwolf/luci/tree/master/applications/luci-app-cpufreq)
+luci-app-cpu-status
+luci-app-cpu-perf
 luci-app-fileassistant
 luci-app-iperf
 luci-app-log
 luci-app-mqos
 luci-app-ramfree
-luci-app-temp-status (no está, buscar en https://github.com/gSpotx2f/luci-app-temp-status)
+luci-app-temp-status
 luci-app-acme
 luci-app-adblock
 luci-app-advanced-reboot

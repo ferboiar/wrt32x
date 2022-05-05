@@ -40,8 +40,8 @@ echo "scripts (Directory)"
 echo "       functions.sh"
 echo "       fetch_packages.sh"
 echo "configs (Directory)"
-echo "       feeds.conf.default"
-echo "       wrtmulti.config"
+echo "       feeds.conf.default <-- Can use the default version if you want" 
+echo "       wrt32x.config <-- This is needed regardless unless you change the name"
 echo "       patches (Directory)"
 echo "                          "
 sleep 5
@@ -76,22 +76,33 @@ fi
 echo "Cloning from: fetch_packages.sh"
 ./fetch_packages.sh
 
+echo "------------------------------"
+echo "Loading Functions into Memory."
+echo "------------------------------"
+source ./functions.sh
+
+echo "Delete Not needed or wanted in Packages"
+#DELETE_UNWANTED
+
+echo "Delete Duplicate packages"
+#DELETE_DUPLICATES
+
 echo "Running: update -a, install -a, uninstall bluld"
 ./scripts/feeds update -a
 ./scripts/feeds install -a
 ./scripts/feeds uninstall bluld
 
-echo "copy wrtmulti.config .config"
-cp wrtmulti.config .config
+echo "copy wrt32x.config .config"
+cp wrt32x.config .config
 
 echo "Applying Patches"
 git am patches/*.patch
 
 echo "Running: functions.sh"
-./functions.sh BUILD_USER_DOMAIN
-./functions.sh PRE_DEFCONFIG_ADDONS
-./functions.sh CCACHE_SETUP
-./functions.sh DEFAULT_THEME_CHANGE
+BUILD_USER_DOMAIN
+PRE_DEFCONFIG_ADDONS
+CCACHE_SETUP
+DEFAULT_THEME_CHANGE
 
 echo "Make Menuconfig"
 make menuconfig

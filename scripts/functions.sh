@@ -233,7 +233,7 @@ REMOVE_GIT() {
 ### Still testing this out, Not sure if it benifits or causes issues
 DELETE_DUPLICATES() {
   echo "Running rmlint:"
-  rmlint --types "dd" --paranoid --honour-dir-layout --merge-directories --max-depth=3 "$GITHUB_WORKSPACE"/openwrt/package || rmlint --types "dd" --paranoid --honour-dir-layout --merge-directories --max-depth=4 package
+  rmlint --types "dd" --paranoid --honour-dir-layout --merge-directories --max-depth=2 "$GITHUB_WORKSPACE"/openwrt/package || rmlint --types "dd" --paranoid --honour-dir-layout --merge-directories --max-depth=4 package
   find . -name "rmlint.sh" | xargs rmlint.sh -c -q -d || ./rmlint.sh -c -q -d
   find . -name "rmlint.json" | xargs rm -rf
 }
@@ -254,11 +254,8 @@ kernel_version() {
 cd openwrt || return
 find build_dir/ -name .vermagic -exec cat {} \; >VERMAGIC  # Find hash
 find build_dir/ -name "linux-5.*.*" -type d >KERNELVERSION # find kernel version
-echo "tail -n 1 KERNELVERSION:"
-tail -n 1 KERNELVERSION
-echo "___________"
 kv=$(tail -n 1 KERNELVERSION | sed 's/.*x-//')
-echo "kv: $kv" # testing
+echo "kv: $kv. May be only one line. If more lines are show check tail." # testing
 vm=$(head -n 1 VERMAGIC)                                # read kernel hash from file                                     # Get last 7 chars from kernel version
 rm -rf VERMAGIC KERNELVERSION                              # remove both files, Not needed anymore
 cd bin/targets/*/* || return

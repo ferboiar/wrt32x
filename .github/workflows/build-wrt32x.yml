@@ -34,6 +34,8 @@ env:
 ### --------------------------- ###
   HARDWARE_ID: "wrt32x"
   HARDWARE_DEVICE: "wrt32x"
+  CLONE_URL: https://github.com/openwrt/openwrt.git
+  CLONE_BRANCH: master
   FEEDS_CONF: feeds.conf.default
   FUNCTIONS_SH: functions.sh
   FETCHPACKAGES_SH: fetch_packages.sh
@@ -45,6 +47,7 @@ env:
   EXT_INIT_ENV: environment.sh
   DEVICE_NAME: ''
 ### --------------------------- ###
+  INSTALL_LLVM: true
   LOAD_FUNCTIONS: true
   BOOTSTRAP_START: false
   USE_FILES: true
@@ -150,7 +153,7 @@ jobs:
           chmod a+rx ~/.bin/repo
           echo "::endgroup::"
           sudo -E apt-get -qq install $(curl -fsSL bit.ly/depends-ubuntu-2004)
-          sudo -E apt-get -qq install -y rmlint
+          sudo -E apt-get -qq install -y rmlint lsb-release wget software-properties-common
           wget -qO - https://bit.ly/build-env-on-ubuntu-bionic | sed 's/python-/python3-/g' | /bin/bash
 ### ----------------------------------------------------------------- ###
       - name: environment extra
@@ -162,6 +165,11 @@ jobs:
           sudo mkdir -p /workdir
           sudo chown $USER:$GROUPS /workdir
 ### ----------------------------------------------------------------- ###
+      - name: Install LLVM
+        if: env.INSTALL_LLVM == 'true' && !cancelled()
+        run: |
+          sudo -E bash -c "$(wget -O - https://apt.llvm.org/llvm.sh)"
+### ----------------------------------------------------------------- ###   
       - name: Set variables
         run: |
           echo "::set-output name=date::$(date +%F)"
@@ -171,17 +179,13 @@ jobs:
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
 ### ----------------------------------------------------------------- ###
-      - name: Set source and branch
-        id: setSource
-        run: |
-          echo "::set-output name=sourceString::https://github.com/openwrt/openwrt.git"
-          echo "::set-output name=branchString::master"
-### ------------------------------------------------------------------------------ ###
-      - name: Clone source code
+      - name: Clone OpenWRT source code
         working-directory: /workdir
         run: |
           df -hT $PWD
-          git clone ${{ steps.setSource.outputs.sourceString }} -b ${{ steps.setSource.outputs.branchString }} openwrt
+          URL=$CLONE_URL
+          BRANCH=$CLONE_BRANCH
+          git clone "$URL" -b "$BRANCH" openwrt
           ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
 ### ----------------------------------------------------------------- ###
       - name: Check Main space usage

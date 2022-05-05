@@ -475,7 +475,7 @@ jobs:
         run: |
           df -h
           cd openwrt
-          set FORCE_UNSAFE_CONFIGURE=1
+#          set FORCE_UNSAFE_CONFIGURE=1
           let make_process=$(nproc)+2
           make toolchain/install -j${make_process} V=s
 ### ----------------------------------------------------------------- ###

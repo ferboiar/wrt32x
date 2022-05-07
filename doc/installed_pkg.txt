@@ -94,8 +94,6 @@ luci-app-watchcat
 luci-app-wifischedule
 luci-app-wol
 
-valorare incluir de nuevo filetransfer, no está mal del todo
-
 LuCI Themes
 ===========
 luci-theme-argonne
@@ -188,3 +186,11 @@ without bluetooth (https://forum.openwrt.org/t/purefusion-wrt3200acm-wrt32x-wrt1
 -kmod-mmc
 -kmod-mwifiex-sdio
 -mwifiex-sdio-firmware
+
+*** a tener en cuenta:
+ddns se queja que le faltan paquetes:
+DNS requests via TCP not supported
+BusyBox's nslookup and hostip do not support to specify to use TCP instead of default UDP when requesting DNS server!
+- You should install 'bind-host' or 'knot-host' or 'drill' package for DNS requests.
+
+valorare incluir de nuevo filetransfer, no está mal del todo

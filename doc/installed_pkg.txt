@@ -131,6 +131,7 @@ ddns-scripts-cloudflare
 ddns-scripts-noip
 dnsmasq
 dropbear
+etherwake (necesario para Wake on LAN, este o WoL)
 htop
 ip-bridge
 iperf3

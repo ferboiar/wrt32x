@@ -195,3 +195,5 @@ BusyBox's nslookup and hostip do not support to specify to use TCP instead of de
 - You should install 'bind-host' or 'knot-host' or 'drill' package for DNS requests.
 
 valorare incluir de nuevo filetransfer, no está mal del todo
+
+BUSCAR E INCLUIR!! luci-app-rebootschedule (no está, buscar en https://github.com/ferboiar/luci-app-rebootschedule)

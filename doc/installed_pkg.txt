@@ -94,6 +94,8 @@ luci-app-watchcat
 luci-app-wifischedule
 luci-app-wol
 
+valorare incluir de nuevo filetransfer, no está mal del todo
+
 LuCI Themes
 ===========
 luci-theme-argonne

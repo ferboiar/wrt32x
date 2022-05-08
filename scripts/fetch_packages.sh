@@ -33,7 +33,7 @@ UNSORTED_GIT_PACKAGES(){
   echo "Fetching UN-Sorted GIT Packages:"
   
   ### luci-app-access
-  git clone https://github.com/resmh/luci-app-access.git package/luci-app-access
+  git clone https://github.com/resmh/luci-app-access.git package/resmh/luci-app-access
 
   ### luci-app-webguide
   git clone https://github.com/p1ay8y3ar/luci-app-webguide.git package/p1ay8y3ar/luci-app-webguide
@@ -41,6 +41,9 @@ UNSORTED_GIT_PACKAGES(){
   ### autocore-arm-x86
   #git clone https://github.com/MatJeheyy/autocore-arm-x86.git package/MatJeheyy/autocore
   #rm -rf package//MatJeheyy/autocore/po
+  
+  ### timming settings
+  git clone https://github.com/ferboiar/luci-app-rebootschedule.git package/ferboiar/luci-app-rebootschedule
 }
 
 

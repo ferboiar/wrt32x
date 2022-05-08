@@ -48,7 +48,7 @@ kmod-ath9k-htc
 NetData 
 =======
 netdata
-luci-app-netdata
+- luci-app-netdata (no instalar, no funciona, para entrar a netdata hay que hacerlo desde fuera --> http://ip:1999
 bash
 coreutils-timeout
 curl

@@ -81,6 +81,7 @@ luci-app-opkg
 luci-app-qos
 luci-app-rebootschedule (no está, buscar en https://github.com/ferboiar/luci-app-rebootschedule)
 luci-app-sqm
+luci-app-samba4
 luci-app-statistics
 luci-app-tcpdump
 luci-app-timecontrol
@@ -95,13 +96,11 @@ luci-app-wol
 
 LuCI Themes
 ===========
-luci-theme-argonne
-luci-theme-atmaterial_new
+luci-theme-argon
 luci-theme-bootstrap
 luci-theme-material
-luci-theme-mcat
 luci-theme-openwrt-2020
-luci-theme-tomato
+luci-theme-openwrt
 
 file manager/system bins
 ========================
@@ -149,6 +148,7 @@ odhcpd-ipv6only
 ppp
 ppp-mod-pppoe
 procd
+samba4-utils
 sysfsutils
 tcping
 tc-tiny

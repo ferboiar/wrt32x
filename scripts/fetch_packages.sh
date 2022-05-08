@@ -162,6 +162,8 @@ rm -rf package/kenzok8/luci-app-passwall
 rm -rf package/kenzok8/luci-app-passwall2
 rm -rf package/kenzok8/luci-app-ssr-plus
 rm -rf package/kenzok8/baidupcs-web
+rm -rf package/kenzok8/luci-theme-argon # borro este y me quedo con el original
+rm -rf package/kenzok8/luci-app-argon-config # borro este y me quedo con el original
 }
 
 SUNDAQIANG_PACKAGES() {
@@ -355,9 +357,9 @@ LUCI_THEMES() {
   echo "Fetching LUCI-Themes"
   ### THEMES ###
   ### new argon theme
-  # git clone -b master https://github.com/jerrykuku/luci-theme-argon.git package/luci-theme-argon
+  git clone -b master https://github.com/jerrykuku/luci-theme-argon.git package/luci-theme-argon
   ### New argon theme control program
-  # git clone -b master https://github.com/jerrykuku/luci-app-argon-config.git package/luci-app-argon-config
+  git clone -b master https://github.com/jerrykuku/luci-app-argon-config.git package/luci-app-argon-config
   ### luci-theme-opentomcat
   # git clone https://github.com/chaoxiaozhu/luci-theme-opentomcat.git package/luci-theme-opentomcat
   ### luci-theme-rosy

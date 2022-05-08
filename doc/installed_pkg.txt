@@ -80,7 +80,6 @@ luci-app-omcproxy
 luci-app-opkg
 luci-app-qos
 luci-app-rebootschedule (no está, buscar en https://github.com/ferboiar/luci-app-rebootschedule)
-luci-app-samba4
 luci-app-sqm
 luci-app-statistics
 luci-app-tcpdump
@@ -150,7 +149,6 @@ odhcpd-ipv6only
 ppp
 ppp-mod-pppoe
 procd
-samba4-utils
 sysfsutils
 tcping
 tc-tiny

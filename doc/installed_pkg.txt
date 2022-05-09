@@ -58,6 +58,7 @@ LuCI Apps (not listed before)
 luci-app-argon-config
 luci-app-cpu-status
 luci-app-cpu-perf
+luci-app-disks-info
 luci-app-fileassistant
 luci-app-iperf
 luci-app-log

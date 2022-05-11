@@ -125,6 +125,7 @@ collectd-mod-syslog
 collectd-mod-thermal
 collectd-mod-wireless
 coreutils-nohup
+coremark
 cpulimit
 ddns-scripts-cloudflare
 ddns-scripts-noip

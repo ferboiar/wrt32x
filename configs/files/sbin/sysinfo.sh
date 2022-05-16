@@ -32,19 +32,19 @@
 #
 . /usr/share/libubox/jshn.sh
 
-local Width=0
-local StartRuler="1"
-local EndRuler="1"
-local LastErrors="1"
-local NormalColor=""
-local MachineColor=""
-local ValueColor=""
-local AddrColor=""
-local RXTXColor=""
-local ErrorColor=""
-local ExtraName=""
-local ExtraValue=""
-local HTML=""
+Width=0
+StartRuler="1"
+EndRuler="1"
+LastErrors="1"
+NormalColor=""
+MachineColor=""
+ValueColor=""
+AddrColor=""
+RXTXColor=""
+ErrorColor=""
+ExtraName=""
+ExtraValue=""
+HTML=""
 
 initialize() { # <Script Parameters>
 	local ColorMode="c"
@@ -188,6 +188,15 @@ print_line() { # <String to Print>, [[<String to Print>] ...]
 		printf "   $Line\n" 2>/dev/null
 	else
 		printf " | %-$(expr $Width - 5)s |\r | $Line\n" 2>/dev/null
+	fi
+}
+
+print_line_error() { # <String to Print>, [[<String to Print>] ...]
+	local Line="$@"
+	if [ "$HTML" == "1" ]; then
+		printf "   $Line\n" 2>/dev/null
+	else
+		printf "   %-$(expr $Width - 5)s  \r   $Line\n" 2>/dev/null
 	fi
 }
 
@@ -465,6 +474,7 @@ print_extra() {
 }
 
 print_error() {
+	print_line_error	"Last 'logread' errors:"
 	logread | awk '/\w{3}+\.(err|warn|alert|emerg|crit)/{err[++i]=$0}END{j=i-4;j=j>=1?j:1;while(j<=i)print" '$ErrorColor'"err[j++]"'$NormalColor'"}' 2>/dev/null
 }
 

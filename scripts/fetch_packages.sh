@@ -20,9 +20,7 @@ echo "Fetching From DevOpenWRT-Router:"
 ### luci-app-mqos
 git clone https://github.com/DevOpenWRT-Router/luci-app-mqos.git package/PureFusionWRT/luci-app-mqos
 ### luci-default-settings
-git clone https://github.com/DevOpenWRT-Router/luci-default-settings.git package/PureFusionWRT/luci-default-settings
-### my-default-settings (LUCI)
-git clone https://github.com/DevOpenWRT-Router/my-default-settings.git package/PureFusionWRT/my-default-settings
+#git clone https://github.com/DevOpenWRT-Router/luci-default-settings.git package/PureFusionWRT/luci-default-settings
 ### luci-app-ota
 git clone https://github.com/DevOpenWRT-Router/luci-app-ota.git package/PureFusionWRT/luci-app-ota
 
@@ -33,7 +31,7 @@ UNSORTED_GIT_PACKAGES(){
   echo "Fetching UN-Sorted GIT Packages:"
   
   ### luci-app-access
-  git clone https://github.com/resmh/luci-app-access.git package/resmh/luci-app-access
+  git clone https://github.com/resmh/luci-app-access.git package/luci-app-access
 
   ### luci-app-webguide
   git clone https://github.com/p1ay8y3ar/luci-app-webguide.git package/p1ay8y3ar/luci-app-webguide
@@ -44,6 +42,8 @@ UNSORTED_GIT_PACKAGES(){
   
   ### timming settings
   git clone https://github.com/ferboiar/luci-app-rebootschedule.git package/ferboiar/luci-app-rebootschedule
+  ### my-default-settings (ferboiar's repo)
+  git clone https://github.com/ferboiar/my-default-settings.git package/ferboiar/my-default-settings
 }
 
 
@@ -141,7 +141,7 @@ rm -rf package/kenzok8/mosdns # Build Errors
 rm -rf package/kenzok8/luci-app-mosdns
 rm -rf package/kenzok8/luci-app-smartdns
 rm -rf package/kenzok8/smartdns
-rm -rf package/kenzok8/luci-app-netspeedtest
+#rm -rf package/kenzok8/luci-app-netspeedtest
 rm -rf package/kenzok8/msmtp # Been said wont build: missing dependencies SSL
 rm -rf package/kenzok8/luci-app-autotimeset
 rm -rf package/kenzok8/luci-app-dnscrypt-proxy2

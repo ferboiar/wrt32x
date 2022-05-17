@@ -1,0 +1,8 @@
+config queue 'eth1'
+        option enabled '1'
+        option interface 'wan'
+        option qdisc 'cake'
+        option script 'piece_of_cake.qos'
+        option linklayer 'none'
+        option verbosity '5'
+        option debug_logging '0'

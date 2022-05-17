@@ -30,6 +30,3 @@
  echo "auto sqm DONE!"
  logger -t autoSQM -p info "Set download = $downloadKbps, upload = $uploadKbps"
  fi
- 
- #echo "auto sqm DONE!"
- #logger -t autoSQM -p info "Set download = $downloadKbps, upload = $uploadKbps"

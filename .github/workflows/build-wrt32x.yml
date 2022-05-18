@@ -684,11 +684,12 @@ jobs:
         id: tag
         if: env.UPLOAD_RELEASE == 'true' && !cancelled()
         run: |
+          #echo "::set-output name=release_tag::$HARDWARE_DEVICE-${{ steps.setConfig.outputs.config_fileString }}-ISP_MASMOVIL-$(date +\"%Y.%m.%d-%H%M\")"
           if [[ "${{ github.event.inputs.ISP }}" == "1" ]]; then
-                  echo "::set-output name=release_tag::$HARDWARE_DEVICE-${{ steps.setConfig.outputs.config_fileString }}-ISP_MASMOVIL-$(date +\"%Y.%m.%d-%H%M\")"
+                  echo "::set-output name=release_tag::${{ steps.setConfig.outputs.config_fileString }}-ISP_MASMOVIL-$(date +%Y.%m.%d-%H%M)"
           fi
           if [[ "${{ github.event.inputs.ISP }}" == "0" ]]; then
-                  echo "::set-output name=release_tag::$HARDWARE_DEVICE-${{ steps.setConfig.outputs.config_fileString }}-ISP_NONE-$(date +\"%Y.%m.%d-%H%M\")"
+                  echo "::set-output name=release_tag::${{ steps.setConfig.outputs.config_fileString }}-ISP_NONE-$(date +%Y.%m.%d-%H%M)"
           fi          
           touch release.txt
           echo "::set-output name=status::success"

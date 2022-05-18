@@ -1,0 +1,8 @@
+config watchcat
+        option period '6h'
+        option mode 'ping_reboot'
+        option pinghosts '8.8.8.8'
+        option forcedelay '30'
+        option pingperiod '1m'
+        option pingsize 'standard'
+        option interface 'wan'

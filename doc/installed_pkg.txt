@@ -69,6 +69,7 @@ luci-app-acme
 luci-app-adblock
 luci-app-advanced-reboot
 luci-app-banip
+luci-app-bird1-ipv4
 luci-app-bcp38
 luci-app-dcwapd
 luci-app-ddns
@@ -88,6 +89,7 @@ luci-app-tcpdump
 luci-app-timecontrol
 luci-app-uhttpd
 luci-app-upnp
+luci-app-udpxy
 luci-app-vnstat2
 luci-app-vpn-policy-routing
 luci-app-vpnbypass
@@ -113,6 +115,7 @@ nano
 
 various
 =======
+acme-dnsapi
 base-files
 blockd
 busybox
@@ -137,6 +140,7 @@ iperf3
 irqbalance
 kmod
 kmod-ata-marvell-sata
+kmod-ipt-nathelper-rtsp
 more
 msmtp (para banip)
 mtd

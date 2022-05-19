@@ -93,7 +93,7 @@ env:
   GITLOGA: true
   GITLOGB: true
   RUN_BEFORE_BUILD: true
-  RUN_AFTER_BUILD: false
+  RUN_AFTER_BUILD: true
   RUN_GITHUB_PUSH: false
   DEFAULT_THEME_CHANGE: false
   CHANGE_DEFAULT_BANNER: false

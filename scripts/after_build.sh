@@ -1,5 +1,6 @@
 #!/bin/bash
-cd openwrt || exit
+#cd openwrt || exit
+cd openwrt
 
 if [[ -f "usr/lib/acme/acme.sh" ]]; then
   if [[ ! -f "usr/lib/acme/acme.sh.bak" ]]; then

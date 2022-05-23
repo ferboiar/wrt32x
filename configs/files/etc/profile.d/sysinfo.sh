@@ -494,5 +494,5 @@ print_extra
 [ "$EndRuler" == "1" ] && print_horizontal_ruler
 [ "$LastErrors" == "1" ] && print_error
 finalize
-exit 0
+#exit 0
 # Done.

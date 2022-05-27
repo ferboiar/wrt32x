@@ -1,3 +1,9 @@
+==============================
+= Manual listing by category =
+==============================
+
+('-' means package explicitly deleted)
+
 USB Storage
 ===========
 kmod-usb-storage
@@ -18,7 +24,6 @@ kmod-nls-cp437
 kmod-nls-iso8859-1
 kmod-nls-utf8
 block-mount
-block-hotplug (no aparece en make menuconfig, revisar para que es)
 e2fsprogs
 usbutils
 usbids
@@ -48,19 +53,18 @@ kmod-ath9k-htc
 NetData 
 =======
 netdata
-- luci-app-netdata (no instalar, no funciona, para entrar a netdata hay que hacerlo desde fuera --> http://ip:1999
+- luci-app-netdata (do not install, does not work with firefox, to enter netdata you have to do it from outside --> http://ip:1999)
 bash
 coreutils-timeout
 curl
 
-LuCI Apps (not listed before)
+LuCI Apps (not mentioned above)
 =============================
 luci-app-argon-config
 luci-app-cpu-status
 luci-app-cpu-perf
 luci-app-disks-info
 luci-app-fileassistant
-luci-app-iperf
 luci-app-log
 luci-app-mqos
 luci-app-ramfree
@@ -81,7 +85,7 @@ luci-app-nlbwmon
 luci-app-omcproxy
 luci-app-opkg
 luci-app-qos
-luci-app-rebootschedule (no está, buscar en https://github.com/ferboiar/luci-app-rebootschedule)
+luci-app-rebootschedule (from https://github.com/ferboiar/luci-app-rebootschedule)
 luci-app-sqm
 luci-app-samba4
 luci-app-statistics
@@ -100,7 +104,8 @@ luci-app-wol
 LuCI Themes
 ===========
 luci-theme-argon
-luci-theme-bootstrap
+luci-theme-bootstrap (dark and light new ones)
+luci-theme-edge
 luci-theme-material
 luci-theme-openwrt-2020
 luci-theme-openwrt
@@ -120,12 +125,22 @@ base-files
 blockd
 busybox
 ca-certificates
-collectd-mod-ethstat
+collectd
+collectd-mod-cpu
 collectd-mod-cpufreq
+collectd-mod-ethstat
+collectd-mod-interface
 collectd-mod-iptables
-collectd-mod-openvpn
+collectd-mod-iwinfo
+collectd-mod-load
+collectd-mod-memory
+collectd-mod-network
+collectd-mod-openvpn (doesn't work)
+collectd-mod-rrdtool
+collectd-mod-sensors
 collectd-mod-syslog
 collectd-mod-thermal
+collectd-mod-vmem
 collectd-mod-wireless
 coreutils-nohup
 cpulimit
@@ -133,7 +148,7 @@ ddns-scripts-cloudflare
 ddns-scripts-noip
 dnsmasq
 dropbear
-etherwake (necesario para Wake on LAN, este o WoL)
+etherwake (required for Wake on LAN, this or WoL)
 htop
 ip-bridge
 iperf3
@@ -141,8 +156,9 @@ irqbalance
 kmod
 kmod-ata-marvell-sata
 kmod-ipt-nathelper-rtsp
+knot-host (for ddns)
 more
-msmtp (para banip)
+msmtp (required for banip and adblock)
 mtd
 mtr-json
 mwlwifi-firmware-88w8964
@@ -157,7 +173,7 @@ samba4-utils
 sysfsutils
 tcping
 tc-tiny
-tcpdump
+tcpdump (required for banip and adblock)
 uboot-envtools
 uci
 urandom-seed
@@ -167,22 +183,19 @@ wpad-openssl
 wsdd2
 zoneinfo-europe
 
--luci-ssl
+-luci-ssl (openssl instead of wolfssl)
 -libustream-wolfssl
 -wpad-basic-wolfssl
 -px5g-wolfssl
 
--libwolfssl* (seguir desde este)
+-libwolfssl*
 CONFIG_PACKAGE_curl=y
 CONFIG_LIBCURL_OPENSSL=y
 luci
 luci-ssl-openssl
 libustream-openssl   
 
-
-https://forum.openwrt.org/t/davidc502-wrt1200ac-wrt1900acx-wrt3200acm-wrt32x-builds/15839/5788
-
-ssl support: https://forum.openwrt.org/t/purefusion-wrt3200acm-wrt32x-wrt1200ac-wrt1900acs-wrt1900acv1-wrt1900acv2-builds/100399/45
+openssl support: https://forum.openwrt.org/t/purefusion-wrt3200acm-wrt32x-wrt1200ac-wrt1900acs-wrt1900acv1-wrt1900acv2-builds/100399/45
 
 without bluetooth (https://forum.openwrt.org/t/purefusion-wrt3200acm-wrt32x-wrt1200ac-wrt1900acs-wrt1900acv1-wrt1900acv2-builds/100399/102)
 -kmod-bluetooth
@@ -190,13 +203,3 @@ without bluetooth (https://forum.openwrt.org/t/purefusion-wrt3200acm-wrt32x-wrt1
 -kmod-mmc
 -kmod-mwifiex-sdio
 -mwifiex-sdio-firmware
-
-*** a tener en cuenta:
-ddns se queja que le faltan paquetes:
-DNS requests via TCP not supported
-BusyBox's nslookup and hostip do not support to specify to use TCP instead of default UDP when requesting DNS server!
-- You should install 'bind-host' or 'knot-host' or 'drill' package for DNS requests.
-
-valorare incluir de nuevo filetransfer, no está mal del todo
-
-BUSCAR E INCLUIR!! luci-app-rebootschedule (no está, buscar en https://github.com/ferboiar/luci-app-rebootschedule)

@@ -331,6 +331,7 @@ jobs:
         run: |
           [ -e configs/files ] && mv configs/files openwrt/files
           chmod +x openwrt/files/usr/libexec/rpcd/netports
+          chmod +x openwrt/files/usr/lib/OpenWrtScripts/autoSQM.sh
           chmod +x openwrt/files/sbin/sysinfo.sh
           chmod +x openwrt/files/www/cgi-bin/ovpn_stat
           if [[ "${{ github.event.inputs.ISP }}" == "0" ]]; then

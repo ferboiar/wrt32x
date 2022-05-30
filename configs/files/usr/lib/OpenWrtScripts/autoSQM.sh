@@ -1,3 +1,4 @@
+#!/bin/sh
 /etc/init.d/sqm stop
  if [ ! -d /tmp/speedtestResult ]; then
  mkdir /tmp/speedtestResult
@@ -25,7 +26,7 @@
  echo "setting up SQM with new value"
  uci set sqm.eth1.upload=${uploadKbps%%.*}
  uci set sqm.eth1.download=${downloadKbps%%.*}
- uci commit
+ uci commit sqm
  /etc/init.d/sqm reload
  echo "auto sqm DONE!"
  logger -t autoSQM -p info "Set download = $downloadKbps, upload = $uploadKbps"

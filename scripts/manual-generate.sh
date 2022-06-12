@@ -94,7 +94,8 @@ echo "Running: update -a, install -a, uninstall bluld"
 ./scripts/feeds install -a
 ./scripts/feeds uninstall bluld
 
-echo "copy wrt32x.config .config"
+echo "copy wrt32x.config .config for Linksys wrt32x or copy rt3200.config .config for Linksys e8450 (Belkin rt3200)"
+echo "default: wrt32x.config (do a manual copy for e8450: cp rt3200.config .config)"
 cp wrt32x.config .config
 
 echo "Applying Patches"
@@ -104,7 +105,8 @@ echo "Running: functions.sh"
 BUILD_USER_DOMAIN
 PRE_DEFCONFIG_ADDONS
 CCACHE_SETUP
-DEFAULT_THEME_CHANGE
+#DEFAULT_THEME_CHANGE
+REMOVE_LANGUAGES
 
 echo "Make Menuconfig"
 make menuconfig

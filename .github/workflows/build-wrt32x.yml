@@ -151,8 +151,8 @@ jobs:
           fi
           if [[ "${{ github.event.inputs.config_file }}" == "2" ]]; then
                   echo "::set-output name=config_fileString::rt3200.config"
-                  env.HARDWARE_ID = "e8450"
-                  env.HARDWARE_DEVICE = "e8450"
+                  echo "::set-env name=HARDWARE_ID::e8450"
+                  echo "::set-env name=HARDWARE_DEVICE::e8450"
                   echo "[DEBUG] Device: $HARDWARE_ID"
                   echo "[DEBUG] Device: $HARDWARE_DEVICE"
           fi

@@ -20,9 +20,17 @@ echo "Fetching From DevOpenWRT-Router:"
 ### luci-app-mqos
 git clone https://github.com/DevOpenWRT-Router/luci-app-mqos.git package/PureFusionWRT/luci-app-mqos
 ### luci-default-settings
-#git clone https://github.com/DevOpenWRT-Router/luci-default-settings.git package/PureFusionWRT/luci-default-settings
+# git clone https://github.com/DevOpenWRT-Router/luci-default-settings.git package/PureFusionWRT/luci-default-settings
+### my-default-settings (LUCI)
+# git clone https://github.com/DevOpenWRT-Router/my-default-settings.git package/PureFusionWRT/my-default-settings
 ### luci-app-ota
 git clone https://github.com/DevOpenWRT-Router/luci-app-ota.git package/PureFusionWRT/luci-app-ota
+### luci-app-tn-netports
+#git clone https://github.com/DevOpenWRT-Router/luci-app-tn-netports.git package/PureFusionWRT/luci-app-tn-netports
+#rm -rf package/PureFusionWRT/luci-app-tn-netports/po
+### luci-app-tn-logview
+# git clone https://github.com/DevOpenWRT-Router/luci-app-tn-logview.git package/PureFusionWRT/luci-app-tn-logview
+# rm -rf package/PureFusionWRT/luci-app-tn-logview/po
 
 echo "END Fetching From DevOpenWRT-Router:"
 }
@@ -35,6 +43,18 @@ UNSORTED_GIT_PACKAGES(){
 
   ### luci-app-webguide
   git clone https://github.com/p1ay8y3ar/luci-app-webguide.git package/p1ay8y3ar/luci-app-webguide
+
+  ### luci-app-ttnode
+  git clone https://github.com/jerrykuku/luci-app-ttnode.git package/jerrykuku/luci-app-ttnode
+
+  ### luci-app-tinyfilemanager
+  git clone https://github.com/lynxnexy/luci-app-tinyfilemanager.git package/lynxnexy/luci-app-tinyfilemanager
+
+  ### luci-app-autorepeater
+  git clone https://github.com/peter-tank/luci-app-autorepeater.git package/peter-tank/luci-app-autorepeater
+
+  ### luci-app-dnscrypt-proxy2
+  git clone https://github.com/peter-tank/luci-app-dnscrypt-proxy2.git package/peter-tank/luci-app-dnscrypt-proxy2
 
   ### autocore-arm-x86
   #git clone https://github.com/MatJeheyy/autocore-arm-x86.git package/MatJeheyy/autocore
@@ -107,10 +127,6 @@ GSPOTX2F_PACKAGES() {
   git clone https://github.com/gSpotx2f/luci-app-internet-detector.git package/gSpotx2f/luci-app-internet-detector
   rm -rf package/gSpotx2f/luci-app-internet-detector/po
 
-  ### luci-app-log
-  git clone https://github.com/gSpotx2f/luci-app-log.git package/gSpotx2f/luci-app-log
-  rm -rf package/gSpotx2f/luci-app-log/po
-
   ### luci-app-temp-status
   git clone https://github.com/gSpotx2f/luci-app-temp-status.git package/gSpotx2f/luci-app-temp-status
   rm -rf package/gSpotx2f/luci-app-temp-status/po
@@ -119,12 +135,27 @@ GSPOTX2F_PACKAGES() {
   git clone https://github.com/gSpotx2f/luci-app-disks-info.git package/gSpotx2f/luci-app-disks-info
   rm -rf package/gSpotx2f/luci-app-disks-info/po
 
+  ### luci-app-log
+  git clone https://github.com/gSpotx2f/luci-app-log.git package/gSpotx2f/luci-app-log
+  rm -rf package/gSpotx2f/luci-app-log/po
+
+  ### luci-app-multilog
+  svn export https://github.com/gSpotx2f/luci-app-log/trunk/dev-mods-examples/mod-multilog package/gSpotx2f/luci-app-multilog
+  wget https://raw.githubusercontent.com/gSpotx2f/luci-app-log/master/Makefile -O package/gSpotx2f/luci-app-multilog/Makefile
+
+  ### luci-app-textarea
+  svn export https://github.com/gSpotx2f/luci-app-log/trunk/dev-mods-examples/mod-textarea package/gSpotx2f/luci-app-textarea
+  wget https://raw.githubusercontent.com/gSpotx2f/luci-app-log/master/Makefile -O package/gSpotx2f/luci-app-textarea/Makefile
+
   echo "END Fetching From gSpotx2f's Repos:"
 }
 
 LINKEASE_PACKAGES() {
   ### istore-packages
-  git clone https://github.com/linkease/istore-packages.git package/linkease/istore-packages
+  #git clone https://github.com/linkease/istore-packages.git package/linkease/istore-packages
+  ### iStore Package URL: https://github.com/orgs/linkease/repositories?type=source
+  svn export https://github.com/linkease/istore/trunk/luci/luci-app-store package/linkease/luci-app-store
+  svn export https://github.com/linkease/istore-ui/trunk/app-store-ui package/linkease/app-store-ui
 
   rm -rf package/linkease/istore-packages/luci-app-kodexplorer
 }
@@ -133,10 +164,12 @@ KENZOK8_PACKAGES() {
 echo "Downloading Kenzok8's small-packages"
 
 git clone https://github.com/kenzok8/small-package.git package/kenzok8
+# cd package/kenzok8 && git reset --hard 4e1fa6a8cf6e96163e5c9d0df690a31d2080de7e && cd ../..
 
 rm -rf package/kenzok8/my-default-settings # using a dif
 rm -rf package/kenzok8/my-autocore # Using the one above in unsorted
 rm -rf package/kenzok8/luci-app-easyupdate
+rm -rf package/kenzok8/luci-app-ttnode # get from source
 rm -rf package/kenzok8/mosdns # Build Errors
 rm -rf package/kenzok8/luci-app-mosdns
 rm -rf package/kenzok8/luci-app-smartdns
@@ -152,6 +185,8 @@ rm -rf package/kenzok8/luci-app-openvpn-server
 rm -rf package/kenzok8/luci-app-tencentddns
 rm -rf package/kenzok8/luci-app-udp2raw
 rm -rf package/kenzok8/luci-app-diskman
+rm -rf package/kenzok8/luci-app-store # We now get from source
+rm -rf package/kenzok8/app-store-ui # same as above
 rm -rf package/kenzok8/v2ray-core
 rm -rf package/kenzok8/v2ray-geodata
 rm -rf package/kenzok8/v2ray-plugin
@@ -166,6 +201,8 @@ rm -rf package/kenzok8/luci-app-passwall2
 rm -rf package/kenzok8/luci-app-ssr-plus
 rm -rf package/kenzok8/luci-app-baidupcs-web
 rm -rf package/kenzok8/baidupcs-web
+rm -rf package/kenzok8/filebrowser # builds node/host Causing issues right now
+rm -rf package/kenzok8/luci-app-filebrowser # part 2 of filebrowser
 rm -rf package/kenzok8/luci-theme-argon # borro este y me quedo con el original
 rm -rf package/kenzok8/luci-app-argon-config # borro este y me quedo con el original
 rm -rf package/kenzok8/luci-app-fileassistant # borro para meter la traducida
@@ -218,7 +255,7 @@ echo "$len Packages"
 for (( i=0; i<len; i++ ))
 do
   echo "${packages[$i]}"
-  svn co $url/"${packages[$i]}" $placement/"${packages[$i]}"
+  svn export $url/"${packages[$i]}" $placement/"${packages[$i]}"
   
 done
 
@@ -247,7 +284,7 @@ rm -rf package/lean/mt # Some Error Keeps happening #
 echo "END of coolsnowwolf's lean packages"
 ### Needed for qBittorrent qt5
 echo "Add coolsnowwolf's libdouble-conversion"
-svn co https://github.com/coolsnowwolf/lede/trunk/package/libs/libdouble-conversion package/libs/libdouble-conversion
+svn export https://github.com/coolsnowwolf/lede/trunk/package/libs/libdouble-conversion package/libs/libdouble-conversion
 echo "END coolsnowwolf's libdouble-conversion"
 ### Use lede's edition of mwlwifi
 #echo "Add coolsnowwolf's edition of mwlwifi"
@@ -263,7 +300,7 @@ echo "Downloading sirpdboy's packages"
 ## Sirpdboy's luci-app-netdata
 git clone https://github.com/sirpdboy/luci-app-netdata.git package/sirpdboy/luci-app-netdata
 ## Sirpdboy's myautocore enhanced version preview information only for OPENWRT
-svn co https://github.com/sirpdboy/myautocore/trunk/myautocore package/sirpdboy/myautocore
+svn export https://github.com/sirpdboy/myautocore/trunk/myautocore package/sirpdboy/myautocore
 
 git clone https://github.com/sirpdboy/sirpdboy-package.git package/sirpdboy_A
 
@@ -362,55 +399,39 @@ echo "END of NueXini's Build packages"
 
 LUCI_THEMES() {
   echo "Fetching LUCI-Themes"
-  ### THEMES ###
-  ### new argon theme
-  git clone -b master https://github.com/jerrykuku/luci-theme-argon.git package/luci-theme-argon
-  ### New argon theme control program
-  git clone -b master https://github.com/jerrykuku/luci-app-argon-config.git package/luci-app-argon-config
-  ### luci-theme-opentomcat
-  # git clone https://github.com/chaoxiaozhu/luci-theme-opentomcat.git package/luci-theme-opentomcat
-  ### luci-theme-rosy
-  # git clone https://github.com/rosywrt/luci-theme-rosy.git package/luci-theme-rosy
-  ### luci-theme-netgear
-  # git clone https://github.com/ysoyipek/luci-theme-netgear.git package/luci-theme-netgear
-  ### luci-theme-edge2 ###
-  # git clone -b main https://github.com/YL2209/luci-theme-edge2.git package/luci-theme-edge2
-  ### luci-theme-opentopd thme openwrt theme
-  # git clone https://github.com/sirpdboy/luci-theme-opentopd.git package/luci-theme-opentopd
-  ### btmod theme
-  # git clone https://github.com/sirpdboy/luci-theme-btmod.git package/luci-theme-btmob
-  ### luci-theme-opentomcat
-  # git clone https://github.com/Leo-Jo-My/luci-theme-opentomcat.git package/luci-theme-opentomcat
-  ### luci-theme-netgear
-  # git clone https://github.com/i028/luci-theme-netgear.git package/luci-theme-netgear
-  ### luci-theme-ifit
-  # git clone https://github.com/YL2209/luci-theme-ifit.git package/luci-theme-ifit
-  ### luci-theme-surfboard
-  # git clone https://github.com/SURFBOARD-ONE/luci-theme-surfboard.git package/luci-theme-surfboard
-  ### luci-theme-atmaterial
-  # git clone https://github.com/miccjing/luci-theme-atmaterial.git package/luci-theme-atmaterial
-  ### luci-theme-mcat
-  # git clone https://github.com/fszok/luci-theme-mcat.git package/luci-theme-mcat
-  ### luci-theme-fate
-  # git clone https://github.com/fatelpc/luci-theme-fate.git package/luci-theme-fate
+
+  ### luci-theme-argon
+  git clone https://github.com/jerrykuku/luci-theme-argon.git package/jerrykuku/luci-theme-argon
+  ### luci-app-argon-config
+  git clone https://github.com/jerrykuku/luci-app-argon-config.git package/jerrykuku/luci-app-argon-config
+
+  ### luci-theme-tano (Custom By lynxnexy)
+  git clone https://github.com/lynxnexy/luci-theme-tano.git package/lynxnexy/luci-theme-tano
+
+  git clone https://github.com/DevOpenWRT-Router/luci-theme-tano-MOD.git package/PureFusionWRT/luci-theme-tano-MOD
+
+  ### luci-theme-bootstrap-mod
+  #svn export https://github.com/immortalwrt/luci/trunk/themes/luci-theme-bootstrap-mod package/immortalwrt/luci-theme-bootstrap-mod
+  #sed -i "s|include ../../luci.mk|include \$(TOPDIR)/feeds/luci/luci.mk|g" package/immortalwrt/luci-theme-bootstrap-mod/Makefile
+
   echo "Done Fetching LUCI-Themes"
 }
 
 ### -------------------------------------------------------------------------------------------------------------- ###
 
-LUCI_THEMES;
+LUCI_THEMES; ### ALWAYS GOES FIRST TO MAKE SURE NOT OVERWRITTEN ###
 PERSONAL_PACKAGES;
 UNSORTED_GIT_PACKAGES;
 UNSORTED_PACKAGES;
 SBWM1_PACKAGES;
 GSPOTX2F_PACKAGES;
 #LINKEASE_PACKAGES;
-KENZOK8_PACKAGES;
+KENZOK8_PACKAGES; ### CAREFULL WITH THIS REPO ###
 #SUNDAQIANG_PACKAGES;
 LEAN_PACKAGES;
 SIRPDBOY_PACKAGES;
-#HELMIAU_PACKAGES;
-#NUEXINI_PACKAGES;
+#HELMIAU_PACKAGES; ### NOT USED - WARNING
+#NUEXINI_PACKAGES; ### NOT USED - WARNING
 # O-BUG_PACKAGES; # <-- Turn this off for now, Seems to be alot of issues when building, Check FILES:
 ### -------------------------------------------------------------------------------------------------------------- ###
 

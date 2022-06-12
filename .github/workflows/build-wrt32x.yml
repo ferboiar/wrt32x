@@ -13,14 +13,14 @@
 #  MAIN BUILD CONTROL SECTION:                                                 #
 ################################################################################
 
-name: Build wrt32x firmware (Linksys Device)
+name: Build Linksys wrt32x & e8450 (AKA Belkin rt3200) firmware
 'on':
   repository_dispatch: null
   workflow_dispatch:
     inputs:
       config_file:
         description: >
-          '[0] default [1] eliminater [2] divested'
+          '[0] wrt32x: default [1] wrt32x: eliminater [2] e8450/rt3200'
         required: true
         default: '0'
       ISP:
@@ -139,6 +139,21 @@ jobs:
           [ -f /etc/issue.net ] && cat /etc/issue.net
           [ -f /etc/issue ] && cat /etc/issue
           ulimit -a
+### ----------------------------------------------------------------- ###
+      - name: Set .config
+        id: setConfig
+        run: |
+          if [[ "${{ github.event.inputs.config_file }}" == "0" ]]; then
+                  echo "::set-output name=config_fileString::wrt32x.config"
+          fi
+          if [[ "${{ github.event.inputs.config_file }}" == "1" ]]; then
+                  echo "::set-output name=config_fileString::wrt32x_eliminater.config"
+          fi
+          if [[ "${{ github.event.inputs.config_file }}" == "2" ]]; then
+                  echo "::set-output name=config_fileString::rt3200.config"
+                  HARDWARE_ID: "e8450"
+                  HARDWARE_DEVICE: "e8450"
+          fi
 ### ----------------------------------------------------------------- ###
       - name: HARDWARE_DEVICE
         run: |
@@ -338,19 +353,6 @@ jobs:
                   rm -f openwrt/files/etc/config/network
           fi
           wget -q -O openwrt/files/usr/lib/acme/acme.sh https://raw.githubusercontent.com/acmesh-official/acme.sh/master/acme.sh
-### ----------------------------------------------------------------- ###
-      - name: Set .config
-        id: setConfig
-        run: |
-          if [[ "${{ github.event.inputs.config_file }}" == "0" ]]; then
-                  echo "::set-output name=config_fileString::wrt32x.config"
-          fi
-          if [[ "${{ github.event.inputs.config_file }}" == "1" ]]; then
-                  echo "::set-output name=config_fileString::wrt32x_eliminater.config"
-          fi
-          if [[ "${{ github.event.inputs.config_file }}" == "2" ]]; then
-                  echo "::set-output name=config_fileString::wrt32x_divested.config"
-          fi
 ### ----------------------------------------------------------------- ###
       - name: Copy (.config)
         run: |

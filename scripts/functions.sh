@@ -183,13 +183,12 @@ FILES_CHMOD() {
     echo "Removing all Files containing EMPTY"
     find  "$GITHUB_WORKSPACE"/openwrt/files -name "EMPTY" | xargs rm -rf;
     echo "chmod -R +x files"
-    chmod -R +x "$GITHUB_WORKSPACE"/openwrt/files/bin
-    chmod -R +x "$GITHUB_WORKSPACE"/openwrt/files/sbin
-    chmod -R +x "$GITHUB_WORKSPACE"/openwrt/files/etc/profile.d
-    chmod -R +x "$GITHUB_WORKSPACE"/openwrt/files/etc/rc.d
-    chmod -R +x "$GITHUB_WORKSPACE"/openwrt/files/etc/init.d
-    chmod -R +x "$GITHUB_WORKSPACE"/openwrt/files/usr/share
-
+#    chmod -R +x "$GITHUB_WORKSPACE"/openwrt/files/bin
+#    chmod -R +x "$GITHUB_WORKSPACE"/openwrt/files/sbin
+#    chmod -R +x "$GITHUB_WORKSPACE"/openwrt/files/etc/profile.d
+#    chmod -R +x "$GITHUB_WORKSPACE"/openwrt/files/etc/rc.d
+#    chmod -R +x "$GITHUB_WORKSPACE"/openwrt/files/etc/init.d
+#    chmod -R +x "$GITHUB_WORKSPACE"/openwrt/files/usr/share
     chmod +x "$GITHUB_WORKSPACE"/openwrt/files/usr/libexec/rpcd/netports
     chmod +x "$GITHUB_WORKSPACE"/openwrt/files/usr/lib/OpenWrtScripts/autoSQM.sh
     chmod +x "$GITHUB_WORKSPACE"/openwrt/files/sbin/sysinfo.sh
@@ -220,7 +219,6 @@ APPLY_PATCHES() {
     echo "[*] 'git am patches/*.patch' FAILED."
   fi
   rm -rf patches
-
 }
 
 ### When finished, this will auto download Pull Request Patches from openwrt and apply them

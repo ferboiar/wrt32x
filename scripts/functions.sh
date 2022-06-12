@@ -189,6 +189,11 @@ FILES_CHMOD() {
     chmod -R +x "$GITHUB_WORKSPACE"/openwrt/files/etc/rc.d
     chmod -R +x "$GITHUB_WORKSPACE"/openwrt/files/etc/init.d
     chmod -R +x "$GITHUB_WORKSPACE"/openwrt/files/usr/share
+
+    chmod +x "$GITHUB_WORKSPACE"/openwrt/files/usr/libexec/rpcd/netports
+    chmod +x "$GITHUB_WORKSPACE"/openwrt/files/usr/lib/OpenWrtScripts/autoSQM.sh
+    chmod +x "$GITHUB_WORKSPACE"/openwrt/files/sbin/sysinfo.sh
+    chmod +x "$GITHUB_WORKSPACE"/openwrt/files/www/cgi-bin/ovpn_stat
     echo "Finished preparing files"
   else
     echo "No ($GITHUB_WORKSPACE/configs/files) Found"

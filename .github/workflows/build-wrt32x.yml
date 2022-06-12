@@ -36,6 +36,7 @@ name: Build Linksys wrt32x & e8450 (AKA Belkin rt3200) firmware
     - cron:  '00 00 01 * *'
 
 env:
+  ACTIONS_ALLOW_UNSECURE_COMMANDS: true
 ### --------------------------- ###
   HARDWARE_ID: "wrt32x"
   HARDWARE_DEVICE: "wrt32x"

@@ -175,6 +175,35 @@ SMART_CHMOD() {
   unset MY_Filter
 }
 
+### CHMOD -R +x everything in files
+FILES_CHMOD() {
+  if [ -e "$GITHUB_WORKSPACE"/configs/files ] ; then
+    echo "Preparing files"
+    mv "$GITHUB_WORKSPACE"/configs/files "$GITHUB_WORKSPACE"/openwrt/files
+    echo "Removing all Files containing EMPTY"
+    find  "$GITHUB_WORKSPACE"/openwrt/files -name "EMPTY" | xargs rm -rf;
+    echo "chmod -R +x files"
+    chmod -R +x "$GITHUB_WORKSPACE"/openwrt/files/bin
+    chmod -R +x "$GITHUB_WORKSPACE"/openwrt/files/sbin
+    chmod -R +x "$GITHUB_WORKSPACE"/openwrt/files/etc/profile.d
+    chmod -R +x "$GITHUB_WORKSPACE"/openwrt/files/etc/rc.d
+    chmod -R +x "$GITHUB_WORKSPACE"/openwrt/files/etc/init.d
+    chmod -R +x "$GITHUB_WORKSPACE"/openwrt/files/usr/share
+    echo "Finished preparing files"
+  else
+    echo "No ($GITHUB_WORKSPACE/configs/files) Found"
+  fi
+}
+
+#FILES_OpenWrtScripts() {
+#  echo "Downloading richb-hanover/OpenWrtScripts to files/sbin/OpenWrtScripts."
+#  svn export https://github.com/richb-hanover/OpenWrtScripts/trunk files/usr/lib/OpenWrtScripts
+#  echo "Moving: autoSQM.sh"
+#  mv "$GITHUB_WORKSPACE"/configs/DATA/autoSQM.sh "$GITHUB_WORKSPACE"/openwrt/files/usr/lib/OpenWrtScripts
+#  echo "Moving: median.awk"
+#  mv "$GITHUB_WORKSPACE"/configs/DATA/median.awk "$GITHUB_WORKSPACE"/openwrt/files/usr/lib/OpenWrtScripts
+#}
+
 ### Apply all patches that are in 'patch' directory
 APPLY_PATCHES() {
   mv "$GITHUB_WORKSPACE"/configs/patches "$GITHUB_WORKSPACE"/openwrt/patches
@@ -205,6 +234,16 @@ APPLY_PR_PATCHES() {
   done < "$file"
 }
 
+RESET_COMMIT() {
+  echo "Reseting HEAD to $1, T:$0, T1:$1, T2:$2"
+  git reset --hard "$1"
+  if [ $? = 0 ] ; then
+    echo "[*] 'git reset --hard $1 Ran successfully."
+  else
+    echo "[*] git reset --hard $1 FAILED."
+  fi
+}
+
 CHANGE_DEFAULT_BANNER() {
   if [ -f "$GITHUB_WORKSPACE/openwrt/package/base_files/files/etc/banner" ];
   then 
@@ -223,6 +262,13 @@ REMOVE_PO2LMO() {
 REMOVE_PO() {
   echo "Removing all Directorys containing po"
   find ./package -name "po" | xargs rm -rf;
+}
+
+REMOVE_LANGUAGES() {
+  echo "Removing All Languages except English"
+  #find ./feeds/luci/modules/luci-base/po/ ! -name 'en' -type d -exec rm -rf {} +
+  find ./package -name "po" | xargs rm -rf;
+  find ./feeds -name "po" | xargs rm -rf;
 }
 
 ### This should 100% safe to use
@@ -262,7 +308,7 @@ cd openwrt || return
 find build_dir/ -name .vermagic -exec cat {} \; >VERMAGIC  # Find hash
 find build_dir/ -name "linux-5.*.*" -type d >KERNELVERSION # find kernel version
 kv=$(tail -n 1 KERNELVERSION | sed 's/.*x-//')
-echo "kv: $kv. May be only one line. If more lines are show check tail." # testing
+echo "kv: $kv. May be only one line. If more lines are show check tail."
 vm=$(head -n 1 VERMAGIC)                                # read kernel hash from file                                     # Get last 7 chars from kernel version
 rm -rf VERMAGIC KERNELVERSION                              # remove both files, Not needed anymore
 cd bin/targets/*/* || return

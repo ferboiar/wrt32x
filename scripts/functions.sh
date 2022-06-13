@@ -192,11 +192,17 @@ FILES_CHMOD() {
     chmod +x "$GITHUB_WORKSPACE"/openwrt/files/usr/libexec/rpcd/netports
     chmod +x "$GITHUB_WORKSPACE"/openwrt/files/usr/lib/OpenWrtScripts/autoSQM.sh
     chmod +x "$GITHUB_WORKSPACE"/openwrt/files/sbin/sysinfo.sh
-    chmod +x "$GITHUB_WORKSPACE"/openwrt/files/www/cgi-bin/ovpn_stat
+    chmod +x "$GITHUB_WORKSPACE"/openwrt/files/www/cgi-bin/ovpn_stat    
+    if [[ "${{ github.event.inputs.ISP }}" == "0" ]]; then
+      rm -f "$GITHUB_WORKSPACE"/openwrt/files/etc/config/network
+      echo "ISP_NONE choosed so network config file deleted"
+    fi
+    wget -q -O "$GITHUB_WORKSPACE"/openwrt/files/usr/lib/acme/acme.sh https://raw.githubusercontent.com/acmesh-official/acme.sh/master/acme.sh
     echo "Finished preparing files"
   else
     echo "No ($GITHUB_WORKSPACE/configs/files) Found"
   fi
+  
 }
 
 #FILES_OpenWrtScripts() {

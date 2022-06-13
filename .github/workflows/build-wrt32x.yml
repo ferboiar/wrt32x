@@ -48,7 +48,6 @@ env:
   CREATE_ACL_SH: create_acl_for_luci.sh
   BEFORE_BUILD: before_build.sh
   AFTER_BUILD: after_build.sh
-  KERNEL_VERSION: kernel_version.sh
   GITHUB_RUN: github_push.sh
   EXT_INIT_ENV: environment.sh
   DEVICE_NAME: ''
@@ -71,7 +70,6 @@ env:
   USE_PR_OPENWRT_PATCHES: false
   USE_DEVOPENWRT: true
   USE_FETCH_PACKAGES: true
-  USE_KERNEL_VERSION: true
   USE_CACHE: true
   USE_SMART_CHMOD: true
   SSH_TMATE: false
@@ -86,17 +84,11 @@ env:
   SIRPDBOY_PACKAGES: true
   HELMIAU_PACKAGES: true
   TEST_PACKAGES: true
-  ## Disabling any of these will still build said section,
-  ## Just wont be debugable showing. Enabling them will add,
-  ## more time to final completion.
+  ## Disabling any of these will still build said section, just wont be debugable showing. Enabling them will add, more time to final completion.
   BUILD_KMODS: true
   BUILD_PACKAGES: true
   INSTALL_PACKAGES: true
   INDEX_PACKAGES: true
-  ## Enable DEBUG will show more INFO
-  DEBUG_COMPILE: false
-  ## Enable IGNORE is debug with IGNORE_ERRORS=1
-  IGNORE_COMPILE: false
   KMODS: true
   ACL_LUCI: true
   GITLOGA: true
@@ -128,8 +120,9 @@ env:
   COMMIT_MESSAGE: 'Updated: $D'
   TARGET_DIRECTORY_A: packages
   TARGET_DIRECTORY_B: kmods/$KMOD_DIR
-### -------------------- ###
   TZ: Europe/Madrid
+### ----------------------------------------------------------------- ###
+### ----------------------------------------------------------------- ###
 jobs:
   build:
     runs-on: ubuntu-20.04
@@ -163,8 +156,6 @@ jobs:
                   echo "::set-output name=config_fileString::rt3200.config"
                   echo "::set-env name=HARDWARE_ID::e8450"
                   echo "::set-env name=HARDWARE_DEVICE::e8450"
-                  echo "[DEBUG] Device: $HARDWARE_ID"
-                  echo "[DEBUG] Device: $HARDWARE_DEVICE"
           fi
 ### ----------------------------------------------------------------- ###
       - name: HARDWARE_DEVICE
@@ -559,14 +550,6 @@ jobs:
           let make_process=$(nproc)+2
           make target/compile -j${make_process} V=s
 ### ----------------------------------------------------------------- ###
-#      - name: Kernel Version (Part 1)
-#        id: kernelversionA
-#        if: env.USE_KERNEL_VERSION == 'true' && !cancelled()
-#        run: |
-#          chmod +x scripts/$FUNCTIONS_SH
-#          source scripts/$FUNCTIONS_SH
-#          kernel_version
-### ----------------------------------------------------------------- ###
       - name: Building packages
         id: makepackages
         if: env.BUILD_PACKAGES == 'true' && !cancelled()
@@ -585,14 +568,6 @@ jobs:
           let make_process=$(nproc)+2
           make package/install -j${make_process} || make package/install -j${make_process} V=s 2>&1 | tee logs/build.log | grep -i -E "^make.*(error|[12345]...Entering directory)"
 ### ----------------------------------------------------------------- ###
-#      - name: Kernel Version (Part 2)
-#        id: kernelversionB
-#        if: env.USE_KERNEL_VERSION == 'true' && !cancelled()
-#        run: |
-#          chmod +x scripts/$FUNCTIONS_SH
-#          source scripts/$FUNCTIONS_SH
-#          package_archive
-### ----------------------------------------------------------------- ###
       - name: Indexing packages
         id: indexingpackages
         if: env.INDEX_PACKAGES == 'true' && !cancelled()
@@ -602,7 +577,7 @@ jobs:
           let make_process=$(nproc)+2
           make package/index -j${make_process} CONFIG_SIGNED_PACKAGES= || make package/index -j${make_process} CONFIG_SIGNED_PACKAGES= V=s 2>&1 | tee logs/build.log | grep -i -E "^make.*(error|[12345]...Entering directory)"
 ### ----------------------------------------------------------------- ###
-      - name: Compile the firmware (OpenWRT)
+      - name: Build Firmware (OpenWRT)
         id: compile
         continue-on-error: true
         run: |
@@ -615,7 +590,8 @@ jobs:
 ### --------------------------- ###
       - name: If Error (Build Firmware)
         uses: actions/upload-artifact@main
-        if: steps.compile.outcome == 'failure' && env.UPLOAD_BUILD_LOGS == 'true'
+        if: steps.compile.outcome == 'failure'
+            && env.UPLOAD_BUILD_LOGS == 'true'
         with:
           name: 'OpenWrt_logs${{ env.DEVICE_NAME }}${{ env.FILE_DATE }}'
           path: openwrt/logs/
@@ -633,7 +609,8 @@ jobs:
 ### --------------------------- ###
       - name: If Error (Generate Buildinfo)
         uses: actions/upload-artifact@main
-        if: steps.buildinfo.outcome == 'failure' && env.UPLOAD_BUILD_LOGS == 'true'
+        if: steps.buildinfo.outcome == 'failure'
+            && env.UPLOAD_BUILD_LOGS == 'true'
         with:
           name: 'OpenWrt_logs${{ env.DEVICE_NAME }}${{ env.FILE_DATE }}'
           path: openwrt/logs/
@@ -651,10 +628,76 @@ jobs:
 ### --------------------------- ###
       - name: If Error (Generate JSON Overview)
         uses: actions/upload-artifact@main
-        if: steps.overview.outcome == 'failure' && env.UPLOAD_BUILD_LOGS == 'true'
+        if: steps.overview.outcome == 'failure'
+            && env.UPLOAD_BUILD_LOGS == 'true'
         with:
           name: 'OpenWrt_logs${{ env.DEVICE_NAME }}${{ env.FILE_DATE }}'
           path: openwrt/logs/
+### ----------------------------------------------------------------- ###
+      - name: Generate HASH (OpenWRT)
+        id: hash
+        continue-on-error: true
+        run: |
+          cd openwrt
+          echo -e "$(nproc) thread compile"
+          let Make_Process=$(nproc)+2
+          make checksum V=s
+          echo $?
+          echo "::set-output name=status::success"
+### --------------------------- ###
+      - name: If Error (Generate HASH)
+        uses: actions/upload-artifact@main
+        if: steps.hash.outcome == 'failure'
+            && env.UPLOAD_BUILD_LOGS == 'true'
+        with:
+          name: 'OpenWrt_logs${{ env.DEVICE_NAME }}${{ env.FILE_DATE }}'
+          path: openwrt/logs/
+### ----------------------------------------------------------------- ###
+      - name: Generate kmods feed
+        id: GKMOD
+        working-directory: '/workdir/openwrt'
+        continue-on-error: true
+        if: env.USE_KMODS_SCRIPT == 'true' && !cancelled()
+        run: |
+          chmod +x ${GITHUB_WORKSPACE}/scripts/create_kmods
+          ${GITHUB_WORKSPACE}/scripts/create_kmods
+### --------------------------- ###
+      - name: If Error (kmods feed)
+        if: steps.GKMOD.outcome == 'failure'
+        run: |
+          echo "Proccess Failed at level 1"
+### ----------------------------------------------------------------- ###
+      - name: Generate kmods Archives
+        id: PKMOD
+        working-directory: '/workdir/openwrt'
+        continue-on-error: true
+        if: env.USE_KMODS_SCRIPT == 'true' && !cancelled()
+        run: |
+          export TOPDIR="$PWD"
+          BIN_DIR="$(make --no-print-directory -C target/linux val.BIN_DIR)"
+          KMOD_DIR="$(make --no-print-directory -C target/linux val.LINUX_VERSION val.LINUX_RELEASE val.LINUX_VERMAGIC | tr '\n' '-' | head -c -1)"
+          PKG_ARCH="$(make --no-print-directory -C target/linux val.ARCH_PACKAGES)"
+          echo -e "PKG_ARCH=$PKG_ARCH" | tee -a "$GITHUB_ENV"
+          UL_TARGET="$(awk -F '/' '{print $(NF-1)}' <<< "$BIN_DIR")"
+          UL_SUBTARGET="$(awk -F '/' '{print $NF}' <<< "$BIN_DIR")"
+          echo "BIN_DIR=$BIN_DIR" >>"$GITHUB_ENV"
+          echo "KMOD_DIR=$KMOD_DIR" >>"$GITHUB_ENV"
+          echo "PKG_ARCH=$PKG_ARCH" >>"$GITHUB_ENV"
+          cd $BIN_DIR/kmods/$KMOD_DIR
+          tar -cvzf kmods_"$KMOD_DIR".tar.gz ./*
+          mv kmods_"$KMOD_DIR".tar.gz $BIN_DIR
+          cd "$GITHUB_WORKSPACE"/openwrt
+### --------------------------- ###
+      - name: If Error (kmods feed)
+        if: steps.PKMOD.outcome == 'failure'
+        run: |
+          echo "Proccess Failed at level 1"
+### ----------------------------------------------------------------- ###
+      - name: Create (KMOD) File for release
+        working-directory: '/workdir/openwrt'
+        continue-on-error: true
+        run: |
+          echo "$KMOD_DIR" >> "$GITHUB_WORKSPACE"/openwrt/kmod
 ### ----------------------------------------------------------------- ###
       - name: Get Device ID Name (HARDWARE ID)
         id: GET_DEVICEID
@@ -790,11 +833,11 @@ jobs:
         with:
           retain_days: 1
           keep_minimum_runs: 3
-      - name: Remove old Releases
-        uses: dev-drprasad/delete-older-releases@v0.2.0
-        if: env.UPLOAD_RELEASE == 'true' && !cancelled()
-        with:
-          keep_latest: 10
-          delete_tags: true
-        env:
-          GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+#      - name: Remove old Releases
+#        uses: dev-drprasad/delete-older-releases@v0.2.0
+#        if: env.UPLOAD_RELEASE == 'true' && !cancelled()
+#        with:
+#          keep_latest: 10
+#          delete_tags: true
+#        env:
+#          GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'

@@ -441,7 +441,11 @@ jobs:
           chmod +x scripts/$FUNCTIONS_SH
           source scripts/$FUNCTIONS_SH
           cd openwrt
-          CCACHE_SETUP
+          if [[ "${{ github.event.inputs.config_file }}" == "2" ]]; then
+            echo "e8450/rt3200 without ccache"
+          else 
+            CCACHE_SETUP
+          fi
 ### ----------------------------------------------------------------- ###
       - name: Change Default theme Settings
         if: env.DEFAULT_THEME_CHANGE == 'true' && !cancelled()

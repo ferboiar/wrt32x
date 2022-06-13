@@ -430,7 +430,11 @@ jobs:
           chmod +x scripts/$FUNCTIONS_SH
           source scripts/$FUNCTIONS_SH
           cd openwrt
-          PRE_DEFCONFIG_ADDONS
+          if [[ "${{ github.event.inputs.config_file }}" == "2" ]]; then
+            PRE_DEFCONFIG_ADDONS_NONCORTEX
+          else 
+            PRE_DEFCONFIG_ADDONS
+          fi
 ### ----------------------------------------------------------------- ###
       - name: Set defconfig to use ccache
         run: |

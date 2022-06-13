@@ -388,10 +388,6 @@ jobs:
           source scripts/$FUNCTIONS_SH
           cd openwrt
           FILES_CHMOD
-          if [[ "${{ github.event.inputs.ISP }}" == "0" ]]; then
-                  rm -f openwrt/files/etc/config/network
-          fi
-          wget -q -O openwrt/files/usr/lib/acme/acme.sh https://raw.githubusercontent.com/acmesh-official/acme.sh/master/acme.sh
 ### ----------------------------------------------------------------- ###
 #      - name: Preparing (OpenWrtScripts)
 #        if: env.USE_OpenWrtScripts == 'true' && !cancelled()

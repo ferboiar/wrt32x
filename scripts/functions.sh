@@ -114,14 +114,15 @@ SET_LUCI_SOURCE() {
 
 BUILD_USER_DOMAIN() {
 ### Add kernel build user
-[ "$(grep "CONFIG_KERNEL_BUILD_USER=" .config)" = "" ] &&
-    echo 'CONFIG_KERNEL_BUILD_USER="Eliminater74"' >>.config ||
-    sed -i 's@\(CONFIG_KERNEL_BUILD_USER=\).*@\1$"Eliminater74"@' .config
+#[ "$(grep "CONFIG_KERNEL_BUILD_USER=" .config)" = "" ] &&
+#    echo 'CONFIG_KERNEL_BUILD_USER="Eliminater74"' >>.config ||
+#    sed -i 's@\(CONFIG_KERNEL_BUILD_USER=\).*@\1$"Eliminater74"@' .config
 
 ### Add kernel build domain
-[ "$(grep "CONFIG_KERNEL_BUILD_DOMAIN=" .config)" = "" ] &&
-    echo 'CONFIG_KERNEL_BUILD_DOMAIN="PureFusion"' >>.config ||
-    sed -i 's@\(CONFIG_KERNEL_BUILD_DOMAIN=\).*@\1$"PureFusion"@' .config
+#[ "$(grep "CONFIG_KERNEL_BUILD_DOMAIN=" .config)" = "" ] &&
+#    echo 'CONFIG_KERNEL_BUILD_DOMAIN="PureFusion"' >>.config ||
+#    sed -i 's@\(CONFIG_KERNEL_BUILD_DOMAIN=\).*@\1$"PureFusion"@' .config
+   echo "Do nothing here."
 }
 
 ### This is NEEDED to setup all pre-configs before building

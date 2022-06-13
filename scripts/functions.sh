@@ -138,6 +138,16 @@ echo "property 'libc' set:"
 sed -ne '/^CONFIG_LIBC=/ { s!^CONFIG_LIBC="\(.*\)"!\1!; s!^musl$!!; s!.\+!-&!p }' .config
 }
 
+PRE_DEFCONFIG_ADDONS_NONCORTEX() {
+echo "Seeding .config (enable Signed Packages):"
+printf 'CONFIG_SIGNED_PACKAGES=y\n' >> .config
+echo "Seeding .config (enable logs):"
+printf 'CONFIG_BUILD_LOG=y\n' >> .config
+echo "property 'libc' set:"
+sed -ne '/^CONFIG_LIBC=/ { s!^CONFIG_LIBC="\(.*\)"!\1!; s!^musl$!!; s!.\+!-&!p }' .config
+}
+
+
 ### This will setup ccache support
 ### CCACHE SETUP ###
 CCACHE_SETUP() {

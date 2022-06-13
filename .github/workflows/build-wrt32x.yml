@@ -379,6 +379,10 @@ jobs:
           source scripts/$FUNCTIONS_SH
           cd openwrt
           FILES_CHMOD
+          if [[ "${{ github.event.inputs.ISP }}" == "0" ]]; then
+           rm -f files/etc/config/network
+           echo "ISP_NONE choosed so network config file deleted"
+          fi
 ### ----------------------------------------------------------------- ###
 #      - name: Preparing (OpenWrtScripts)
 #        if: env.USE_OpenWrtScripts == 'true' && !cancelled()

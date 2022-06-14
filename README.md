@@ -1,6 +1,6 @@
 # ![OpenWRT](images/openwrt_logo.png) firmware autobuilder
 
-Original from [P3TERX](https://github.com/P3TERX/Actions-OpenWrt)
+Original from [P3TERX](https://github.com/P3TERX/Actions-OpenWrt)  
 Further modded  by [Eliminater74](https://github.com/DevOpenWRT-Router/Action_OpenWRT_AutoBuild_Linksys_Devices)
 
 #### Made to simplify the firmware compilation thanks to the GitHub actions.
@@ -10,6 +10,7 @@ Further modded  by [Eliminater74](https://github.com/DevOpenWRT-Router/Action_Op
   <img width="300" height="auto" src="images/e8450_side.png" />
 </p>
 Linksys **wrt32x**:
+
 ```
 Target System: "Marvell EBU Armada"
 Subtarget: "Marvell Armada 37x / 37x / XP"
@@ -17,6 +18,7 @@ Target Profile: "Linksys Venom (Linksys WRT32X)" and "Linksys WRT32X"
 ```
 
 Linksys **a8450**:
+
 ```
 Target System: "MediaTek Ralink ARM"
 Subtarget: "MT7622"

@@ -194,6 +194,7 @@ jobs:
           sudo timedatectl set-timezone "$TZ"
           sudo mkdir -p /workdir
           sudo chown $USER:$GROUPS /workdir
+          alias ll="ls -la --color=auto"
 ### ----------------------------------------------------------------- ###
       - name: Install LLVM
         if: env.INSTALL_LLVM == 'true' && !cancelled()

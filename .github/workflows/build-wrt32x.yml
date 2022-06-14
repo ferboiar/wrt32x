@@ -122,7 +122,7 @@ env:
   TARGET_DIRECTORY_B: kmods/$KMOD_DIR
 ### --------------------------- ###
   TZ: Europe/Madrid
-  TARGET_ARCH: mvebu/cortexa9/
+  ARQUITECTURA: mvebu/cortexa9/
 ### ----------------------------------------------------------------- ###
 ### ----------------------------------------------------------------- ###
 jobs:
@@ -159,7 +159,7 @@ jobs:
                   echo "::set-env name=HARDWARE_ID::e8450"
                   echo "::set-env name=HARDWARE_DEVICE::e8450"
                   echo "::set-env name=SOURCE_DIRECTORY_A::openwrt/bin/packages/arm_cortex-a9_vfpv3-d16"
-                  echo "::set-env name=TARGET_ARCH::mediatek/mt7622/"
+                  echo "::set-env name=ARQUITECTURA::mediatek/mt7622/"
           fi
 ### ----------------------------------------------------------------- ###
       - name: HARDWARE_DEVICE
@@ -826,7 +826,7 @@ jobs:
         run: |
           cd openwrt/bin/packages
           tar -cvzf OpenWrt_bin_packages${{ env.DEVICE_NAME }}${{ env.FILE_DATE }}.tar.gz ./*
-          mv OpenWrt_bin_packages${{ env.DEVICE_NAME }}${{ env.FILE_DATE }}.tar.gz ${GITHUB_WORKSPACE}/openwrt/bin/targets/${{ env.TARGET_ARCH }}
+          mv OpenWrt_bin_packages${{ env.DEVICE_NAME }}${{ env.FILE_DATE }}.tar.gz ${GITHUB_WORKSPACE}/openwrt/bin/targets/${{ env.ARQUITECTURA }}
 ### ----------------------------------------------------------------- ###
       - name: Generate release tag
         id: tag

@@ -1,4 +1,6 @@
-<p align="center"> # ![OpenWRT](images/openwrt_logo.png) firmware autobuilder </p>
+<p align="center"> 
+# ![OpenWRT](images/openwrt_logo.png) firmware autobuilder 
+</p>
 
 Original from [P3TERX](https://github.com/P3TERX/Actions-OpenWrt)  
 Further modded  by [Eliminater74](https://github.com/DevOpenWRT-Router/Action_OpenWRT_AutoBuild_Linksys_Devices)

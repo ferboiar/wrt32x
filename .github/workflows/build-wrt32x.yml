@@ -120,7 +120,9 @@ env:
   COMMIT_MESSAGE: 'Updated: $D'
   TARGET_DIRECTORY_A: packages
   TARGET_DIRECTORY_B: kmods/$KMOD_DIR
+### --------------------------- ###
   TZ: Europe/Madrid
+  TARGET_ARCH: mvebu/cortexa9/
 ### ----------------------------------------------------------------- ###
 ### ----------------------------------------------------------------- ###
 jobs:
@@ -156,6 +158,9 @@ jobs:
                   echo "::set-output name=config_fileString::rt3200.config"
                   echo "::set-env name=HARDWARE_ID::e8450"
                   echo "::set-env name=HARDWARE_DEVICE::e8450"
+                  echo "::set-env name=SOURCE_DIRECTORY_A::openwrt/bin/packages/arm_cortex-a9_vfpv3-d16"
+                  echo "::set-env name=SOURCE_DIRECTORY_B::openwrt/bin/targets/mediatek/mt7622/kmods/$KMOD_DIR"
+                  echo "::set-env name=TARGET_ARCH::mediatek/mt7622/"
           fi
 ### ----------------------------------------------------------------- ###
       - name: HARDWARE_DEVICE
@@ -772,7 +777,7 @@ jobs:
           steps.compile.outputs.status == 'success' && steps.compile.outcome == 'success' && env.UPLOAD_KMODS == 'true'
         with:
           name: 'OpenWrt_kmods${{ env.DEVICE_NAME }}${{ env.FILE_DATE }}'
-          path: 'openwrt/bin/targets/mvebu/cortexa9/kmods/${{ env.KMOD_DIR }}'
+          path: '${{ env.SOURCE_DIRECTORY_B }}'
 ### ----------------------------------------------------------------- ###
       - name: Upload Packages
         uses: actions/upload-artifact@main
@@ -818,7 +823,7 @@ jobs:
         run: |
           cd openwrt/bin/packages
           tar -cvzf OpenWrt_bin_packages${{ env.DEVICE_NAME }}${{ env.FILE_DATE }}.tar.gz ./*
-          mv OpenWrt_bin_packages${{ env.DEVICE_NAME }}${{ env.FILE_DATE }}.tar.gz ${GITHUB_WORKSPACE}/openwrt/bin/targets/mvebu/cortexa9/
+          mv OpenWrt_bin_packages${{ env.DEVICE_NAME }}${{ env.FILE_DATE }}.tar.gz ${GITHUB_WORKSPACE}/openwrt/bin/targets/${{ env.TARGET_ARCH }}
 ### ----------------------------------------------------------------- ###
       - name: Generate release tag
         id: tag

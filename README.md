@@ -1,27 +1,37 @@
-![OpenWRT](images/openwrt_logo.png)
+# ![OpenWRT](images/openwrt_logo.png) firmware autobuilder
 
-# GitHub Action Script Custom Modded By [Eliminater74](https://github.com/DevOpenWRT-Router/Action_OpenWRT_AutoBuild_Linksys_Devices)
-## Original from [P3TERX](https://github.com/P3TERX/Actions-OpenWrt)
-### Created to make building OpenWRT easier using github actions.
+Original from [P3TERX](https://github.com/P3TERX/Actions-OpenWrt)
+Further modded  by [Eliminater74](https://github.com/DevOpenWRT-Router/Action_OpenWRT_AutoBuild_Linksys_Devices)
 
+#### Made to simplify the firmware compilation thanks to the GitHub actions.
+##### Ready to build firmware for Linksys wrt32x & a8450 (aka. Belkin rt3200)
 <p align="middle">
   <img width="300" height="auto" src="images/wrt32x.jpg" />
   <img width="300" height="auto" src="images/e8450_side.png" />
 </p>
+Linksys **wrt32x**:
+```
+Target System: "Marvell EBU Armada"
+Subtarget: "Marvell Armada 37x / 37x / XP"
+Target Profile: "Linksys Venom (Linksys WRT32X)" and "Linksys WRT32X"
+```
+Linksys **a8450**:
+```
+Target System: "MediaTek Ralink ARM"
+Subtarget: "MT7622"
+Target Profile: "Belkin RT3200 UBI" and "Linksys E8450 UBI"
+```
 
 > Snapshot changelog: https://git.openwrt.org/?p=openwrt/openwrt.git;a=shortlog
 
 ## Notes:
-- Patches directory are taken from: [Divested-WRT: UNOFFICIAL OpenWrt builds](https://divested.dev/unofficial-openwrt-builds/mvebu-linksys/patches/)
-- mwlwifi is taken from: [Lean's Openwrt source code repository](https://github.com/coolsnowwolf/lede/tree/master/package/kernel/mwlwifi)
-- modifications to action script By Eliminater74
-- NetData SQM char from: https://github.com/Fail-Safe/netdata-chart-sqm (edit "wrt32x/configs/files/etc/netdata/charts.d/sqm.conf" to modify your WAN interface). Packages included:
-```
-bash 
-coreutils-timeout 
-curl
-netdata
-```
+Only for wrt32x:
+- Patches taken from: [Divested-WRT](https://divested.dev/unofficial-openwrt-builds/mvebu-linksys/patches/)
+- mwlwifi driver taken from: [Lean's OpenWRT](https://github.com/coolsnowwolf/lede/tree/master/package/kernel/mwlwifi)
+
+Common:
+- NetData SQM char from: https://github.com/Fail-Safe/netdata-chart-sqm (edit "*wrt32x/configs/files/etc/netdata/charts.d/sqm.conf*" to modify your WAN interface). Packages required: bash, coreutils-timeout, curl, netdata
+
 added these files:
 ```
 https://github.com/ferboiar/wrt32x/blob/linksys/configs/files/etc/netdata/charts.d.conf 
@@ -33,12 +43,7 @@ edited https://github.com/ferboiar/wrt32x/blob/linksys/configs/files/etc/netdata
 - autoSQM script from: https://github.com/baguswahyu/autoSQM-damasus.bagus More info here: https://forum.openwrt.org/t/help-to-make-sh-script-for-adjust-sqm-automaticaly/58754 (edit your scheluded tasks to set "0 6,14,22 * * * /usr/lib/OpenWrtScripts/autoSQM.sh")
 - Network interfaces ports status from: https://github.com/tano-systems/luci-app-tn-netports (edit "wrt32x/configs/files/etc/config/luci_netports" file to set your interfaces. Package required 'luabitop'.
 Troubleshooting: If no data is displayed, form CLI: 'echo '{}' | /usr/libexec/rpcd/netports call getPortsInfo' to check if output is ok. If so, do '/etc/init.d/rpcd restart' and check again. If nothing works: "/etc/init.d/uhttpd stop; rm -rf /tmp/luci-*; /etc/init.d/uhttpd start"
-- .config file as
-```
-Target System: "Marvell EBU Armada"
-Subtarget: "Marvell Armada 37x / 37x / XP"
-Target Profile: "Linksys Venom (Linksys WRT32X)" and "Linksys WRT32X"
-```
+
 - Cryptographic Hardware Accelerators (https://openwrt.org/docs/techref/hardware/cryptographic.hardware.accelerators):
 ```yaml
   #
@@ -212,22 +217,5 @@ Click the `Settings` tab on your own repository, and then click the `Secrets` bu
 - `TELEGRAM_CHAT_ID`: Get your chat ID by talking to [@GetMyID_bot](https://t.me/getmyid_bot) or other similar bots.
 
 You can find Telegram Bot related documents [here](https://core.telegram.org/bots).
-
-
-## Acknowledgments
-- [P3TERX](https://github.com/P3TERX/Actions-OpenWrt)
-- [Microsoft Azure](https://azure.microsoft.com)
-- [GitHub Actions](https://github.com/features/actions)
-- [OpenWrt](https://github.com/openwrt/openwrt)
-- [Lean's OpenWrt](https://github.com/coolsnowwolf/lede)
-- [tmate](https://github.com/tmate-io/tmate)
-- [mxschmitt/action-tmate](https://github.com/mxschmitt/action-tmate)
-- [csexton/debugger-action](https://github.com/csexton/debugger-action)
-- [Cowtransfer](https://cowtransfer.com)
-- [WeTransfer](https://wetransfer.com/)
-- [Mikubill/transfer](https://github.com/Mikubill/transfer)
-- [softprops/action-gh-release](https://github.com/softprops/action-gh-release)
-- [c-hive/gha-remove-artifacts](https://github.com/c-hive/gha-remove-artifacts)
-- [dev-drprasad/delete-older-releases](https://github.com/dev-drprasad/delete-older-releases)
 
 [![LICENSE](https://img.shields.io/github/license/mashape/apistatus.svg?style=flat-square&label=License)](https://github.com/ferboiar/wrt32x/blob/master/LICENSE) ![GitHub Stars](https://img.shields.io/github/stars/ferboiar/wrt32x.svg?style=flat-square&label=Stars&logo=github) ![GitHub Forks](https://img.shields.io/github/forks/ferboiar/wrt32x.svg?style=flat-square&label=Forks&logo=github)

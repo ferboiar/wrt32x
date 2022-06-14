@@ -159,7 +159,6 @@ jobs:
                   echo "::set-env name=HARDWARE_ID::e8450"
                   echo "::set-env name=HARDWARE_DEVICE::e8450"
                   echo "::set-env name=SOURCE_DIRECTORY_A::openwrt/bin/packages/arm_cortex-a9_vfpv3-d16"
-                  echo "SOURCE_DIRECTORY_B=openwrt/bin/targets/mediatek/mt7622/kmods/$KMOD_DIR" >> "$GITHUB_ENV"
                   echo "::set-env name=TARGET_ARCH::mediatek/mt7622/"
           fi
 ### ----------------------------------------------------------------- ###
@@ -703,6 +702,9 @@ jobs:
           UL_SUBTARGET="$(awk -F '/' '{print $NF}' <<< "$BIN_DIR")"
           echo "BIN_DIR=$BIN_DIR" >>"$GITHUB_ENV"
           echo "KMOD_DIR=$KMOD_DIR" >>"$GITHUB_ENV"
+          if [[ "${{ github.event.inputs.config_file }}" == "2" ]]; then
+                  echo "SOURCE_DIRECTORY_B=openwrt/bin/targets/mediatek/mt7622/kmods/$KMOD_DIR" >> "$GITHUB_ENV"
+          fi
           echo "PKG_ARCH=$PKG_ARCH" >>"$GITHUB_ENV"
           cd $BIN_DIR/kmods/$KMOD_DIR
           tar -cvzf kmods_"$KMOD_DIR".tar.gz ./*

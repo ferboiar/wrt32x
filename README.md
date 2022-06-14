@@ -4,6 +4,16 @@
 ## Original from [P3TERX](https://github.com/P3TERX/Actions-OpenWrt)
 ### Created to make building OpenWRT easier using github actions.
 
+<table style="border: 1px solid transparent">
+<tbody>
+  <tr>
+    <td><img width="300" height="auto" src="images/wrt32x.jpg"></td>
+    <td><img width="300" height="auto" src="images/e8450_side.png"></td>
+  </tr>
+</tbody>
+</table>
+
+
 <p align="center">
   <img width="300" height="auto" src="images/wrt32x.jpg">
 </p>

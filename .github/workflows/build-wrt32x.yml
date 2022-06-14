@@ -159,7 +159,7 @@ jobs:
                   echo "::set-env name=HARDWARE_ID::e8450"
                   echo "::set-env name=HARDWARE_DEVICE::e8450"
                   echo "::set-env name=SOURCE_DIRECTORY_A::openwrt/bin/packages/arm_cortex-a9_vfpv3-d16"
-                  echo "::set-env name=SOURCE_DIRECTORY_B::openwrt/bin/targets/mediatek/mt7622/kmods/$KMOD_DIR"
+                  echo "SOURCE_DIRECTORY_B=openwrt/bin/targets/mediatek/mt7622/kmods/$KMOD_DIR" >> "$GITHUB_ENV"
                   echo "::set-env name=TARGET_ARCH::mediatek/mt7622/"
           fi
 ### ----------------------------------------------------------------- ###
@@ -249,6 +249,37 @@ jobs:
         run: |
           chmod +x scripts/$FUNCTIONS_SH
           source scripts/$FUNCTIONS_SH BOOTSTRAP_START
+### ----------------------------------------------------------------- ###
+      - name: Start SSH via tmate
+        uses: P3TERX/ssh2actions@main
+        if: env.SSH_TMATE == 'true' && !cancelled()
+        # Send connection info to Telegram (optional)
+        # You can find related documents here: https://core.telegram.org/bots
+        env:
+          TELEGRAM_BOT_TOKEN: '${{ secrets.TELEGRAM_BOT_TOKEN }}'
+          TELEGRAM_CHAT_ID: '${{ secrets.TELEGRAM_CHAT_ID }}'
+### ----------------------------------------------------------------- ###
+      - name: Start SSH via ngrok
+        uses: P3TERX/ssh2actions@main
+        if: env.SSH_NGROK == 'true' && !cancelled()
+        with:
+          mode: ngrok
+        env:
+          # After sign up on the https://ngrok.com
+          # You can find this token here: https://dashboard.ngrok.com/auth/your-authtoken
+         NGROK_TOKEN: '${{ secrets.NGROK_TOKEN }}'
+
+         # ngrok server region [us, eu, au, ap, sa, jp, in] (optional, default: us)
+         # You can find this server region here: https://ngrok.com/docs#global-locations
+         NGROK_REGION: us
+
+         # This password you will use when authorizing via SSH
+         SSH_PASSWORD: '${{ secrets.SSH_PASSWORD }}'
+
+         # Send connection info to Telegram (optional)
+         # You can find related documents here: https://core.telegram.org/bots
+         TELEGRAM_BOT_TOKEN: '${{ secrets.TELEGRAM_BOT_TOKEN }}'
+         TELEGRAM_CHAT_ID: '${{ secrets.TELEGRAM_CHAT_ID }}'
 ### ----------------------------------------------------------------- ###
       - name: Before Build
         if: env.RUN_BEFORE_BUILD == 'true' && !cancelled()
@@ -498,37 +529,6 @@ jobs:
         id: ccache
         run: |
           ccache -s
-### ----------------------------------------------------------------- ###
-      - name: Start SSH via tmate
-        uses: P3TERX/ssh2actions@main
-        if: env.SSH_TMATE == 'true' && !cancelled()
-        # Send connection info to Telegram (optional)
-        # You can find related documents here: https://core.telegram.org/bots
-        env:
-          TELEGRAM_BOT_TOKEN: '${{ secrets.TELEGRAM_BOT_TOKEN }}'
-          TELEGRAM_CHAT_ID: '${{ secrets.TELEGRAM_CHAT_ID }}'
-### ----------------------------------------------------------------- ###
-      - name: Start SSH via ngrok
-        uses: P3TERX/ssh2actions@main
-        if: env.SSH_NGROK == 'true' && !cancelled()
-        with:
-          mode: ngrok
-        env:
-          # After sign up on the https://ngrok.com
-          # You can find this token here: https://dashboard.ngrok.com/auth/your-authtoken
-         NGROK_TOKEN: '${{ secrets.NGROK_TOKEN }}'
-
-         # ngrok server region [us, eu, au, ap, sa, jp, in] (optional, default: us)
-         # You can find this server region here: https://ngrok.com/docs#global-locations
-         NGROK_REGION: us
-
-         # This password you will use when authorizing via SSH
-         SSH_PASSWORD: '${{ secrets.SSH_PASSWORD }}'
-
-         # Send connection info to Telegram (optional)
-         # You can find related documents here: https://core.telegram.org/bots
-         TELEGRAM_BOT_TOKEN: '${{ secrets.TELEGRAM_BOT_TOKEN }}'
-         TELEGRAM_CHAT_ID: '${{ secrets.TELEGRAM_CHAT_ID }}'
 ### ----------------------------------------------------------------- ###
       - name: Make Download
         id: makedownload

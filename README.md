@@ -1,7 +1,3 @@
-<p align="center"> 
-# ![OpenWRT](images/openwrt_logo.png) firmware autobuilder 
-</p>
-
 # ![OpenWRT](images/openwrt_logo.png) firmware autobuilder 
 
 Original from [P3TERX](https://github.com/P3TERX/Actions-OpenWrt)  

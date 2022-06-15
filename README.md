@@ -9,6 +9,7 @@ Further modded  by [Eliminater74](https://github.com/DevOpenWRT-Router/Action_Op
   <img width="300" height="auto" src="images/wrt32x.jpg" />
   <img width="300" height="auto" src="images/e8450_side.png" />
 </p>
+
 Linksys **wrt32x**:
 
 ```

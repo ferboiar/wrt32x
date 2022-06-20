@@ -28,116 +28,37 @@ Target Profile: "Belkin RT3200 UBI" and "Linksys E8450 UBI"
 
 > Snapshot changelog: https://git.openwrt.org/?p=openwrt/openwrt.git;a=shortlog
 
-## Notes:
+## Features:
 Only for wrt32x:
 - Patches taken from: [Divested-WRT](https://divested.dev/unofficial-openwrt-builds/mvebu-linksys/patches/)
 - mwlwifi driver taken from: [Lean's OpenWRT](https://github.com/coolsnowwolf/lede/tree/master/package/kernel/mwlwifi)
+- The DFS channels don't work, despite leaving the region code as it comes by default... So BT was removed (*kmod-mwifiex-sdio, mwifiex-sdio-firmware, kmod- bluetooth, kmod-btmrvl, kmod-mmc*) to see if this way the DFS channels work
 
 Common:
-- NetData SQM char from: https://github.com/Fail-Safe/netdata-chart-sqm (edit "*wrt32x/configs/files/etc/netdata/charts.d/sqm.conf*" to modify your WAN interface). Packages required: bash, coreutils-timeout, curl, netdata
-
-added these files:
-```
-https://github.com/ferboiar/wrt32x/blob/linksys/configs/files/etc/netdata/charts.d.conf 
-https://github.com/ferboiar/wrt32x/blob/linksys/configs/files/etc/netdata/charts.d/sqm.conf
-https://github.com/ferboiar/wrt32x/blob/linksys/configs/files/usr/lib/netdata/charts.d/sqm.chart.sh
-```
-edited https://github.com/ferboiar/wrt32x/blob/linksys/configs/files/etc/netdata/netdata.conf changing "charts.d" to "yes"
-- OpenWRTScripts from: https://github.com/richb-hanover/OpenWrtScripts
-- autoSQM script from: https://github.com/baguswahyu/autoSQM-damasus.bagus More info here: https://forum.openwrt.org/t/help-to-make-sh-script-for-adjust-sqm-automaticaly/58754 (edit your scheluded tasks to set "0 6,14,22 * * * /usr/lib/OpenWrtScripts/autoSQM.sh")
-- Network interfaces ports status from: https://github.com/tano-systems/luci-app-tn-netports (edit "wrt32x/configs/files/etc/config/luci_netports" file to set your interfaces. Package required 'luabitop'.
-Troubleshooting: If no data is displayed, form CLI: 'echo '{}' | /usr/libexec/rpcd/netports call getPortsInfo' to check if output is ok. If so, do '/etc/init.d/rpcd restart' and check again. If nothing works: "/etc/init.d/uhttpd stop; rm -rf /tmp/luci-*; /etc/init.d/uhttpd start"
-
-- Cryptographic Hardware Accelerators (https://openwrt.org/docs/techref/hardware/cryptographic.hardware.accelerators):
-```yaml
-  #
-  # SSL
-  #
-  # CONFIG_PACKAGE_libgnutls is not set
-  # CONFIG_PACKAGE_libgnutls-dane is not set
-  # CONFIG_PACKAGE_libmbedtls is not set
-  # CONFIG_PACKAGE_libnss is not set
-  CONFIG_PACKAGE_libopenssl=y
-  
-  #
-  # Build Options
-  #
-  CONFIG_OPENSSL_OPTIMIZE_SPEED=y
-  CONFIG_OPENSSL_WITH_ASM=y
-  CONFIG_OPENSSL_WITH_DEPRECATED=y
-  # CONFIG_OPENSSL_NO_DEPRECATED is not set
-  CONFIG_OPENSSL_WITH_ERROR_MESSAGES=y
-  
-  #
-  # Protocol Support
-  #
-  CONFIG_OPENSSL_WITH_TLS13=y
-  # CONFIG_OPENSSL_WITH_DTLS is not set
-  # CONFIG_OPENSSL_WITH_NPN is not set
-  CONFIG_OPENSSL_WITH_SRP=y
-  CONFIG_OPENSSL_WITH_CMS=y
-  
-  #
-  # Algorithm Selection
-  #
-  # CONFIG_OPENSSL_WITH_EC2M is not set
-  CONFIG_OPENSSL_WITH_CHACHA_POLY1305=y
-  CONFIG_OPENSSL_PREFER_CHACHA_OVER_GCM=y
-  CONFIG_OPENSSL_WITH_PSK=y
-  
-  #
-  # Less commonly used build options
-  #
-  # CONFIG_OPENSSL_WITH_ARIA is not set
-  # CONFIG_OPENSSL_WITH_CAMELLIA is not set
-  # CONFIG_OPENSSL_WITH_IDEA is not set
-  # CONFIG_OPENSSL_WITH_SEED is not set
-  # CONFIG_OPENSSL_WITH_SM234 is not set
-  # CONFIG_OPENSSL_WITH_BLAKE2 is not set
-  # CONFIG_OPENSSL_WITH_MDC2 is not set
-  # CONFIG_OPENSSL_WITH_WHIRLPOOL is not set
-  # CONFIG_OPENSSL_WITH_COMPRESSION is not set
-  # CONFIG_OPENSSL_WITH_RFC3779 is not set
-  
-  #
-  # Engine/Hardware Support
-  #
-  CONFIG_OPENSSL_ENGINE=y
-  # CONFIG_OPENSSL_ENGINE_BUILTIN is not set
-  # CONFIG_PACKAGE_libopenssl-afalg is not set
-  # CONFIG_PACKAGE_libopenssl-afalg_sync is not set
-  CONFIG_PACKAGE_libopenssl-conf=y
-  CONFIG_PACKAGE_libopenssl-devcrypto=y
-  # CONFIG_PACKAGE_libopenssl-gost_engine is not set
-  # CONFIG_PACKAGE_libwolfssl is not set
-  # end of SSL
-```  
-- The DFS channels don't work, despite leaving the region code as it comes by default... So BT was removed (kmod-mwifiex-sdio, mwifiex-sdio-firmware, kmod- bluetooth, kmod-btmrvl, kmod-mmc) to see if this way the DFS channels work
-- Packages included:
-  - Wireguard (wireguard-tools, luci-proto-wireguard, luci-app-wireguard, kmod-wireguard)
-  - OpenVPN server/client (openvpn-openssl, openvpn-easy-rsa, luci-app-openvpn, kmod-tun)
-  - USB Storage (kmod-usb-storage, kmod-usb-storage-extras, kmod-usb-storage-uas, kmod-usb-ohci, kmod-usb-uhci, kmod-usb2, kmod-usb3, kmod-fs-ext4, kmod-fs-vfat, kmod-fs-ntfs, kmod-scsi-core, kmod-nls-cp437, kmod-nls-iso8859-1, block-mount, block-hotplug, e2fsprogs, usbutils, usbids, ntfs-3g)
-  - Atheros 9k WIFI driver (ath9k-htc-firmware, kmod-ath, kmod-ath9k-common, kmod-ath9k-htc)
-  - NetData (netdata, bash, coreutils-timeout, curl). Access through http://router_ip:19999. luci-app-netdata doesn't work with firefox at least
-- Scripts installed:
+- **NetData SQM char** from: https://github.com/Fail-Safe/netdata-chart-sqm ([how to set up](https://github.com/ferboiar/wrt32x/wiki/Firmware-configuration-tips#netdata-sqm-char "how to set up")) 
+- **OpenWRTScripts** from: https://github.com/richb-hanover/OpenWrtScripts
+- **autoSQM script** from: https://github.com/baguswahyu/autoSQM-damasus.bagus ([how to set up](https://github.com/ferboiar/wrt32x/wiki/Firmware-configuration-tips#autosqm_script "how to set up"))
+- More scripts :
   - /usr/local/bin/opkg_list_installed.sh: list the user installed packages (https://gist.github.com/benok/10eec2efbe09070150ed2100d29dc743)
+- **Network interfaces ports status** from: https://github.com/tano-systems/luci-app-tn-netports ([how to set up](https://github.com/ferboiar/wrt32x/wiki/Firmware-configuration-tips#network_port_status "how to set up")) 
+- Especific '**Cryptographic Hardware Accelerators**' set up (https://openwrt.org/docs/techref/hardware/cryptographic.hardware.accelerators). Some more detail [here](https://github.com/ferboiar/wrt32x/wiki/Cryptographic-Hardware-Accelerators "here").
+- **Wireguard** (*wireguard-tools, luci-proto-wireguard, luci-app-wireguard, kmod-wireguard*)
+- **OpenVPN** server/client (*openvpn-openssl, openvpn-easy-rsa, luci-app-openvpn, kmod-tun*)
+- **USB Storage** (*kmod-usb-storage, kmod-usb-storage-extras, kmod-usb-storage-uas, kmod-usb-ohci, kmod-usb-uhci, kmod-usb2, kmod-usb3, kmod-fs-ext4, kmod-fs-vfat, kmod-fs-ntfs, kmod-scsi-core, kmod-nls-cp437, kmod-nls-iso8859-1, block-mount, block-hotplug, e2fsprogs, usbutils, usbids, ntfs-3g*)
+- **NetData** (*netdata, bash, coreutils-timeout, curl*). Access through http://router_ip:19999. luci-app-netdata doesn't work with firefox at least
+- **Atheros 9k WIFI driver ** (*ath9k-htc-firmware, kmod-ath, kmod-ath9k-common, kmod-ath9k-htc*)
+
 _______________________________________________________________________
 ![GitHub Downloads](https://img.shields.io/github/release-date/ferboiar/wrt32x?style=flat-square&logo=openwrt)
 
-### Latest Release Downloads:
+![GitHub Downloads](https://img.shields.io/github/downloads/ferboiar/wrt32x/total?style=for-the-badge&logo=openwrt)
 ![GitHub Downloads](https://img.shields.io/github/downloads/ferboiar/wrt32x/latest/total?style=for-the-badge&logo=openwrt)
 
-### Total Downloads:
-![GitHub Downloads](https://img.shields.io/github/downloads/ferboiar/wrt32x/total?style=for-the-badge&logo=openwrt)
 
-# Actions-OpenWrt
+### Actions-OpenWrt
 [![Visits Badge](https://badges.pufler.dev/visits/ferboiar/wrt32x)](https://badges.pufler.dev)
-
 [![Cleaning](https://github.com/ferboiar/wrt32x/actions/workflows/cleanup.yml/badge.svg)](https://github.com/ferboiar/wrt32x/actions/workflows/cleanup.yml)
-
 [![Build wrt32x firmware ](https://github.com/ferboiar/wrt32x/actions/workflows/build-wrt32x.yml/badge.svg)](https://github.com/ferboiar/wrt32x/actions/workflows/build-wrt32x.yml)
-
-[![Build wrt32x firmware ](https://github.com/ferboiar/wrt32x/actions/workflows/build-wrt32x.yml/badge.svg?branch=linksys&event=workflow_run)](https://github.com/ferboiar/wrt32x/actions/workflows/build-wrt32x.yml)
 
 ### Repo Updated:
 [![Updated Badge](https://badges.pufler.dev/updated/ferboiar/wrt32x)](https://badges.pufler.dev)

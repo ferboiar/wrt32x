@@ -35,12 +35,12 @@ Only for wrt32x:
 - The DFS channels don't work, despite leaving the region code as it comes by default... So BT was removed (*kmod-mwifiex-sdio, mwifiex-sdio-firmware, kmod- bluetooth, kmod-btmrvl, kmod-mmc*) to see if this way the DFS channels work
 
 Common:
-- **NetData SQM char** from: https://github.com/Fail-Safe/netdata-chart-sqm ([how to set up](https://github.com/ferboiar/wrt32x/wiki/Firmware-configuration-tips#netdata-sqm-char "how to set up")) 
+- **NetData SQM char** from: https://github.com/Fail-Safe/netdata-chart-sqm ([how to set up](https://github.com/ferboiar/wrt32x/wiki/Build-configuration-tips#netdata-sqm-char "how to set up")) 
 - **OpenWRTScripts** from: https://github.com/richb-hanover/OpenWrtScripts
-- **autoSQM script** from: https://github.com/baguswahyu/autoSQM-damasus.bagus ([how to set up](https://github.com/ferboiar/wrt32x/wiki/Firmware-configuration-tips#autosqm_script "how to set up"))
+- **autoSQM script** from: https://github.com/baguswahyu/autoSQM-damasus.bagus ([how to set up](https://github.com/ferboiar/wrt32x/wiki/Build-configuration-tips#autosqm_script "how to set up"))
 - More scripts :
   - /usr/local/bin/opkg_list_installed.sh: list the user installed packages (https://gist.github.com/benok/10eec2efbe09070150ed2100d29dc743)
-- **Network interfaces ports status** from: https://github.com/tano-systems/luci-app-tn-netports ([how to set up](https://github.com/ferboiar/wrt32x/wiki/Firmware-configuration-tips#network_port_status "how to set up")) 
+- **Network interfaces ports status** from: https://github.com/tano-systems/luci-app-tn-netports ([how to set up](https://github.com/ferboiar/wrt32x/wiki/Build-configuration-tips#network_port_status "how to set up")) 
 - Especific '**Cryptographic Hardware Accelerators**' set up (https://openwrt.org/docs/techref/hardware/cryptographic.hardware.accelerators). Some more detail [here](https://github.com/ferboiar/wrt32x/wiki/Cryptographic-Hardware-Accelerators "here").
 - **Wireguard** (*wireguard-tools, luci-proto-wireguard, luci-app-wireguard, kmod-wireguard*)
 - **OpenVPN** server/client (*openvpn-openssl, openvpn-easy-rsa, luci-app-openvpn, kmod-tun*)

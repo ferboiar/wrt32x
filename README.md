@@ -93,7 +93,7 @@ git am patches/*.patch
 ./functions.sh BUILD_USER_DOMAIN
 ./functions.sh PRE_DEFCONFIG_ADDONS
 sudo ./functions.sh CCACHE_SETUP
-./functions.sh DEFAULT_THEME_CHANGE
+./functions.sh REMOVE_LANGUAGES
 ```
 5. then `make menuconfig`, load your .config file and choose the packages you want.
 6. upload your .config file to your repo "/configs" as wrt32x.config

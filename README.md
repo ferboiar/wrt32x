@@ -18,7 +18,7 @@ Subtarget: "Marvell Armada 37x / 37x / XP"
 Target Profile: "Linksys Venom (Linksys WRT32X)" and "Linksys WRT32X"
 ```
 
-Linksys **a8450**:
+Linksys **a8450** (*This is a Universal Base Image (UBI) build and not the "standard" build*):
 
 ```
 Target System: "MediaTek Ralink ARM"
@@ -50,6 +50,13 @@ Common:
 - **Themes**: [Argon](https://github.com/jerrykuku/luci-theme-argon "Argon"), Bootstrap (dark & light), [Edge](https://github.com/kiddin9/luci-theme-edge "Edge"), [Material](https://github.com/LuttyYang/luci-theme-material "Material") and OpenWrt2020
 - adblock, banip, dynamic dns, file explorer, wifi schedule, watchcat, wake on lan, bandwith monitor, samba 4, upnp, vpn bypass, vpn policy routing, ocmproxy...
 
+## Releases:
+A compilation for each router will be published monthly on https://github.com/ferboiar/wrt32x/releases.  
+If your router already has Openwrt firmware, simply download one of these files:  
+- for **wrt32x**: download the file `sysupgrade.bin`
+- for **a8450/rt3200**: download the file `sysupgrade.itb`
+
+If your a8450/rt3200 router does not come with openwrt and you want to convert it to UBI you must follow these instructions before uploading the firmware from this site: https://github.com/dangowrt/owrt-ubi-installer
 _______________________________________________________________________
 ![GitHub Downloads](https://img.shields.io/github/release-date/ferboiar/wrt32x?style=flat-square&logo=openwrt) 
 

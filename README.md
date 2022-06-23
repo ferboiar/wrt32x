@@ -47,6 +47,8 @@ Common:
 - **USB Storage** (*kmod-usb-storage, kmod-usb-storage-extras, kmod-usb-storage-uas, kmod-usb-ohci, kmod-usb-uhci, kmod-usb2, kmod-usb3, kmod-fs-ext4, kmod-fs-vfat, kmod-fs-ntfs, kmod-scsi-core, kmod-nls-cp437, kmod-nls-iso8859-1, block-mount, block-hotplug, e2fsprogs, usbutils, usbids, ntfs-3g*)
 - **NetData** (*netdata, bash, coreutils-timeout, curl*). Access through http://router_ip:19999. luci-app-netdata doesn't work with firefox at least
 - **Atheros 9k WIFI driver** (*ath9k-htc-firmware, kmod-ath, kmod-ath9k-common, kmod-ath9k-htc*)
+- **Themes**: [Argon](https://github.com/jerrykuku/luci-theme-argon "Argon"), Bootstrap (dark & light), [Edge](https://github.com/kiddin9/luci-theme-edge "Edge"), [Material](https://github.com/LuttyYang/luci-theme-material "Material") and OpenWrt2020
+- adblock, banip, dynamic dns, file explorer, wifi schedule, watchcat, wake on lan, bandwith monitor, samba 4, upnp, vpn bypass, vpn policy routing, ocmproxy...
 
 _______________________________________________________________________
 ![GitHub Downloads](https://img.shields.io/github/release-date/ferboiar/wrt32x?style=flat-square&logo=openwrt) 

@@ -32,11 +32,11 @@ jobs:
           message: |
             {
               "HARDWARE_DEVICE": "e8450",
-              "HARDWARE_ID": "e8450"
-              "SOURCE_DIRECTORY_A": "openwrt/bin/packages/arm_cortex-a9_vfpv3-d16"
-              "SOURCE_DIRECTORY_B": "openwrt/bin/targets/mediatek/mt7622/kmods/$KMOD_DIR"
-              "ARQUITECTURA": "mediatek/mt7622/"
-              "config_file": "rt3200.config"
+              "HARDWARE_ID": "e8450",
+              "SOURCE_DIRECTORY_A": "openwrt/bin/packages/arm_cortex-a9_vfpv3-d16",
+              "SOURCE_DIRECTORY_B": "openwrt/bin/targets/mediatek/mt7622/kmods/$KMOD_DIR",
+              "ARQUITECTURA": "mediatek/mt7622/",
+              "config_file": "rt3200.config",
               # "ISP": "masmovil"
               "ISP": "none"
             }

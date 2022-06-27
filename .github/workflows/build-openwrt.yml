@@ -391,8 +391,8 @@ jobs:
           chmod +x scripts/$FUNCTIONS_SH
           source scripts/$FUNCTIONS_SH
           cd openwrt
+          #if [[ "${{ github.event.inputs.config_file }}" == "2" ]]; then
           if [[ "${{ HARDWARE_DEVICE }}" == "e8450" ]]; then
-#          if [[ "${{ github.event.inputs.config_file }}" == "2" ]]; then
             echo "Nothing to do here for e8450/rt3200 (without custom patches)."
           else 
             APPLY_PATCHES
@@ -421,8 +421,8 @@ jobs:
           source scripts/$FUNCTIONS_SH
           cd openwrt
           FILES_CHMOD
+          #if [[ "${{ github.event.inputs.ISP }}" == "0" ]]; then
           if [[ "${{ ISP }}" == "none" ]]; then
-#          if [[ "${{ github.event.inputs.ISP }}" == "0" ]]; then
            rm -f files/etc/config/network
            echo "ISP_NONE choosed so network config file deleted"
           fi
@@ -451,7 +451,7 @@ jobs:
 ### ----------------------------------------------------------------- ###
       - name: Copy (.config)
         run: |
-#          [ -e configs/${{ steps.setConfig.outputs.config_fileString }} ] && mv configs/${{ steps.setConfig.outputs.config_fileString }} openwrt/.config
+          #[ -e configs/${{ steps.setConfig.outputs.config_fileString }} ] && mv configs/${{ steps.setConfig.outputs.config_fileString }} openwrt/.config
           [ -e configs/${{ config_file }} ] && mv configs/${{ config_file }} openwrt/.config
 ### ----------------------------------------------------------------- ###
       - name: Smart Chmod
@@ -474,8 +474,8 @@ jobs:
           chmod +x scripts/$FUNCTIONS_SH
           source scripts/$FUNCTIONS_SH
           cd openwrt
+          #if [[ "${{ github.event.inputs.config_file }}" == "2" ]]; then
           if [[ "${{ HARDWARE_DEVICE }}" == "e8450" ]]; then
-#          if [[ "${{ github.event.inputs.config_file }}" == "2" ]]; then
             PRE_DEFCONFIG_ADDONS_NONCORTEX
           else 
             PRE_DEFCONFIG_ADDONS
@@ -486,8 +486,8 @@ jobs:
           chmod +x scripts/$FUNCTIONS_SH
           source scripts/$FUNCTIONS_SH
           cd openwrt
+          #if [[ "${{ github.event.inputs.config_file }}" == "2" ]]; then
           if [[ "${{ HARDWARE_DEVICE }}" == "e8450" ]]; then
-#          if [[ "${{ github.event.inputs.config_file }}" == "2" ]]; then
             echo "Nothing to do here for e8450/rt3200 (without ccache)."
           else 
             CCACHE_SETUP
@@ -709,8 +709,8 @@ jobs:
           UL_SUBTARGET="$(awk -F '/' '{print $NF}' <<< "$BIN_DIR")"
           echo "BIN_DIR=$BIN_DIR" >>"$GITHUB_ENV"
           echo "KMOD_DIR=$KMOD_DIR" >>"$GITHUB_ENV"
+          #if [[ "${{ github.event.inputs.config_file }}" == "2" ]]; then
           if [[ "${{ HARDWARE_DEVICE }}" == "e8450" ]]; then
-#          if [[ "${{ github.event.inputs.config_file }}" == "2" ]]; then
                   echo "SOURCE_DIRECTORY_B=openwrt/bin/targets/mediatek/mt7622/kmods/$KMOD_DIR" >> "$GITHUB_ENV"
           fi
           echo "PKG_ARCH=$PKG_ARCH" >>"$GITHUB_ENV"
@@ -840,13 +840,13 @@ jobs:
         if: env.UPLOAD_RELEASE == 'true' && steps.compile.outcome == 'success' && !cancelled()
         run: |
           #echo "::set-output name=release_tag::$HARDWARE_DEVICE-${{ steps.setConfig.outputs.config_fileString }}-ISP_MASMOVIL-$(date +\"%Y.%m.%d-%H%M\")"
-#          if [[ "${{ github.event.inputs.ISP }}" == "1" ]]; then
+          #if [[ "${{ github.event.inputs.ISP }}" == "1" ]]; then
                   echo "::set-output name=release_tag::$HARDWARE_DEVICE-ISP_$ISP-$(date +%Y.%m.%d-%H%M)"
-#          fi
-#          if [[ "${{ ISP }}" == "none" ]]; then
-#          if [[ "${{ github.event.inputs.ISP }}" == "0" ]]; then
-#                  echo "::set-output name=release_tag::${{ steps.setConfig.outputs.config_fileString }}-ISP_NONE-$(date +%Y.%m.%d-%H%M)"
-#          fi          
+          #fi
+          #if [[ "${{ ISP }}" == "none" ]]; then
+          #if [[ "${{ github.event.inputs.ISP }}" == "0" ]]; then
+          #        echo "::set-output name=release_tag::${{ steps.setConfig.outputs.config_fileString }}-ISP_NONE-$(date +%Y.%m.%d-%H%M)"
+          #fi          
           touch release.txt
           echo "::set-output name=status::success"
 ### ----------------------------------------------------------------- ###

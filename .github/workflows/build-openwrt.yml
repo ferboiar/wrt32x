@@ -422,7 +422,7 @@ jobs:
           cd openwrt
           FILES_CHMOD
           #if [[ "${{ github.event.inputs.ISP }}" == "0" ]]; then
-          if [[ "${{ ISP }}" == "none" ]]; then
+          if [[ $ISP == "none" ]]; then
            rm -f files/etc/config/network
            echo "ISP_NONE choosed so network config file deleted"
           fi
@@ -475,7 +475,7 @@ jobs:
           source scripts/$FUNCTIONS_SH
           cd openwrt
           #if [[ "${{ github.event.inputs.config_file }}" == "2" ]]; then
-          if [[ "${{ HARDWARE_DEVICE }}" == "e8450" ]]; then
+          if [[ $HARDWARE_DEVICE == "e8450" ]]; then
             PRE_DEFCONFIG_ADDONS_NONCORTEX
           else 
             PRE_DEFCONFIG_ADDONS
@@ -487,7 +487,7 @@ jobs:
           source scripts/$FUNCTIONS_SH
           cd openwrt
           #if [[ "${{ github.event.inputs.config_file }}" == "2" ]]; then
-          if [[ "${{ HARDWARE_DEVICE }}" == "e8450" ]]; then
+          if [[ $HARDWARE_DEVICE == "e8450" ]]; then
             echo "Nothing to do here for e8450/rt3200 (without ccache)."
           else 
             CCACHE_SETUP
@@ -710,7 +710,7 @@ jobs:
           echo "BIN_DIR=$BIN_DIR" >>"$GITHUB_ENV"
           echo "KMOD_DIR=$KMOD_DIR" >>"$GITHUB_ENV"
           #if [[ "${{ github.event.inputs.config_file }}" == "2" ]]; then
-          if [[ "${{ HARDWARE_DEVICE }}" == "e8450" ]]; then
+          if [[ $HARDWARE_DEVICE == "e8450" ]]; then
                   echo "SOURCE_DIRECTORY_B=openwrt/bin/targets/mediatek/mt7622/kmods/$KMOD_DIR" >> "$GITHUB_ENV"
           fi
           echo "PKG_ARCH=$PKG_ARCH" >>"$GITHUB_ENV"
@@ -841,7 +841,7 @@ jobs:
         run: |
           #echo "::set-output name=release_tag::$HARDWARE_DEVICE-${{ steps.setConfig.outputs.config_fileString }}-ISP_MASMOVIL-$(date +\"%Y.%m.%d-%H%M\")"
           #if [[ "${{ github.event.inputs.ISP }}" == "1" ]]; then
-                  echo "::set-output name=release_tag::$HARDWARE_DEVICE-ISP_$ISP-$(date +%Y.%m.%d-%H%M)"
+          echo "::set-output name=release_tag::$HARDWARE_DEVICE-ISP_$ISP-$(date +%Y.%m.%d-%H%M)"
           #fi
           #if [[ "${{ ISP }}" == "none" ]]; then
           #if [[ "${{ github.event.inputs.ISP }}" == "0" ]]; then

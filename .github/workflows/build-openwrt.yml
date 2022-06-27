@@ -392,7 +392,7 @@ jobs:
           source scripts/$FUNCTIONS_SH
           cd openwrt
           #if [[ "${{ github.event.inputs.config_file }}" == "2" ]]; then
-          if [[ "${{ HARDWARE_DEVICE }}" == "e8450" ]]; then
+          if [[ $HARDWARE_DEVICE == "e8450" ]]; then
             echo "Nothing to do here for e8450/rt3200 (without custom patches)."
           else 
             APPLY_PATCHES

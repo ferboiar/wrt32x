@@ -841,9 +841,12 @@ jobs:
         run: |
           #echo "::set-output name=release_tag::$HARDWARE_DEVICE-${{ steps.setConfig.outputs.config_fileString }}-ISP_MASMOVIL-$(date +\"%Y.%m.%d-%H%M\")"
           #if [[ "${{ github.event.inputs.ISP }}" == "1" ]]; then
-          echo "::set-output name=release_tag::$HARDWARE_DEVICE-ISP_$(ISP)-$(date +%Y.%m.%d-%H%M)"
+          if [[ $ISP == "masmovil" ]]; then
+            echo "::set-output name=release_tag::$HARDWARE_DEVICE-ISP_MASMOVIL-$(date +%Y.%m.%d-%H%M)"
+          else
+            echo "::set-output name=release_tag::$HARDWARE_DEVICE-ISP_NONE-$(date +%Y.%m.%d-%H%M)"
+          fi
           #fi
-          #if [[ "${{ ISP }}" == "none" ]]; then
           #if [[ "${{ github.event.inputs.ISP }}" == "0" ]]; then
           #        echo "::set-output name=release_tag::${{ steps.setConfig.outputs.config_fileString }}-ISP_NONE-$(date +%Y.%m.%d-%H%M)"
           #fi          

@@ -9,13 +9,13 @@
 # Description: Build OpenWrt using GitHub Actions
 #
 
-name: Build Linksys a8450 (Belkin rt3200)
+name: Build Linksys e8450 (AKA Belkin rt3200) firmware
 on:
   workflow_dispatch:
-  schedule:
+#  schedule:
         # * is a special character in YAML so you have to quote this string
         # el primer día de cada mes a las 00:00
-    - cron:  '00 00 01 * *'
+#    - cron:  '00 00 01 * *'
 
 jobs:
   trigger-nightly-builds:
@@ -34,7 +34,7 @@ jobs:
               "HARDWARE_DEVICE": "e8450",
               "HARDWARE_ID": "e8450"
               "SOURCE_DIRECTORY_A": "openwrt/bin/packages/arm_cortex-a9_vfpv3-d16"
-              # "SOURCE_DIRECTORY_B: "
+              "SOURCE_DIRECTORY_B": "openwrt/bin/targets/mediatek/mt7622/kmods/$KMOD_DIR"
               "ARQUITECTURA": "mediatek/mt7622/"
               "config_file": "rt3200.config"
               # "ISP": "masmovil"

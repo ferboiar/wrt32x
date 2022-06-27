@@ -1,0 +1,42 @@
+#
+# Copyright (c) 2020 - 2022
+#
+# Updated: 03/13/2022 Eliminater74
+#
+# This is free software, licensed under the MIT License.
+# See /LICENSE for more information.
+#
+# Description: Build OpenWrt using GitHub Actions
+#
+
+name: Build Linksys a8450 (Belkin rt3200)
+on:
+  workflow_dispatch:
+  schedule:
+        # * is a special character in YAML so you have to quote this string
+        # el primer día de cada mes a las 00:00
+    - cron:  '00 00 01 * *'
+
+jobs:
+  trigger-nightly-builds:
+    if: github.event != 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Emit repository_dispatch
+        uses: mvasigh/dispatch-action@main
+        with:
+          token: ${{ secrets.PERSONAL_GITHUB_TOKEN }}
+          repo: wrt32x
+          owner: ferboiar
+          event_type: repository_dispatch
+          message: |
+            {
+              "HARDWARE_DEVICE": "e8450",
+              "HARDWARE_ID": "e8450"
+              "SOURCE_DIRECTORY_A": "openwrt/bin/packages/arm_cortex-a9_vfpv3-d16"
+              # "SOURCE_DIRECTORY_B: "
+              "ARQUITECTURA": "mediatek/mt7622/"
+              "config_file": "rt3200.config"
+              # "ISP": "masmovil"
+              "ISP": "none"
+            }

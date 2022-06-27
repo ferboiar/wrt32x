@@ -13,33 +13,29 @@
 #  MAIN BUILD CONTROL SECTION:                                                 #
 ################################################################################
 
-name: Build Linksys wrt32x & e8450 (AKA Belkin rt3200) firmware
+name: Build OpenWRT firmware
 'on':
   repository_dispatch: null
-  workflow_dispatch:
-    inputs:
-      config_file:
-        description: >
-          '[0] wrt32x: default [1] wrt32x: eliminater [2] e8450/rt3200'
-        required: true
-        default: '0'
-      ISP:
-        description: >
-          '[0] default [1] masmovil'
-        required: true
-        default: '0'
-  schedule:
-          # * is a special character in YAML so you have to quote this string
-          # * “At 12:00.”
-          # el primer día de cada mes a las 00:00
-    #- cron:  '00 12 * * *'
-    - cron:  '00 00 01 * *'
+#  workflow_dispatch:
+#    inputs:
+#      config_file:
+#        description: >
+#          '[0] wrt32x: default [1] wrt32x: eliminater [2] e8450/rt3200'
+#        required: true
+#        default: '0'
+#      ISP:
+#        description: >
+#          '[0] default [1] masmovil'
+#        required: true
+#        default: '0'
 
 env:
   ACTIONS_ALLOW_UNSECURE_COMMANDS: true
 ### --------------------------- ###
-  HARDWARE_ID: "wrt32x"
-  HARDWARE_DEVICE: "wrt32x"
+#  HARDWARE_ID: "wrt32x"
+#  HARDWARE_DEVICE: "wrt32x"
+  HARDWARE_ID: '${{ github.event.client_payload.message.HARDWARE_ID }}'
+  HARDWARE_DEVICE: '${{ github.event.client_payload.message.HARDWARE_DEVICE }}'
   CLONE_URL: https://github.com/openwrt/openwrt.git
   CLONE_BRANCH: master
   FEEDS_CONF: feeds.conf.default
@@ -109,7 +105,8 @@ env:
   TARGZIP_PACKAGES: true
 ### --------------------------- ###
 ### [ GITHUB PUSH ENV ] ###
-  SOURCE_DIRECTORY_A: openwrt/bin/packages/arm_cortex-a9_vfpv3-d16
+#  SOURCE_DIRECTORY_A: openwrt/bin/packages/arm_cortex-a9_vfpv3-d16
+  SOURCE_DIRECTORY_A: '${{ github.event.client_payload.message.SOURCE_DIRECTORY_A }}'
   SOURCE_DIRECTORY_B: openwrt/bin/targets/mvebu/cortexa9/kmods/$KMOD_DIR
   DESTINATION_GITHUB_USERNAME: DevOpenWRT-Router
   DESTINATION_REPOSITORY_NAME: Linksys_OpenWRT_Releases
@@ -122,7 +119,10 @@ env:
   TARGET_DIRECTORY_B: kmods/$KMOD_DIR
 ### --------------------------- ###
   TZ: Europe/Madrid
-  ARQUITECTURA: mvebu/cortexa9/
+#  ARQUITECTURA: mvebu/cortexa9/
+  ARQUITECTURA: '${{ github.event.client_payload.message.ARQUITECTURA }}'
+  config_file: '${{ github.event.client_payload.message.config_file }}'
+  ISP: '${{ github.event.client_payload.message.ISP }}'
 ### ----------------------------------------------------------------- ###
 ### ----------------------------------------------------------------- ###
 jobs:
@@ -148,19 +148,20 @@ jobs:
       - name: Set .config
         id: setConfig
         run: |
-          if [[ "${{ github.event.inputs.config_file }}" == "0" ]]; then
-                  echo "::set-output name=config_fileString::wrt32x.config"
-          fi
-          if [[ "${{ github.event.inputs.config_file }}" == "1" ]]; then
-                  echo "::set-output name=config_fileString::wrt32x_eliminater.config"
-          fi
-          if [[ "${{ github.event.inputs.config_file }}" == "2" ]]; then
-                  echo "::set-output name=config_fileString::rt3200.config"
-                  echo "::set-env name=HARDWARE_ID::e8450"
-                  echo "::set-env name=HARDWARE_DEVICE::e8450"
-                  echo "::set-env name=SOURCE_DIRECTORY_A::openwrt/bin/packages/arm_cortex-a9_vfpv3-d16"
-                  echo "::set-env name=ARQUITECTURA::mediatek/mt7622/"
-          fi
+#          if [[ "${{ github.event.inputs.config_file }}" == "0" ]]; then
+#                  echo "::set-output name=config_fileString::wrt32x.config"
+#          fi
+#          if [[ "${{ github.event.inputs.config_file }}" == "1" ]]; then
+#                  echo "::set-output name=config_fileString::wrt32x_eliminater.config"
+#          fi
+#          if [[ "${{ github.event.inputs.config_file }}" == "2" ]]; then
+#                  echo "::set-output name=config_fileString::rt3200.config"
+#                  echo "::set-env name=HARDWARE_ID::e8450"
+#                  echo "::set-env name=HARDWARE_DEVICE::e8450"
+#                  echo "::set-env name=SOURCE_DIRECTORY_A::openwrt/bin/packages/arm_cortex-a9_vfpv3-d16"
+#                  echo "::set-env name=ARQUITECTURA::mediatek/mt7622/"
+#          fi
+           echo "::set-output name=config_fileString::env.config_file"
 ### ----------------------------------------------------------------- ###
       - name: HARDWARE_DEVICE
         run: |
@@ -390,8 +391,9 @@ jobs:
           chmod +x scripts/$FUNCTIONS_SH
           source scripts/$FUNCTIONS_SH
           cd openwrt
-          if [[ "${{ github.event.inputs.config_file }}" == "2" ]]; then
-            echo "Nothing to do here for e8450/rt3200. Without custom patches."
+          if [[ "${{ HARDWARE_DEVICE }}" == "e8450" ]]; then
+#          if [[ "${{ github.event.inputs.config_file }}" == "2" ]]; then
+            echo "Nothing to do here for e8450/rt3200 (without custom patches)."
           else 
             APPLY_PATCHES
           fi
@@ -419,7 +421,8 @@ jobs:
           source scripts/$FUNCTIONS_SH
           cd openwrt
           FILES_CHMOD
-          if [[ "${{ github.event.inputs.ISP }}" == "0" ]]; then
+          if [[ "${{ ISP }}" == "none" ]]; then
+#          if [[ "${{ github.event.inputs.ISP }}" == "0" ]]; then
            rm -f files/etc/config/network
            echo "ISP_NONE choosed so network config file deleted"
           fi
@@ -448,7 +451,8 @@ jobs:
 ### ----------------------------------------------------------------- ###
       - name: Copy (.config)
         run: |
-          [ -e configs/${{ steps.setConfig.outputs.config_fileString }} ] && mv configs/${{ steps.setConfig.outputs.config_fileString }} openwrt/.config
+#          [ -e configs/${{ steps.setConfig.outputs.config_fileString }} ] && mv configs/${{ steps.setConfig.outputs.config_fileString }} openwrt/.config
+          [ -e configs/${{ config_file }} ] && mv configs/${{ config_file }} openwrt/.config
 ### ----------------------------------------------------------------- ###
       - name: Smart Chmod
         if: env.USE_SMART_CHMOD == 'true' && !cancelled()
@@ -470,7 +474,8 @@ jobs:
           chmod +x scripts/$FUNCTIONS_SH
           source scripts/$FUNCTIONS_SH
           cd openwrt
-          if [[ "${{ github.event.inputs.config_file }}" == "2" ]]; then
+          if [[ "${{ HARDWARE_DEVICE }}" == "e8450" ]]; then
+#          if [[ "${{ github.event.inputs.config_file }}" == "2" ]]; then
             PRE_DEFCONFIG_ADDONS_NONCORTEX
           else 
             PRE_DEFCONFIG_ADDONS
@@ -481,8 +486,9 @@ jobs:
           chmod +x scripts/$FUNCTIONS_SH
           source scripts/$FUNCTIONS_SH
           cd openwrt
-          if [[ "${{ github.event.inputs.config_file }}" == "2" ]]; then
-            echo "Nothing to do here for e8450/rt3200. Without ccache"
+          if [[ "${{ HARDWARE_DEVICE }}" == "e8450" ]]; then
+#          if [[ "${{ github.event.inputs.config_file }}" == "2" ]]; then
+            echo "Nothing to do here for e8450/rt3200 (without ccache)."
           else 
             CCACHE_SETUP
           fi
@@ -703,7 +709,8 @@ jobs:
           UL_SUBTARGET="$(awk -F '/' '{print $NF}' <<< "$BIN_DIR")"
           echo "BIN_DIR=$BIN_DIR" >>"$GITHUB_ENV"
           echo "KMOD_DIR=$KMOD_DIR" >>"$GITHUB_ENV"
-          if [[ "${{ github.event.inputs.config_file }}" == "2" ]]; then
+          if [[ "${{ HARDWARE_DEVICE }}" == "e8450" ]]; then
+#          if [[ "${{ github.event.inputs.config_file }}" == "2" ]]; then
                   echo "SOURCE_DIRECTORY_B=openwrt/bin/targets/mediatek/mt7622/kmods/$KMOD_DIR" >> "$GITHUB_ENV"
           fi
           echo "PKG_ARCH=$PKG_ARCH" >>"$GITHUB_ENV"
@@ -833,12 +840,13 @@ jobs:
         if: env.UPLOAD_RELEASE == 'true' && steps.compile.outcome == 'success' && !cancelled()
         run: |
           #echo "::set-output name=release_tag::$HARDWARE_DEVICE-${{ steps.setConfig.outputs.config_fileString }}-ISP_MASMOVIL-$(date +\"%Y.%m.%d-%H%M\")"
-          if [[ "${{ github.event.inputs.ISP }}" == "1" ]]; then
-                  echo "::set-output name=release_tag::${{ steps.setConfig.outputs.config_fileString }}-ISP_MASMOVIL-$(date +%Y.%m.%d-%H%M)"
-          fi
-          if [[ "${{ github.event.inputs.ISP }}" == "0" ]]; then
-                  echo "::set-output name=release_tag::${{ steps.setConfig.outputs.config_fileString }}-ISP_NONE-$(date +%Y.%m.%d-%H%M)"
-          fi          
+#          if [[ "${{ github.event.inputs.ISP }}" == "1" ]]; then
+                  echo "::set-output name=release_tag::$HARDWARE_DEVICE-ISP_$ISP-$(date +%Y.%m.%d-%H%M)"
+#          fi
+#          if [[ "${{ ISP }}" == "none" ]]; then
+#          if [[ "${{ github.event.inputs.ISP }}" == "0" ]]; then
+#                  echo "::set-output name=release_tag::${{ steps.setConfig.outputs.config_fileString }}-ISP_NONE-$(date +%Y.%m.%d-%H%M)"
+#          fi          
           touch release.txt
           echo "::set-output name=status::success"
 ### ----------------------------------------------------------------- ###

@@ -452,7 +452,7 @@ jobs:
       - name: Copy (.config)
         run: |
           #[ -e configs/${{ steps.setConfig.outputs.config_fileString }} ] && mv configs/${{ steps.setConfig.outputs.config_fileString }} openwrt/.config
-          [ -e configs/${{ config_file }} ] && mv configs/${{ config_file }} openwrt/.config
+          [ -e configs/$config_file ] && mv configs/$config_file openwrt/.config
 ### ----------------------------------------------------------------- ###
       - name: Smart Chmod
         if: env.USE_SMART_CHMOD == 'true' && !cancelled()

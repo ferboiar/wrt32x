@@ -145,9 +145,9 @@ jobs:
           [ -f /etc/issue ] && cat /etc/issue
           ulimit -a
 ### ----------------------------------------------------------------- ###
-      - name: Set .config
-        id: setConfig
-        run: |
+#      - name: Set .config
+#        id: setConfig
+#        run: |
 #          if [[ "${{ github.event.inputs.config_file }}" == "0" ]]; then
 #                  echo "::set-output name=config_fileString::wrt32x.config"
 #          fi
@@ -161,7 +161,7 @@ jobs:
 #                  echo "::set-env name=SOURCE_DIRECTORY_A::openwrt/bin/packages/arm_cortex-a9_vfpv3-d16"
 #                  echo "::set-env name=ARQUITECTURA::mediatek/mt7622/"
 #          fi
-           echo "::set-output name=config_fileString::env.config_file"
+#           echo "::set-output name=config_fileString::env.config_file"
 ### ----------------------------------------------------------------- ###
       - name: HARDWARE_DEVICE
         run: |

@@ -1,0 +1,41 @@
+#
+# Copyright (c) 2020 - 2022
+#
+# Updated: 03/13/2022 Eliminater74
+#
+# This is free software, licensed under the MIT License.
+# See /LICENSE for more information.
+#
+# Description: Build OpenWrt using GitHub Actions
+#
+
+name: Build Linksys wrt32x firmware
+on:
+  workflow_dispatch:
+#  schedule:
+        # * is a special character in YAML so you have to quote this string
+        # el primer día de cada mes a las 05:00
+#    - cron:  '00 05 01 * *'
+
+jobs:
+  trigger-nightly-builds:
+    if: github.event != 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Emit repository_dispatch
+        uses: mvasigh/dispatch-action@main
+        with:
+          token: ${{ secrets.PAT }}
+          repo: wrt32x
+          owner: ferboiar
+          event_type: repository_dispatch
+          message: |
+            {
+              "HARDWARE_DEVICE": "wrt32x",
+              "HARDWARE_ID": "wrt32x",
+              "SOURCE_DIRECTORY_A": "openwrt/bin/packages/arm_cortex-a9_vfpv3-d16",           
+              "SOURCE_DIRECTORY_B": "openwrt/bin/targets/mvebu/cortexa9/kmods/$KMOD_DIR",
+              "ARQUITECTURA": "mvebu/cortexa9/",
+              "config_file": "wrt32x.config",
+              "ISP": "none"
+            }

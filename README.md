@@ -66,7 +66,7 @@ _______________________________________________________________________
 
 ### Actions-OpenWrt
 [![Visits Badge](https://badges.pufler.dev/visits/ferboiar/wrt32x)](https://badges.pufler.dev)  
-[![Cleaning](https://github.com/ferboiar/wrt32x/actions/workflows/cleanup.yml/badge.svg)](https://github.com/ferboiar/wrt32x/actions/workflows/cleanup.yml) 
+[![Cleaning](https://github.com/ferboiar/wrt32x/actions/workflows/cleanup.yml/badge.svg)](https://github.com/ferboiar/wrt32x/actions/workflows/cleanup.yml)  
 [![Build wrt32x firmware](https://github.com/ferboiar/wrt32x/actions/workflows/build-wrt32x.yml/badge.svg)](https://github.com/ferboiar/wrt32x/actions/workflows/build-wrt32x.yml)  
 [![Build e8450 firmware](https://github.com/ferboiar/wrt32x/actions/workflows/build-e8450.yml/badge.svg)](https://github.com/ferboiar/wrt32x/actions/workflows/build-e8450.yml)  
 

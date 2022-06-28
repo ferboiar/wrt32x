@@ -107,7 +107,8 @@ env:
 ### [ GITHUB PUSH ENV ] ###
 #  SOURCE_DIRECTORY_A: openwrt/bin/packages/arm_cortex-a9_vfpv3-d16
   SOURCE_DIRECTORY_A: '${{ github.event.client_payload.message.SOURCE_DIRECTORY_A }}'
-  SOURCE_DIRECTORY_B: openwrt/bin/targets/mvebu/cortexa9/kmods/$KMOD_DIR
+#  SOURCE_DIRECTORY_B: openwrt/bin/targets/mvebu/cortexa9/kmods/$KMOD_DIR
+  SOURCE_DIRECTORY_B: '${{ github.event.client_payload.message.SOURCE_DIRECTORY_B }}'
   DESTINATION_GITHUB_USERNAME: DevOpenWRT-Router
   DESTINATION_REPOSITORY_NAME: Linksys_OpenWRT_Releases
   USER_EMAIL: BuildBot2021@gmail.com
@@ -351,7 +352,6 @@ jobs:
           du -h --max-depth=3 ./package
           echo "=============================================="
 ### ----------------------------------------------------------------- ###
-
       - name: Update feeds Package
         run: |
           file=./scripts/data/feeds_update.txt
@@ -391,7 +391,6 @@ jobs:
           chmod +x scripts/$FUNCTIONS_SH
           source scripts/$FUNCTIONS_SH
           cd openwrt
-          #if [[ "${{ github.event.inputs.config_file }}" == "2" ]]; then
           if [[ $HARDWARE_DEVICE == "e8450" ]]; then
             echo "Nothing to do here for e8450/rt3200 (without custom patches)."
           else 
@@ -421,7 +420,6 @@ jobs:
           source scripts/$FUNCTIONS_SH
           cd openwrt
           FILES_CHMOD
-          #if [[ "${{ github.event.inputs.ISP }}" == "0" ]]; then
           if [[ $ISP == "none" ]]; then
            rm -f files/etc/config/network
            echo "ISP_NONE choosed so network config file deleted"
@@ -474,7 +472,6 @@ jobs:
           chmod +x scripts/$FUNCTIONS_SH
           source scripts/$FUNCTIONS_SH
           cd openwrt
-          #if [[ "${{ github.event.inputs.config_file }}" == "2" ]]; then
           if [[ $HARDWARE_DEVICE == "e8450" ]]; then
             PRE_DEFCONFIG_ADDONS_NONCORTEX
           else 
@@ -486,7 +483,6 @@ jobs:
           chmod +x scripts/$FUNCTIONS_SH
           source scripts/$FUNCTIONS_SH
           cd openwrt
-          #if [[ "${{ github.event.inputs.config_file }}" == "2" ]]; then
           if [[ $HARDWARE_DEVICE == "e8450" ]]; then
             echo "Nothing to do here for e8450/rt3200 (without ccache)."
           else 
@@ -709,10 +705,9 @@ jobs:
           UL_SUBTARGET="$(awk -F '/' '{print $NF}' <<< "$BIN_DIR")"
           echo "BIN_DIR=$BIN_DIR" >>"$GITHUB_ENV"
           echo "KMOD_DIR=$KMOD_DIR" >>"$GITHUB_ENV"
-          #if [[ "${{ github.event.inputs.config_file }}" == "2" ]]; then
-          if [[ $HARDWARE_DEVICE == "e8450" ]]; then
-                  echo "SOURCE_DIRECTORY_B=openwrt/bin/targets/mediatek/mt7622/kmods/$KMOD_DIR" >> "$GITHUB_ENV"
-          fi
+          #if [[ $HARDWARE_DEVICE == "e8450" ]]; then
+          #        echo "SOURCE_DIRECTORY_B=openwrt/bin/targets/mediatek/mt7622/kmods/$KMOD_DIR" >> "$GITHUB_ENV"
+          #fi
           echo "PKG_ARCH=$PKG_ARCH" >>"$GITHUB_ENV"
           cd $BIN_DIR/kmods/$KMOD_DIR
           tar -cvzf kmods_"$KMOD_DIR".tar.gz ./*
@@ -780,7 +775,6 @@ jobs:
           [ ! -e "./logs/error.txt" ] || cat "./logs/error.txt"
           [ ! -e "./logs/package/error.txt" ] || cat "./logs/package/error.txt"
 ### ----------------------------------------------------------------- ###
-
       - name: Upload kmods
         uses: actions/upload-artifact@main
         if: >-
@@ -840,16 +834,11 @@ jobs:
         if: env.UPLOAD_RELEASE == 'true' && steps.compile.outcome == 'success' && !cancelled()
         run: |
           #echo "::set-output name=release_tag::$HARDWARE_DEVICE-${{ steps.setConfig.outputs.config_fileString }}-ISP_MASMOVIL-$(date +\"%Y.%m.%d-%H%M\")"
-          #if [[ "${{ github.event.inputs.ISP }}" == "1" ]]; then
           if [[ $ISP == "masmovil" ]]; then
             echo "::set-output name=release_tag::$HARDWARE_DEVICE-ISP_MASMOVIL-$(date +%Y.%m.%d-%H%M)"
           else
             echo "::set-output name=release_tag::$HARDWARE_DEVICE-ISP_NONE-$(date +%Y.%m.%d-%H%M)"
           fi
-          #fi
-          #if [[ "${{ github.event.inputs.ISP }}" == "0" ]]; then
-          #        echo "::set-output name=release_tag::${{ steps.setConfig.outputs.config_fileString }}-ISP_NONE-$(date +%Y.%m.%d-%H%M)"
-          #fi          
           touch release.txt
           echo "::set-output name=status::success"
 ### ----------------------------------------------------------------- ###

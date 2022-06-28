@@ -64,7 +64,7 @@ _______________________________________________________________________
 ![GitHub Downloads](https://img.shields.io/github/downloads/ferboiar/wrt32x/latest/total?style=for-the-badge&logo=openwrt)  
 
 
-### Actions-OpenWrt
+### Actions Status
 [![Visits Badge](https://badges.pufler.dev/visits/ferboiar/wrt32x)](https://badges.pufler.dev)  
 [![Cleaning](https://github.com/ferboiar/wrt32x/actions/workflows/cleanup.yml/badge.svg)](https://github.com/ferboiar/wrt32x/actions/workflows/cleanup.yml)  
 [![Build wrt32x firmware](https://github.com/ferboiar/wrt32x/actions/workflows/build-wrt32x.yml/badge.svg)](https://github.com/ferboiar/wrt32x/actions/workflows/build-wrt32x.yml)  

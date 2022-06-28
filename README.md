@@ -65,10 +65,12 @@ _______________________________________________________________________
 
 
 ### Actions-OpenWrt
-[![Visits Badge](https://badges.pufler.dev/visits/ferboiar/wrt32x)](https://badges.pufler.dev) 
-[![Cleaning](https://github.com/ferboiar/wrt32x/actions/workflows/cleanup.yml/badge.svg)](https://github.com/ferboiar/wrt32x/actions/workflows/cleanup.yml) 
-[![Build wrt32x firmware ](https://github.com/ferboiar/wrt32x/actions/workflows/build-wrt32x.yml/badge.svg)](https://github.com/ferboiar/wrt32x/actions/workflows/build-wrt32x.yml)
-[![Build e8450 firmware ](https://github.com/ferboiar/wrt32x/actions/workflows/build-e8540.yml/badge.svg)](https://github.com/ferboiar/wrt32x/actions/workflows/build-e8450.yml)
+[![Visits Badge](https://badges.pufler.dev/visits/ferboiar/wrt32x)](https://badges.pufler.dev)  
+[![Cleaning](https://github.com/ferboiar/wrt32x/actions/workflows/cleanup.yml/badge.svg)](https://github.com/ferboiar/wrt32x/actions/workflows/cleanup.yml)  
+[![Build wrt32x firmware](https://github.com/ferboiar/wrt32x/actions/workflows/build-wrt32x.yml/badge.svg)](https://github.com/ferboiar/wrt32x/actions/workflows/build-wrt32x.yml)  
+[![Build e8450 firmware](https://github.com/ferboiar/wrt32x/actions/workflows/build-e8450.yml/badge.svg)](https://github.com/ferboiar/wrt32x/actions/workflows/build-e8450.yml)
+
+![flujo de trabajo de ejemplo](https://github.com/github/docs/actions/workflows/main.yml/badge.svg)
 
 ### Repo Updated:
 [![Updated Badge](https://badges.pufler.dev/updated/ferboiar/wrt32x)](https://badges.pufler.dev) 

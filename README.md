@@ -54,7 +54,7 @@ Common:
 A compilation for each router will be published monthly on https://github.com/ferboiar/wrt32x/releases.  
 If your router already has Openwrt firmware, simply download one of these files:  
 - for **wrt32x**: download the file `sysupgrade.bin`
-- for **a8450/rt3200**: download the file `sysupgrade.itb`
+- for **e8450/rt3200**: download the file `sysupgrade.itb`
 
 If your a8450/rt3200 router does not come with openwrt and you want to convert it to UBI you must follow these instructions before uploading the firmware from this site: https://github.com/dangowrt/owrt-ubi-installer
 _______________________________________________________________________

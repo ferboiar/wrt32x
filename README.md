@@ -4,7 +4,7 @@ Original from [P3TERX](https://github.com/P3TERX/Actions-OpenWrt)
 Further modded  by [Eliminater74](https://github.com/DevOpenWRT-Router/Action_OpenWRT_AutoBuild_Linksys_Devices)
 
 #### Made to simplify the firmware compilation thanks to the GitHub actions.
-##### Ready to build firmware for Linksys wrt32x & a8450 (aka. Belkin rt3200)
+##### Ready to build firmware for Linksys wrt32x & e8450 (aka. Belkin rt3200)
 <p align="middle">
   <img width="300" height="auto" src="images/wrt32x.jpg" />
   <img width="300" height="auto" src="images/e8450_side.png" />
@@ -18,7 +18,7 @@ Subtarget: "Marvell Armada 37x / 37x / XP"
 Target Profile: "Linksys Venom (Linksys WRT32X)" and "Linksys WRT32X"
 ```
 
-Linksys **a8450** (*This is a Universal Base Image (UBI) build and not the "standard" build*):
+Linksys **e8450** (*This is a Universal Base Image (UBI) build and not the "standard" build*):
 
 ```
 Target System: "MediaTek Ralink ARM"

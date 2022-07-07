@@ -31,6 +31,8 @@ git clone https://github.com/DevOpenWRT-Router/luci-app-ota.git package/PureFusi
 ### luci-app-tn-logview
 # git clone https://github.com/DevOpenWRT-Router/luci-app-tn-logview.git package/PureFusionWRT/luci-app-tn-logview
 # rm -rf package/PureFusionWRT/luci-app-tn-logview/po
+### syslog_fc
+#git clone https://github.com/DevOpenWRT-Router/syslog_fc.git package/PureFusionWRT/syslog_fc
 
 echo "END Fetching From DevOpenWRT-Router:"
 }

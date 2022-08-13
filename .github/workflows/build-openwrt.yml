@@ -10,7 +10,7 @@
 # Description: Build OpenWrt using GitHub Actions                              #
 #                                                                              #
 ################################################################################
-#  MAIN BUILD CONTROL SECTION:                                                 #
+#  MAIN BUILD CONTROL SECTION: DO NOT RUN THIS ACTION DIRECT, USE Builds:      #
 ################################################################################
 
 name: Build OpenWRT firmware
@@ -38,6 +38,7 @@ env:
   CLONE_BRANCH: master
   FEEDS_CONF: feeds.conf.default
   FUNCTIONS_SH: functions.sh
+  DEPENDENCY_sh: dependency.sh
   FETCHPACKAGES_SH: fetch_packages.sh
   CREATE_ACL_SH: create_acl_for_luci.sh
   BEFORE_BUILD: before_build.sh
@@ -46,22 +47,39 @@ env:
   EXT_INIT_ENV: environment.sh
   DEVICE_NAME: ''
 ### --------------------------- ###
+###     [ CACHE SETTINGS ]      ###
+### --------------------------- ###
+  USE_CACHEWRTBUILD: true
+  RESTORE_CCACHE_CACHE: true
+  RESTORE_FEEDS_CACHE: true
+  RESTORE_STAGING_CACHE: true
+  RESTORE_DL_CACHE: true
+  RESTORE_BUILD_CACHE: true
+  RESTORE_BUILD_DIR_TOOLCHAIN_CACHE: false
+  RESTORE_BUILD_DIR_TARGET_CACHE: false
+  RESTORE_BUILD_DIR_HOST_CACHE: false
+  RESTORE_BUILD_DIR_HOSTPKG_CACHE: false
+  RESTORE_PACKAGE_CACHE: false
+### --------------------------- ###  
   CLEANUP_ENVIROMENT: true
   RESET_OPENWRT_COMMIT: false
   INSTALL_LLVM: false
   LOAD_FUNCTIONS: true
   BOOTSTRAP_START: false
   PRINT_FAILLOGS: true
+  VIEW_BUILD_LOGS: true
   SET_BUILDKEY: false
   remove_languages: true
-  USE_CACHEWRTBUILD: true
   USE_KMODS_SCRIPT: true
   USE_FILES: true
   USE_OpenWrtScripts: true
   USE_CUST_THEMES: true
   USE_CUSTOM_CONFIGURATION: true
   USE_OPENWRT_PATCHES: true
+  USE_PR_OPENWRT_PATCHES_NEW: false
+  USE_PR_OPENWRT_PATCHES_PACKAGES_NEW: false
   USE_PR_OPENWRT_PATCHES: false
+  USE_PR_OPENWRT_PATCHES_PACKAGES: false
   USE_DEVOPENWRT: true
   USE_FETCH_PACKAGES: true
   USE_CACHE: true
@@ -128,17 +146,31 @@ jobs:
       - name: Checkout
         uses: actions/checkout@main
 ### ----------------------------------------------------------------- ###
-      - name: Show system
+      - name: Build Server Configuration (Information)
         env:
           DEBIAN_FRONTEND: noninteractive
         run: |
-          echo -e "Total CPU cores\t: $(nproc)"
-          cat /proc/cpuinfo | grep 'model name'
-          free -h
-          uname -a
-          [ -f /proc/version ] && cat /proc/version
-          [ -f /etc/issue.net ] && cat /etc/issue.net
+          echo  -e  "----------------------------[System Distribution]------------------------------------\n"
           [ -f /etc/issue ] && cat /etc/issue
+          echo  -e  "----------------------------[WARNING]------------------------------------------------\n"
+          echo  "Warning⚠"
+          echo  "If the performance of the allocated server is insufficient, be sure to cancel it in time and run it again!"
+          echo  "It is known that the compilation is successful CPU model: 8370C, 8171M, E5-2673"
+          echo  "Known underperformance CPU model: 8272CL"
+          echo  -e  "----------------------------[CPU info]-----------------------------------------------\n"
+          echo  "CPU physical count: $(cat  /proc/cpuinfo|  grep  "physical  id"|  sort|  uniq|  wc  -l)"
+          echo  -e  "CPU core and version information: $(cat  /proc/cpuinfo  |  grep  name  |  cut  -f2  -d:  |  uniq  -c)  \n"
+          echo  -e "-----------------------------[Memory information]-------------------------------------"
+          echo  "Details of installed memory:"
+          sudo lshw -short -C memory | grep GiB
+          echo -e "\n"
+          echo  -e "-----------------------------[Memory Free]--------------------------------------------"
+          free -h
+          echo -e "------------------------------[HDD information]----------------------------------------"
+          echo  -e   "Number of hard disks: $(ls  /dev/sd*  |  grep  -v  [1-9]  |  wc  -l)  \n"
+          echo  "HDD details:"
+          df -Th
+          echo  -e "-----------------------------[System Resource Limits]---------------------------------\n"
           ulimit -a
 ### ----------------------------------------------------------------- ###
       - name: HARDWARE_DEVICE
@@ -150,44 +182,20 @@ jobs:
         uses: rokibhasansagar/slimhub_actions@main
 ### ----------------------------------------------------------------- ###
       - name: Initializing environment
+        if: (!cancelled())
         run: |
-          echo "::group::Install Build Env Tool"
-          sudo -E apt-get clean
-          sudo -E apt-get -qq update
-          sudo -E apt-get -qq full-upgrade
-          sudo -E apt-get -qq install curl libstdc++6 git wget rsync aria2
-          mkdir -p ~/.bin
-          export PATH="${HOME}/.bin:${PATH}"
-          curl https://storage.googleapis.com/git-repo-downloads/repo > ~/.bin/repo
-          chmod a+rx ~/.bin/repo
-          echo "::endgroup::"
-          sudo -E apt-get -qq install $(curl -fsSL bit.ly/depends-ubuntu-2004)
-          sudo -E apt-get -qq install -y rmlint lsb-release wget software-properties-common
-          wget -qO - https://bit.ly/build-env-on-ubuntu-bionic | sed 's/python-/python3-/g' | /bin/bash
-### ----------------------------------------------------------------- ###
-      - name: environment extra
-        run: |
-          sudo -E apt-get clean -qq
-          for i in $(ls /usr/bin/*-8); do sudo -E ln -sf $i ${i%%-8*}; done
-          sudo -E ln -sf /usr/include/asm-generic /usr/include/asm
-          sudo timedatectl set-timezone "$TZ"
-          sudo mkdir -p /workdir
-          sudo chown $USER:$GROUPS /workdir
-          alias ll="ls -la --color=auto"
+          chmod +x scripts/$DEPENDENCY_sh
+          source scripts/$DEPENDENCY_sh
 ### ----------------------------------------------------------------- ###
       - name: Install LLVM
         if: env.INSTALL_LLVM == 'true' && !cancelled()
         run: |
           sudo -E bash -c "$(wget -O - https://apt.llvm.org/llvm.sh)"
-### ----------------------------------------------------------------- ###        
-      - name: Set variables
+### ----------------------------------------------------------------- ###
+      - name: Get current date
+        id: date
         run: |
-          echo "::set-output name=date::$(date +%F)"
-        id: var
-      - name: Initialization GIT environment
-        run: |
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git config --global user.name "github-actions[bot]"
+          echo "::set-output name=date::$(date +'%s')"
 ### ----------------------------------------------------------------- ###
       - name: Clone OpenWRT source code
         working-directory: /workdir
@@ -329,6 +337,7 @@ jobs:
           du -h --max-depth=3 ./package
           echo "=============================================="
 ### ----------------------------------------------------------------- ###
+
       - name: Update feeds Package
         run: |
           file=./scripts/data/feeds_update.txt
@@ -361,7 +370,7 @@ jobs:
           REMOVE_LANGUAGES
 ### ----------------------------------------------------------------- ###
       - name: Run Custom OpenWRT Patches
-        id: patches
+        id: COP
         continue-on-error: true
         if: env.USE_OPENWRT_PATCHES == 'true' && !cancelled()
         run: |
@@ -374,8 +383,8 @@ jobs:
             APPLY_PATCHES
           fi
 ### ----------------------------------------------------------------- ###
-      - name: Pull Request OpenWRT Patches
-        id: PRpatches
+      - name: Pull Request OpenWRT Patches (OpenWRT)
+        id: PROP
         continue-on-error: true
         if: env.USE_PR_OPENWRT_PATCHES == 'true' && !cancelled()
         run: |
@@ -384,11 +393,26 @@ jobs:
           cd openwrt
           APPLY_PR_PATCHES
 ### ----------------------------------------------------------------- ###
+      - name: Pull Request OpenWRT Packages Patches (Packages)
+        id: PROPP
+        continue-on-error: true
+        if: env.USE_PR_OPENWRT_PATCHES_PACKAGES == 'true' && !cancelled()
+        run: |
+          chmod +x scripts/$FUNCTIONS_SH
+          source scripts/$FUNCTIONS_SH
+          cd openwrt
+          APPLY_PR_PATCHES_PACKAGES
+### ----------------------------------------------------------------- ###
       - name: Current Commit After Feeds/Patches
         if: env.GITLOGB == 'true' && !cancelled()
         run: |
+          echo "openwrt:"
           cd openwrt
           git log --pretty=oneline -n 1
+          echo "openwrt/feeds/packages"
+          cd "$GITHUB_WORKSPACE"/openwrt/feeds/packages
+          git log --pretty=oneline -n 1
+          cd "$GITHUB_WORKSPACE"/openwrt
 ### ----------------------------------------------------------------- ###
       - name: Preparing (FILES)
         if: env.USE_FILES == 'true' && !cancelled()
@@ -415,12 +439,149 @@ jobs:
           [ -e configs/$config_file ] && mv configs/$config_file openwrt/.config
 ### ----------------------------------------------------------------- ###
       - name: Smart Chmod
+        working-directory: '/workdir/openwrt'
         if: env.USE_SMART_CHMOD == 'true' && !cancelled()
+        run: |
+          chmod +x "$GITHUB_WORKSPACE"/scripts/$FUNCTIONS_SH
+          source "$GITHUB_WORKSPACE"/scripts/$FUNCTIONS_SH
+          SMART_CHMOD
+### ----------------------------------------------------------------- ###
+      - name: Cache Key Get/Check
+        working-directory: '/workdir/openwrt'
+        run: |
+          export cache_toolchain=$(git log --pretty=tformat:"%h" -n1 tools toolchain)
+          export cache_feeds=$(git log --pretty=tformat:"%h" -n1 feeds)
+          export cache_package=$(git log --pretty=tformat:"%h" -n1 package)
+          export cache_target=$(git log --pretty=tformat:"%h" -n1 target)
+          export cache_staging_dir=$(git log --pretty=tformat:"%h" -n1 staging_dir)
+        
+          echo "cache_toolchain=$cache_toolchain"       >>"$GITHUB_ENV"
+          echo "cache_feeds=$cache_feeds"               >>"$GITHUB_ENV"
+          echo "cache_package=$cache_package"           >>"$GITHUB_ENV"
+          echo "cache_target=$cache_target"             >>"$GITHUB_ENV"
+          echo "cache_staging_dir=$cache_staging_dir"   >>"$GITHUB_ENV"
+### ----------------------------------------------------------------- ###
+      - name: Cache Acceleration (Secondary compilation of the same model with the same source code is valid within 7 days, and only one source code cache is retained each time)
+        uses: DevOpenWRT-Router/Cache-OpenWRT-Builds@main
+        if: env.USE_CACHEWRTBUILD == 'true' && !cancelled()
+        with:
+          ccache: 'true'
+          toolchain: 'true'
+          skip: 'false'
+          clean: '${{ contains(github.event.action, ''nocache'') }}'
+          prefix: '${{ github.workspace }}/openwrt'
+### ----------------------------------------------------------------- ###
+      - name: 'Restore feeds from cache'
+        id: feeds-cache
+        uses: actions/cache@v3
+        if: env.RESTORE_FEEDS_CACHE == 'true' && !cancelled()
+        env:
+          CACHE_NAME: 'feeds-cache'
+        with:
+          path: |
+            ${{ github.workspace }}/openwrt/feeds/packages
+            ${{ github.workspace }}/openwrt/feeds/luci
+          key: ${{ env.CACHE_NAME }}-${{ runner.os }}-${{ steps.date.outputs.date }}
+### ----------------------------------------------------------------- ###
+      - name: 'Restore build Directory from cache'
+        id: build-cache
+        uses: actions/cache@v3
+        if: env.RESTORE_BUILD_CACHE == 'true' && !cancelled()
+        env:
+          CACHE_NAME: 'build-cache'
+        with:
+          path: ${{ github.workspace }}/openwrt/build_dir
+          key: ${{ env.CACHE_NAME }}-${{ runner.os }}-${{ steps.date.outputs.date }}
+### ----------------------------------------------------------------- ###
+      - name: 'Restore staging Directory from cache'
+        id: staging-cache
+        uses: actions/cache@v3
+        if: env.RESTORE_STAGING_CACHE == 'true' && !cancelled()
+        env:
+          CACHE_NAME: 'staging-cache'
+        with:
+          path: ${{ github.workspace }}/openwrt/staging_dir
+          key: ${{ env.CACHE_NAME }}-${{ runner.os }}-${{ steps.date.outputs.date }}
+### ----------------------------------------------------------------- ###
+      - name: 'Restore package Directory from cache'
+        id: package-cache
+        uses: actions/cache@v3
+        if: env.RESTORE_PACKAGE_CACHE == 'true' && !cancelled()
+        env:
+          CACHE_NAME: 'package-cache'
+        with:
+          path: ${{ github.workspace }}/openwrt/package
+          key: ${{ env.CACHE_NAME }}-${{ runner.os }}-${{ steps.date.outputs.date }}
+### ----------------------------------------------------------------- ###
+      - name: 'Restore downloads Directory from cache'
+        id: dl-cache
+        uses: actions/cache@v3
+        if: env.RESTORE_DL_CACHE == 'true' && !cancelled()
+        env:
+          CACHE_NAME: 'dl-cache'
+        with:
+          path: ${{ github.workspace }}/openwrt/dl
+          key: ${{ env.CACHE_NAME }}-${{ runner.os }}-${{ steps.date.outputs.date }}
+ ### ----------------------------------------------------------------- ###
+      - name: 'Restore build_dir/toolchain Directory from cache'
+        id: build_dir_toolchain-cache
+        uses: actions/cache@v3
+        if: env.RESTORE_BUILD_DIR_TOOLCHAIN_CACHE == 'true' && !cancelled()
+        env:
+          CACHE_NAME: 'build_dir_toolchain-cache'
+        with:
+          path: ${{ github.workspace }}/openwrt/build_dir/toolchain-*
+          key: ${{ env.CACHE_NAME }}-${{ runner.os }}-${{ steps.date.outputs.date }}
+ ### ----------------------------------------------------------------- ###
+      - name: 'Restore build_dir/target Directory from cache'
+        id: build_dir_target-cache
+        uses: actions/cache@v3
+        if: env.RESTORE_BUILD_DIR_TARGET_CACHE == 'true' && !cancelled()
+        env:
+          CACHE_NAME: 'build_dir_target-cache'
+        with:
+          path: ${{ github.workspace }}/openwrt/build_dir/target-*
+          key: ${{ env.CACHE_NAME }}-${{ runner.os }}-${{ steps.date.outputs.date }}
+ ### ----------------------------------------------------------------- ###
+      - name: 'Restore build_dir/host Directory from cache'
+        id: build_dir_host-cache
+        uses: actions/cache@v3
+        if: env.RESTORE_BUILD_DIR_HOST_CACHE == 'true' && !cancelled()
+        env:
+          CACHE_NAME: 'build_dir_host-cache'
+        with:
+          path: ${{ github.workspace }}/openwrt/build_dir/host
+          key: ${{ env.CACHE_NAME }}-${{ runner.os }}-${{ steps.date.outputs.date }}
+ ### ----------------------------------------------------------------- ###
+      - name: 'Restore build_dir/hostpkg Directory from cache'
+        id: build_dir_hostpkg-cache
+        uses: actions/cache@v3
+        if: env.RESTORE_BUILD_DIR_HOSTPKG_CACHE == 'true' && !cancelled()
+        env:
+          CACHE_NAME: 'build_dir_hostpkg-cache'
+        with:
+          path: ${{ github.workspace }}/openwrt/build_dir/hostpkg
+          key: ${{ env.CACHE_NAME }}-${{ runner.os }}-${{ steps.date.outputs.date }}
+ ### ----------------------------------------------------------------- ###
+      - name: 'Restore .ccache from cache'
+        id: ccache-cache
+        uses: actions/cache@v3
+        if: env.RESTORE_CCACHE_CACHE == 'true' && !cancelled()
+        env:
+          CACHE_NAME: 'ccache-cache'
+        with:
+          path: ${{ github.workspace }}/openwrt/.ccache
+          key: ${{ env.CACHE_NAME }}-${{ runner.os }}-${{ steps.date.outputs.date }}
+### ----------------------------------------------------------------- ###
+      - name: Setup cache for OpenWRT (ccache)
+        id: ccache
+        continue-on-error: true
         run: |
           chmod +x scripts/$FUNCTIONS_SH
           source scripts/$FUNCTIONS_SH
           cd openwrt
-          SMART_CHMOD
+          CCACHE_SETUP
+          ccache -s
 ### ----------------------------------------------------------------- ###
       - name: Change Build user/Domain
         run: |
@@ -440,7 +601,7 @@ jobs:
             PRE_DEFCONFIG_ADDONS
           fi
 ### ----------------------------------------------------------------- ###
-      - name: Set defconfig to use ccache
+      - name: CCACHE - Setup .config to use cache
         run: |
           chmod +x scripts/$FUNCTIONS_SH
           source scripts/$FUNCTIONS_SH
@@ -479,20 +640,6 @@ jobs:
           echo -e "Creating (logs) Directory:"
           cd openwrt
           mkdir -p logs
-### ----------------------------------------------------------------- ###
-      - name: Cache Acceleration (Secondary compilation of the same model with the same source code is valid within 7 days, and only one source code cache is retained each time)
-        uses: klever1988/cachewrtbuild@main
-        if: env.USE_CACHEWRTBUILD == 'true' && !cancelled()
-        with:
-          ccache: 'true'
-          toolchain: 'true'
-          clean: '${{ contains(github.event.action, ''nocache'') }}'
-          prefix: '${{ github.workspace }}/openwrt'
-### ----------------------------------------------------------------- ###
-      - name: Cache (ccache list)
-        id: ccache
-        run: |
-          ccache -s
 ### ----------------------------------------------------------------- ###
       - name: Make Download
         id: makedownload
@@ -645,26 +792,69 @@ jobs:
         if: (!cancelled())
         run: |
           export TOPDIR="$PWD"
-          BUILD_LOG_DIR="$(make --no-print-directory -C target/linux val.BUILD_LOG_DIR)"
-          BIN_DIR="$(make --no-print-directory -C target/linux val.BIN_DIR)"
-          PKG_DIR="$(make --no-print-directory -C target/linux val.PACKAGE_DIR)"
-          KEY_BUILD="$(make --no-print-directory -C target/linux val.BUILD_KEY)"
-          KMOD_DIR="$(make --no-print-directory -C target/linux val.LINUX_VERSION val.LINUX_RELEASE val.LINUX_VERMAGIC | tr '\n' '-' | head -c -1)"
-          PKG_ARCH="$(make --no-print-directory -C target/linux val.ARCH_PACKAGES)"
+          export STAGING_DIR_HOST="$(make --no-print-directory -C target/linux val.STAGING_DIR_HOST)"
+          export MKHASH="$STAGING_DIR_HOST/bin/mkhash"
+          export PATH="$STAGING_DIR_HOST/bin":"$PATH"
+          export BUILD_LOG_DIR="$(make --no-print-directory -C target/linux val.BUILD_LOG_DIR)"
+          export BIN_DIR="$(make --no-print-directory -C target/linux val.BIN_DIR)"
+          export PKG_DIR="$(make --no-print-directory -C target/linux val.PACKAGE_DIR)"
+          export KEY_BUILD="$(make --no-print-directory -C target/linux val.BUILD_KEY)"
+          export KMOD_DIR="$(make --no-print-directory -C target/linux val.LINUX_VERSION val.LINUX_RELEASE val.LINUX_VERMAGIC | tr '\n' '-' | head -c -1)"
+          export PKG_ARCH="$(make --no-print-directory -C target/linux val.ARCH_PACKAGES)"
           echo -e "PKG_ARCH=$PKG_ARCH" | tee -a "$GITHUB_ENV"
           UL_TARGET="$(awk -F '/' '{print $(NF-1)}' <<< "$BIN_DIR")"
           UL_SUBTARGET="$(awk -F '/' '{print $NF}' <<< "$BIN_DIR")"
-          echo "BUILD_LOG_DIR=$BUILD_LOG_DIR" >>"$GITHUB_ENV"
-          echo "BIN_DIR=$BIN_DIR"             >>"$GITHUB_ENV"
-          echo "PKG_DIR=$PKG_DIR"             >>"$GITHUB_ENV"
-          echo "KEY_BUILD=$KEY_BUILD"         >>"$GITHUB_ENV"
-          echo "KMOD_DIR=$KMOD_DIR"           >>"$GITHUB_ENV"
-          echo "PKG_ARCH=$PKG_ARCH"           >>"$GITHUB_ENV"
+          echo "STAGING_DIR_HOST=$STAGING_DIR_HOST" >>"$GITHUB_ENV"
+          echo "MKHASH=$MKHASH"                     >>"$GITHUB_ENV"
+          echo "PATH=$PATH"                         >>"$GITHUB_ENV"
+          echo "BUILD_LOG_DIR=$BUILD_LOG_DIR"       >>"$GITHUB_ENV"
+          echo "ARCH_PACKAGES=$ARCH_PACKAGES"       >>"$GITHUB_ENV"
+          echo "BIN_DIR=$BIN_DIR"                   >>"$GITHUB_ENV"
+          echo "PKG_DIR=$PKG_DIR"                   >>"$GITHUB_ENV"
+          echo "KEY_BUILD=$KEY_BUILD"               >>"$GITHUB_ENV"
+          echo "KMOD_DIR=$KMOD_DIR"                 >>"$GITHUB_ENV"
+          echo "PKG_ARCH=$PKG_ARCH"                 >>"$GITHUB_ENV"
 ### --------------------------- ###
       - name: If Error (OpenWRT Variable Setups)
         if: steps.VBS.outcome == 'failure'
         run: |
           echo "Proccess Failed at level 1"
+### ----------------------------------------------------------------- ###
+      - name: Sign Packages (KEY_BUILD)
+        id: SPKB
+        working-directory: '/workdir/openwrt'
+        continue-on-error: true
+        if: (!cancelled())
+        run: |
+          export TOPDIR="$PWD"
+          
+          pushd "/workdir/openwrt/bin/packages/$PKG_ARCH/routing" || exit
+          "$STAGING_DIR_HOST"/bin/usign -S -m "Packages" -s "$KEY_BUILD"
+          popd
+          pushd "/workdir/openwrt/bin/packages/$PKG_ARCH/packages" || exit
+          "$STAGING_DIR_HOST"/bin/usign -S -m "Packages" -s "$KEY_BUILD"
+          popd
+          pushd "/workdir/openwrt/bin/packages/$PKG_ARCH/base" || exit
+          "$STAGING_DIR_HOST"/bin/usign -S -m "Packages" -s "$KEY_BUILD"
+          popd
+          pushd "/workdir/openwrt/bin/packages/$PKG_ARCH/telephony" || exit
+          "$STAGING_DIR_HOST"/bin/usign -S -m "Packages" -s "$KEY_BUILD"
+          popd
+          pushd "/workdir/openwrt/bin/packages/$PKG_ARCH/luci" || exit
+          "$STAGING_DIR_HOST"/bin/usign -S -m "Packages" -s "$KEY_BUILD"
+          popd
+### --------------------------- ###
+      - name: If Error (KEY_BUILD)
+        if: steps.SPKB.outcome == 'failure'
+        run: |
+          echo "Proccess Failed at level 1"
+### ----------------------------------------------------------------- ###
+      - name: List SHA256SUMS of dl Directory
+        id: sha256
+        working-directory: '/workdir/openwrt/dl'
+        run: |
+          find . -type f -exec sha256sum {} \; >> sha256sum.txt
+          cat "sha256sum.txt"
 ### ----------------------------------------------------------------- ###
       - name: Generate kmods feed
         id: GKMOD
@@ -716,6 +906,8 @@ jobs:
           /bin/bash ${GITHUB_WORKSPACE}/scripts/after_build.sh
 ### ----------------------------------------------------------------- ###
       - name: Check space usage
+        id: space
+        continue-on-error: true
         if: (!cancelled())
         run: |
           cd openwrt
@@ -725,10 +917,20 @@ jobs:
           df -hT
           echo "=============================================="
           du -h --max-depth=1 ./ --exclude=build_dir --exclude=bin
+          du -h --max-depth=1 ./staging_dir
           du -h --max-depth=1 ./build_dir
           du -h --max-depth=1 ./bin
+          du -h --max-depth=1 ./package
+          du -h --max-depth=1 .ccache
           du -h --max-depth=10 ./bin
           echo "=============================================="
+### ----------------------------------------------------------------- ###
+      - name: Copy (.config) for releases
+        run: |
+          chmod +x scripts/$FUNCTIONS_SH
+          source scripts/$FUNCTIONS_SH
+          COPY_DEFCONFIG
+          
 ### ----------------------------------------------------------------- ###
       - name: Prepare Packages/Kmods for Distribution
         id: distribution
@@ -745,12 +947,21 @@ jobs:
         run: |
           echo "[+] Prepare Packages/Kmods for Distribution Failed"
 ### ----------------------------------------------------------------- ###
-      - name: Print faillogs
+      - name: Print faillogs (Errors Logs) [Logs Main, Package, Target, Toolchain, Tools]
         working-directory: /workdir/openwrt
         if: env.PRINT_FAILLOGS == 'true' && (!cancelled())
         run: |
           [ ! -e "./logs/error.txt" ] || cat "./logs/error.txt"
           [ ! -e "./logs/package/error.txt" ] || cat "./logs/package/error.txt"
+          [ ! -e "./logs/target/error.txt" ] || cat "./logs/target/error.txt"
+          [ ! -e "./logs/toolchain/error.txt" ] || cat "./logs/toolchain/error.txt"
+          [ ! -e "./logs/tools/error.txt" ] || cat "./logs/tools/error.txt"
+### ----------------------------------------------------------------- ###
+      - name: View Build Logs (Build Logs) [Build.log Viewable]
+        working-directory: /workdir/openwrt
+        if: env.VIEW_BUILD_LOGS == 'true' && (!cancelled())
+        run: |
+          [ ! -e "./logs/build.log" ] || cat "./logs/build.log"
 ### ----------------------------------------------------------------- ###
       - name: Upload kmods
         uses: actions/upload-artifact@main
@@ -833,11 +1044,18 @@ jobs:
         with:
           retain_days: 1
           keep_minimum_runs: 3
-#      - name: Remove old Releases
-#        uses: dev-drprasad/delete-older-releases@v0.2.0
-#        if: env.UPLOAD_RELEASE == 'true' && !cancelled()
-#        with:
-#          keep_latest: 10
-#          delete_tags: true
-#        env:
-#          GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+      - name: Remove old Releases
+        uses: dev-drprasad/delete-older-releases@v0.2.0
+        if: env.UPLOAD_RELEASE == 'true' && !cancelled()
+        with:
+          keep_latest: 10
+          delete_tags: true
+        env:
+          GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+### ----------------------------------------------------------------- ###
+      - name: PreCache - Clean
+        run: |
+          git -C "${GITHUB_WORKSPACE}/openwrt/feeds/luci" reset --hard HEAD^
+          cd ${GITHUB_WORKSPACE}/openwrt/staging_dir
+          rm -rf packages target-*
+### ----------------------------------------------------------------- ###

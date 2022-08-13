@@ -9,16 +9,17 @@ on:
 
 jobs:
 
-#  Cleanup-Old-Releases:
-#    runs-on: ubuntu-20.04
-#    steps:
-#      - name: Delete Older Releases
-#        uses: dev-drprasad/delete-older-releases@master
-#        with:
-#          keep_latest: 12
-#          delete_tags: true
-#          env:
-#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  Cleanup-Old-Releases:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: dev-drprasad/delete-older-releases@v0.2.0
+        with:
+          repo: ferboiar/wrt32x # defaults to current repo
+          keep_latest: 12
+          delete_tags: true
+          delete_tag_pattern: ""
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   Cleanup-Old-Artifacts:
     runs-on: ubuntu-20.04
@@ -37,7 +38,7 @@ jobs:
         with:
           token: ${{ github.token }}
           repository: ${{ github.repository }}
-          retain_days: 0
+          retain_days: 1
 
   Clean-up-previous-workflow-runs:
     runs-on: ubuntu-20.04
@@ -46,6 +47,7 @@ jobs:
         uses: egmacke/action-cleanup-workflow-runs@master
         with:
           token: ${{ github.token }}
+          repository: ${{ github.repository }}
           workflow: ${{ github.workflow }}
           retain: 2
           branch: ${{ github.branch }}

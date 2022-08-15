@@ -8,6 +8,7 @@
 #
 # Description: Build OpenWrt using GitHub Actions
 #
+# "SOURCE_DIRECTORY_B": "openwrt/bin/targets/mediatek/mt7622/kmods/$KMOD_DIR",
 
 name: Build Linksys e8450 (AKA Belkin rt3200) firmware
 on:
@@ -34,7 +35,7 @@ jobs:
               "HARDWARE_DEVICE": "e8450",
               "HARDWARE_ID": "e8450",
               "SOURCE_DIRECTORY_A": "openwrt/bin/packages/arm_cortex-a9_vfpv3-d16",
-              "SOURCE_DIRECTORY_B": "openwrt/bin/targets/mediatek/mt7622/kmods/$KMOD_DIR",
+              "SOURCE_DIRECTORY_B": "openwrt/bin/targets/mediatek/mt7622/kmods",
               "ARQUITECTURA": "mediatek/mt7622/",
               "config_file": "rt3200.config",
               "ISP": "none"

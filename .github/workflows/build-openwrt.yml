@@ -122,7 +122,8 @@ env:
 ### --------------------------- ###
 ### [ GITHUB PUSH ENV ] ###
   SOURCE_DIRECTORY_A: '${{ github.event.client_payload.message.SOURCE_DIRECTORY_A }}'
-  SOURCE_DIRECTORY_B: '${{ github.event.client_payload.message.SOURCE_DIRECTORY_B }}'
+  SRC_DIRECTORY_B: '${{ github.event.client_payload.message.SOURCE_DIRECTORY_B }}'
+  SOURCE_DIRECTORY_B: $SRC_DIRECTORY_B/$KMOD_DIR
   DESTINATION_GITHUB_USERNAME: DevOpenWRT-Router
   DESTINATION_REPOSITORY_NAME: Linksys_OpenWRT_Releases
   USER_EMAIL: BuildBot2021@gmail.com

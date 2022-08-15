@@ -897,6 +897,7 @@ jobs:
         run: |
           chmod +x scripts/$FUNCTIONS_SH
           source scripts/$FUNCTIONS_SH
+          cd openwrt
           get_deviceID
 ### ----------------------------------------------------------------- ###
       - name: After Build

@@ -338,32 +338,32 @@ rm -rf package/sirpdboy_A/smartdns ## NEEDS FIXED
 
 echo "END of sirpdboy's packages"
 
-echo "From sirpdboy's BUILD packages"
+#echo "From sirpdboy's BUILD packages"
 
-git clone https://github.com/sirpdboy/build.git package/sirpdboy_B
+#git clone https://github.com/sirpdboy/build.git package/sirpdboy_B
 
-#rm -rf  package/sirpdboy_B/autocore
-rm -rf package/sirpdboy_B/automount
-rm -rf package/sirpdboy_B/autosamba-samba4
-rm -rf package/sirpdboy_B/default-settings # using a dif
-rm -rf package/sirpdboy_B/doc # not a package
-rm -rf package/sirpdboy_B/gcc # not a package
-rm -rf package/sirpdboy_B/ksmbd-tools
-rm -rf package/sirpdboy_B/luci-app-ksmbd
-rm -rf package/sirpdboy_B/luci-app-samba
-rm -rf package/sirpdboy_B/luci-app-samba4
-rm -rf package/sirpdboy_B/miniupnpd
-rm -rf package/sirpdboy_B/mwan3
-rm -rf package/sirpdboy_B/samba36
-rm -rf package/sirpdboy_B/samba4
-rm -rf package/sirpdboy_B/my-autocore
-rm -rf package/sirpdboy_B/autocore
-rm -rf package/sirpdboy_B/mycore
-rm -rf package/sirpdboy_B/pass
-rm -rf package/sirpdboy_B/set # Not a package
-rm -rf package/sirpdboy_B/socat
+##rm -rf  package/sirpdboy_B/autocore
+#rm -rf package/sirpdboy_B/automount
+#rm -rf package/sirpdboy_B/autosamba-samba4
+#rm -rf package/sirpdboy_B/default-settings # using a dif
+#rm -rf package/sirpdboy_B/doc # not a package
+#rm -rf package/sirpdboy_B/gcc # not a package
+#rm -rf package/sirpdboy_B/ksmbd-tools
+#rm -rf package/sirpdboy_B/luci-app-ksmbd
+#rm -rf package/sirpdboy_B/luci-app-samba
+#rm -rf package/sirpdboy_B/luci-app-samba4
+#rm -rf package/sirpdboy_B/miniupnpd
+#rm -rf package/sirpdboy_B/mwan3
+#rm -rf package/sirpdboy_B/samba36
+#rm -rf package/sirpdboy_B/samba4
+#rm -rf package/sirpdboy_B/my-autocore
+#rm -rf package/sirpdboy_B/autocore
+#rm -rf package/sirpdboy_B/mycore
+#rm -rf package/sirpdboy_B/pass
+#rm -rf package/sirpdboy_B/set # Not a package
+#rm -rf package/sirpdboy_B/socat
 
-echo "END of sirpdboy's Build packages"
+#echo "END of sirpdboy's Build packages"
 }
 
 ### -------------------------------------------------------------------------------------------------------------- ###

@@ -41,7 +41,7 @@ UNSORTED_GIT_PACKAGES(){
   echo "Fetching UN-Sorted GIT Packages:"
   
   ### luci-app-access
-  git clone https://github.com/resmh/luci-app-access.git package/luci-app-access
+#  git clone https://github.com/resmh/luci-app-access.git package/luci-app-access
 
   ### luci-app-webguide
   git clone https://github.com/p1ay8y3ar/luci-app-webguide.git package/p1ay8y3ar/luci-app-webguide
@@ -50,7 +50,7 @@ UNSORTED_GIT_PACKAGES(){
   git clone https://github.com/jerrykuku/luci-app-ttnode.git package/jerrykuku/luci-app-ttnode
 
   ### luci-app-tinyfilemanager
-  git clone https://github.com/lynxnexy/luci-app-tinyfilemanager.git package/lynxnexy/luci-app-tinyfilemanager
+#  git clone https://github.com/lynxnexy/luci-app-tinyfilemanager.git package/lynxnexy/luci-app-tinyfilemanager
 
   ### luci-app-autorepeater
   git clone https://github.com/peter-tank/luci-app-autorepeater.git package/peter-tank/luci-app-autorepeater
@@ -90,8 +90,8 @@ SBWM1_PACKAGES() {
   rm -rf package/sbwml/autocore-arm/po
 
   ### openwrt-qBittorrent-Enhanced-Edition
-  git clone https://github.com/sbwml/openwrt-qBittorrent-Enhanced-Edition.git package/sbwml/openwrt-qBittorrent-Enhanced-Edition
-  rm -rf package/sbwml/package/sbwml/openwrt-qBittorrent-Enhanced-Edition/po
+#  git clone https://github.com/sbwml/openwrt-qBittorrent-Enhanced-Edition.git package/sbwml/openwrt-qBittorrent-Enhanced-Edition
+#  rm -rf package/sbwml/package/sbwml/openwrt-qBittorrent-Enhanced-Edition/po
 
   ### openwrt-qBittorrent
   git clone https://github.com/sbwml/openwrt-qBittorrent.git package/sbwml/openwrt-qBittorrent
@@ -408,7 +408,7 @@ LUCI_THEMES() {
   git clone https://github.com/jerrykuku/luci-app-argon-config.git package/jerrykuku/luci-app-argon-config
 
   ### luci-theme-tano (Custom By lynxnexy)
-  git clone https://github.com/lynxnexy/luci-theme-tano.git package/lynxnexy/luci-theme-tano
+#  git clone https://github.com/lynxnexy/luci-theme-tano.git package/lynxnexy/luci-theme-tano
 
   git clone https://github.com/DevOpenWRT-Router/luci-theme-tano-MOD.git package/PureFusionWRT/luci-theme-tano-MOD
 

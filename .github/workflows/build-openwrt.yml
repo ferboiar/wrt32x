@@ -190,8 +190,7 @@ jobs:
 ### ----------------------------------------------------------------- ###
       - name: Install LLVM
         if: env.INSTALL_LLVM == 'true' && !cancelled()
-        run: |
-          sudo -E bash -c "$(wget -O - https://apt.llvm.org/llvm.sh)"
+        run: sudo -E bash -c "$(wget -O - https://apt.llvm.org/llvm.sh)"
 ### ----------------------------------------------------------------- ###
       - name: Get current date
         id: date

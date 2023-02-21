@@ -720,8 +720,8 @@ jobs:
           let Make_Process=$(nproc)+2
           make -j${Make_Process} target/install || make -j${Make_Process} target/install V=s
           echo $?
-#          echo "::set-output name=status::success"
-          echo "{status}={success}" >> $GITHUB_OUTPUT
+          echo "::set-output name=status::success"
+#          echo "{status}={success}" >> $GITHUB_OUTPUT
 ### --------------------------- ###
       - name: If Error (Build Firmware)
         uses: actions/upload-artifact@main
@@ -740,8 +740,8 @@ jobs:
           let Make_Process=$(nproc)+2
           make buildinfo V=s
           echo $?
-#          echo "::set-output name=status::success"
-          echo "{status}={success}" >> $GITHUB_OUTPUT
+          echo "::set-output name=status::success"
+#          echo "{status}={success}" >> $GITHUB_OUTPUT
 ### --------------------------- ###
       - name: If Error (Generate Buildinfo)
         uses: actions/upload-artifact@main
@@ -760,8 +760,8 @@ jobs:
           let Make_Process=$(nproc)+2
           make json_overview_image_info V=s
           echo $?
-#          echo "::set-output name=status::success"
-          echo "{status}={success}" >> $GITHUB_OUTPUT
+          echo "::set-output name=status::success"
+#          echo "{status}={success}" >> $GITHUB_OUTPUT
 ### --------------------------- ###
       - name: If Error (Generate JSON Overview)
         uses: actions/upload-artifact@main
@@ -780,8 +780,8 @@ jobs:
           let Make_Process=$(nproc)+2
           make checksum V=s
           echo $?
-#          echo "::set-output name=status::success"
-          echo "{status}={success}" >> $GITHUB_OUTPUT
+          echo "::set-output name=status::success"
+#          echo "{status}={success}" >> $GITHUB_OUTPUT
 ### --------------------------- ###
       - name: If Error (Generate HASH)
         uses: actions/upload-artifact@main
@@ -1008,8 +1008,8 @@ jobs:
           cd openwrt/bin/targets/*/*
           rm -rf packages
           echo "FIRMWARE=$PWD" >> $GITHUB_ENV
-#          echo "::set-output name=status::success"
-          echo "{status}={success}" >> $GITHUB_OUTPUT
+          echo "::set-output name=status::success"
+#          echo "{status}={success}" >> $GITHUB_OUTPUT
 ### ----------------------------------------------------------------- ###
       - name: Upload firmware directory
         uses: actions/upload-artifact@main
@@ -1030,15 +1030,13 @@ jobs:
         if: env.UPLOAD_RELEASE == 'true' && steps.compile.outcome == 'success' && !cancelled()
         run: |
           if [[ $ISP == "masmovil" ]]; then
-#            echo "::set-output name=release_tag::$HARDWARE_DEVICE-ISP_MASMOVIL-$(date +%Y.%m.%d-%H%M)"
-            echo "{release_tag}={$HARDWARE_DEVICE-ISP_MASMOVIL-$(date +%Y.%m.%d-%H%M)}" >> $GITHUB_OUTPUT
+            echo "::set-output name=release_tag::$HARDWARE_DEVICE-ISP_MASMOVIL-$(date +%Y.%m.%d-%H%M)"
           else
-#            echo "::set-output name=release_tag::$HARDWARE_DEVICE-ISP_NONE-$(date +%Y.%m.%d-%H%M)"
-            echo "{release_tag}={$HARDWARE_DEVICE-ISP_NONE-$(date +%Y.%m.%d-%H%M)}" >> $GITHUB_OUTPUT
+            echo "::set-output name=release_tag::$HARDWARE_DEVICE-ISP_NONE-$(date +%Y.%m.%d-%H%M)"
           fi
           touch release.txt
-#          echo "::set-output name=status::success"
-          echo "{status}={success}" >> $GITHUB_OUTPUT
+          echo "::set-output name=status::success"
+#          echo "{status}={success}" >> $GITHUB_OUTPUT
 ### ----------------------------------------------------------------- ###
       - name: Upload firmware to release
         uses: softprops/action-gh-release@master

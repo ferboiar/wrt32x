@@ -196,8 +196,8 @@ jobs:
       - name: Get current date
         id: date
         run: |
-#          echo "::set-output name=date::$(date +'%s')"
-          echo "{date}={$(date +'%s')}" >> $GITHUB_OUTPUT
+          echo "::set-output name=date::$(date +'%s')"
+#          echo "{date}={$(date +'%s')}" >> $GITHUB_OUTPUT
 ### ----------------------------------------------------------------- ###
       - name: Clone OpenWRT source code
         working-directory: /workdir

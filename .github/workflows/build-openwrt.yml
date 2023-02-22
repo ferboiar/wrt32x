@@ -648,7 +648,7 @@ jobs:
         run: |
           cd openwrt
           #make download -j50
-          make -j50 download world
+          make -j50 download clean world
           find dl -size -1024c -exec ls -l {} \;
           find dl -size -1024c -exec rm -f {} \;
 ### ----------------------------------------------------------------- ###

@@ -207,6 +207,10 @@ rm -rf package/kenzok8/luci-app-filebrowser # part 2 of filebrowser
 rm -rf package/kenzok8/luci-theme-argon # borro este y me quedo con el original
 rm -rf package/kenzok8/luci-app-argon-config # borro este y me quedo con el original
 rm -rf package/kenzok8/luci-app-fileassistant # borro para meter la traducida
+rm -rf package/kenzok8/amule # error de dependencia con libcryptopp que no existe
+rm -rf package/kenzok8/luci-app-quickstart
+rm -rf package/kenzok8/luci-app-istorex
+rm -rf package/kenzok8/luci-app-tencentcloud-cos
 
 git clone https://github.com/ferboiar/luci-app-fileassistant.git package/kenzok8/luci-app-fileassistant
 }

@@ -39,8 +39,8 @@ echo "END Fetching From DevOpenWRT-Router:"
 
 UNSORTED_GIT_PACKAGES(){
   echo "Fetching UN-Sorted GIT Packages:"
-  
-  ### luci-app-access
+
+  ### luci-app-access. remsh ha borrado el repo de su cuenta
 #  git clone https://github.com/resmh/luci-app-access.git package/luci-app-access
 
   ### luci-app-webguide
@@ -61,13 +61,12 @@ UNSORTED_GIT_PACKAGES(){
   ### autocore-arm-x86
   #git clone https://github.com/MatJeheyy/autocore-arm-x86.git package/MatJeheyy/autocore
   #rm -rf package//MatJeheyy/autocore/po
-  
+
   ### timming settings
   git clone https://github.com/ferboiar/luci-app-rebootschedule.git package/ferboiar/luci-app-rebootschedule
   ### my-default-settings (ferboiar's repo)
   git clone https://github.com/ferboiar/my-default-settings.git package/ferboiar/my-default-settings
 }
-
 
 UNSORTED_PACKAGES() {
 echo "Fetching From unSorted Repo's:"
@@ -94,8 +93,8 @@ SBWM1_PACKAGES() {
 #  rm -rf package/sbwml/package/sbwml/openwrt-qBittorrent-Enhanced-Edition/po
 
   ### openwrt-qBittorrent
-  git clone https://github.com/sbwml/openwrt-qBittorrent.git package/sbwml/openwrt-qBittorrent
-  rm -rf package/sbwml/package/sbwml/openwrt-qBittorrent/po
+#  git clone https://github.com/sbwml/openwrt-qBittorrent.git package/sbwml/openwrt-qBittorrent
+#  rm -rf package/sbwml/package/sbwml/openwrt-qBittorrent/po
 
   ### openwrt-filebrowser
   git clone https://github.com/sbwml/openwrt-filebrowser.git package/sbwml/openwrt-filebrowser
@@ -132,7 +131,7 @@ GSPOTX2F_PACKAGES() {
   ### luci-app-temp-status
   git clone https://github.com/gSpotx2f/luci-app-temp-status.git package/gSpotx2f/luci-app-temp-status
   rm -rf package/gSpotx2f/luci-app-temp-status/po
-  
+
   ### luci-app-disks-info
   git clone https://github.com/gSpotx2f/luci-app-disks-info.git package/gSpotx2f/luci-app-disks-info
   rm -rf package/gSpotx2f/luci-app-disks-info/po
@@ -258,7 +257,7 @@ for (( i=0; i<len; i++ ))
 do
   echo "${packages[$i]}"
   svn export $url/"${packages[$i]}" $placement/"${packages[$i]}"
-  
+
 done
 
 rm -rf package/lean/autocore
@@ -399,6 +398,20 @@ rm -rf package/NueXini/luci-app-mosdns
 echo "END of NueXini's Build packages"
 }
 
+LYNXNEXY_PACKAGES() {
+echo "Downloading lynxnexy's packages"
+#repo del luci-theme-tano y luci-app-tinyfilemanager
+
+git clone https://github.com/lynxnexy/packages.git package/lynxnexy
+
+rm -rf package/lynxnexy/3ginfo
+rm -rf package/lynxnexy/luci-app-3ginfo
+rm -rf package/lynxnexy/luci-app-amlogic
+rm -rf package/lynxnexy/p7zip
+
+echo "END of lynxnexy's packages"
+}
+
 LUCI_THEMES() {
   echo "Fetching LUCI-Themes"
 
@@ -407,7 +420,7 @@ LUCI_THEMES() {
   ### luci-app-argon-config
   git clone https://github.com/jerrykuku/luci-app-argon-config.git package/jerrykuku/luci-app-argon-config
 
-  ### luci-theme-tano (Custom By lynxnexy)
+  ### luci-theme-tano (Custom By lynxnexy) Movido a la funcion LYNXNEXY_PACKAGES
 #  git clone https://github.com/lynxnexy/luci-theme-tano.git package/lynxnexy/luci-theme-tano
 
   git clone https://github.com/DevOpenWRT-Router/luci-theme-tano-MOD.git package/PureFusionWRT/luci-theme-tano-MOD
@@ -431,6 +444,7 @@ LUCI_THEMES() {
 ### -------------------------------------------------------------------------------------------------------------- ###
 
 LUCI_THEMES; ### ALWAYS GOES FIRST TO MAKE SURE NOT OVERWRITTEN ###
+LYNXNEXY_PACKAGES; ### INCLUYE TEMA, ASÍ QUE POR ENCIMA PARA QUE NO SE SOBREESCRIBA
 PERSONAL_PACKAGES;
 UNSORTED_GIT_PACKAGES;
 UNSORTED_PACKAGES;

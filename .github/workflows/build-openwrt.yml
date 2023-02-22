@@ -647,7 +647,8 @@ jobs:
         id: makedownload
         run: |
           cd openwrt
-          make download -j50
+          #make download -j50
+          make -j50 download world
           find dl -size -1024c -exec ls -l {} \;
           find dl -size -1024c -exec rm -f {} \;
 ### ----------------------------------------------------------------- ###

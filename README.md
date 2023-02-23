@@ -51,6 +51,9 @@ Common:
 - **Themes**: [Argon](https://github.com/jerrykuku/luci-theme-argon "Argon"), Bootstrap (dark & light), [Edge](https://github.com/kiddin9/luci-theme-edge "Edge"), [Material](https://github.com/LuttyYang/luci-theme-material "Material") and OpenWrt2020
 - adblock, banip, dynamic dns, file explorer, luci-app-wifischedule, luci-app-watchca, wake on lan, bandwith monitor, samba 4, upnp, ~~luci-app-vpn-policy-routing, luci-app-vpnbypass~~ [luci-app-pbr](https://docs.openwrt.melmac.net/vpn-policy-routing/#description), ocmproxy...
 
+## TODO:
+- nft instead of iptables
+
 ## Releases:
 A compilation for each router will be published monthly on https://github.com/ferboiar/wrt32x/releases.  
 If your router already has Openwrt firmware, simply download one of these files:  

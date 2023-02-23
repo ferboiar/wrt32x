@@ -52,7 +52,9 @@ Common:
 - adblock, banip, dynamic dns, file explorer, luci-app-wifischedule, luci-app-watchca, wake on lan, bandwith monitor, samba 4, upnp, ~~luci-app-vpn-policy-routing, luci-app-vpnbypass~~ [luci-app-pbr](https://docs.openwrt.melmac.net/vpn-policy-routing/#description), ocmproxy...
 
 ## TODO:
-- nft instead of iptables
+- migrate from iptables to fw4 *OpenWrt 22.03 and later ships with firewall4 by default, which uses nftables as a backend (instead of iptables). It accepts the same UCI configuration syntax as fw3.
+https://forum.openwrt.org/t/22-03-0-rc1-nftables-fw4-migration-guide/125949
+https://openwrt.org/docs/guide-user/firewall/misc/nftables
 
 ## Releases:
 A compilation for each router will be published monthly on https://github.com/ferboiar/wrt32x/releases.  

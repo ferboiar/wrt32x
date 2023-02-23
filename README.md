@@ -49,7 +49,7 @@ Common:
 - **USB Storage** (*kmod-usb-storage, kmod-usb-storage-extras, kmod-usb-storage-uas, kmod-usb-ohci, kmod-usb-uhci, kmod-usb2, kmod-usb3, kmod-fs-ext4, kmod-fs-vfat, kmod-fs-ntfs, kmod-scsi-core, kmod-nls-cp437, kmod-nls-iso8859-1, block-mount, block-hotplug, e2fsprogs, usbutils, usbids, ntfs-3g*)
 - **NetData** (*netdata, bash, coreutils-timeout, curl*). Access through http://router_ip:19999. luci-app-netdata doesn't work with firefox at least
 - **Themes**: [Argon](https://github.com/jerrykuku/luci-theme-argon "Argon"), Bootstrap (dark & light), [Edge](https://github.com/kiddin9/luci-theme-edge "Edge"), [Material](https://github.com/LuttyYang/luci-theme-material "Material") and OpenWrt2020
-- adblock, banip, dynamic dns, file explorer, luci-app-wifischedule, luci-app-watchca, wake on lan, bandwith monitor, samba 4, upnp, ~~luci-app-vpn-policy-routing~~ luci-app-pbr, luci-app-vpnbypass, ocmproxy...
+- adblock, banip, dynamic dns, file explorer, luci-app-wifischedule, luci-app-watchca, wake on lan, bandwith monitor, samba 4, upnp, ~~luci-app-vpn-policy-routing, luci-app-vpnbypass~~ [luci-app-pbr](https://docs.openwrt.melmac.net/vpn-policy-routing/#description), ocmproxy...
 
 ## Releases:
 A compilation for each router will be published monthly on https://github.com/ferboiar/wrt32x/releases.  

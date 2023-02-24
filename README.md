@@ -52,7 +52,7 @@ Common:
 - **Themes**: [Argon](https://github.com/jerrykuku/luci-theme-argon "Argon"), Bootstrap (dark & light), [Edge](https://github.com/kiddin9/luci-theme-edge "Edge"), [Material](https://github.com/LuttyYang/luci-theme-material "Material") and OpenWrt2020
 - luci-app-adblock, banip (luci-app-banip marked as BROKEN because no compatible with FW4), luci-app-bcp38, luci-app-ddns, luci-app-fileassistant, luci-app-wifischedule, luci-app-watchcat, luci-app-nft-qos, luci-app-wol, bandwith monitor, luci-app-samba4, upnp, luci-app-ocmproxy, FW4, lucy-app-nft-qos, luci-app-mqos, luci-app-sqm, luci-app-vnstat2, luci-app-wifischedule...
 
-## ABOUT FW4:
+## About FW4:
 - OpenWrt 22.03 and later ships with firewall4 by default, which uses nftables as a backend (instead of iptables). It accepts the same UCI configuration syntax as fw3.
 - The package iptables-nft is fully compatible with nftables and actually uses nftables underneath. It provides the command "iptables" so old iptables scripts can still be used. iptables-nft & ip6tables-nft are included. 
 

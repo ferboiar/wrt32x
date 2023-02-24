@@ -46,15 +46,18 @@ Common:
 - **Wireguard** (*wireguard-tools, luci-proto-wireguard, luci-app-wireguard, kmod-wireguard*)
 - **OpenVPN** server/client (*openvpn-openssl, openvpn-easy-rsa, luci-app-openvpn, kmod-tun*)
 - **Softether VPN Client** (*luci-app-softether, softethervpn5-client*)
+- **Policy Based Routing** (*[pbr](https://docs.openwrt.melmac.net/pbr/), luci-app-pbr*) pbr which supports fw4, nft, nft sets and dnsmasq.nftset option (but because OpenWrt’s dnsmasq doesn’t support nft sets yet, you can’t use dnsmasq to resolve domain names from policies) as well as fw3, iptables, ipset and dnsmasq.ipset option. [luci-app-vpn-policy-routing](https://docs.openwrt.melmac.net/vpn-policy-routing/#description) and [luci-app-vpnbypass](https://docs.openwrt.melmac.net/vpn-policy-routing/#description) superseded by luci-app-pbr
 - **USB Storage** (*kmod-usb-storage, kmod-usb-storage-extras, kmod-usb-storage-uas, kmod-usb-ohci, kmod-usb-uhci, kmod-usb2, kmod-usb3, kmod-fs-ext4, kmod-fs-vfat, kmod-fs-ntfs, kmod-scsi-core, kmod-nls-cp437, kmod-nls-iso8859-1, block-mount, block-hotplug, e2fsprogs, usbutils, usbids, ntfs-3g*)
 - **NetData** (*netdata, bash, coreutils-timeout, curl*). Access through http://router_ip:19999. luci-app-netdata doesn't work with firefox at least
 - **Themes**: [Argon](https://github.com/jerrykuku/luci-theme-argon "Argon"), Bootstrap (dark & light), [Edge](https://github.com/kiddin9/luci-theme-edge "Edge"), [Material](https://github.com/LuttyYang/luci-theme-material "Material") and OpenWrt2020
-- adblock, banip, dynamic dns, file explorer, luci-app-wifischedule, luci-app-watchca, wake on lan, bandwith monitor, samba 4, upnp, ~~luci-app-vpn-policy-routing, luci-app-vpnbypass~~ [luci-app-pbr](https://docs.openwrt.melmac.net/vpn-policy-routing/#description), ocmproxy...
+- luci-app-adblock, banip (luci-app-banip marked as BROKEN because no compatible with FW4), luci-app-bcp38, luci-app-ddns, luci-app-fileassistant, luci-app-wifischedule, luci-app-watchcat, luci-app-nft-qos, luci-app-wol, bandwith monitor, luci-app-samba4, upnp, luci-app-ocmproxy, FW4, lucy-app-nft-qos, luci-app-mqos, luci-app-sqm, luci-app-vnstat2, luci-app-wifischedule...
 
-## TODO:
-- migrate from iptables to fw4 *OpenWrt 22.03 and later ships with firewall4 by default, which uses nftables as a backend (instead of iptables). It accepts the same UCI configuration syntax as fw3.
-https://forum.openwrt.org/t/22-03-0-rc1-nftables-fw4-migration-guide/125949
+## ABOUT FW4:
+- OpenWrt 22.03 and later ships with firewall4 by default, which uses nftables as a backend (instead of iptables). It accepts the same UCI configuration syntax as fw3.
+- The package iptables-nft is fully compatible with nftables and actually uses nftables underneath. It provides the command "iptables" so old iptables scripts can still be used. iptables-nft & ip6tables-nft are included. 
+
 https://openwrt.org/docs/guide-user/firewall/misc/nftables
+https://openwrt.org/docs/guide-user/firewall/firewall_configuration
 
 ## Releases:
 A compilation for each router will be published monthly on https://github.com/ferboiar/wrt32x/releases.  

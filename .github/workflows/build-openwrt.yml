@@ -98,6 +98,7 @@ env:
   TEST_PACKAGES: true
   ## Disabling any of these will still build said section, just wont be debugable showing. Enabling them will add, more time to final completion.
   BUILD_KMODS: true
+  SIGN_PACKAGES: false
   BUILD_PACKAGES: true
   INSTALL_PACKAGES: true
   INDEX_PACKAGES: true
@@ -831,7 +832,8 @@ jobs:
         id: SPKB
         working-directory: '/workdir/openwrt'
         continue-on-error: true
-        if: (!cancelled())
+        
+        if: env.SIGN_PACKAGES == 'true' && !cancelled()
         run: |
           export TOPDIR="$PWD"
           
@@ -852,7 +854,7 @@ jobs:
           popd
 ### --------------------------- ###
       - name: If Error (KEY_BUILD)
-        if: steps.SPKB.outcome == 'failure'
+        if: env.SIGN_PACKAGES == 'true' && steps.SPKB.outcome == 'failure'
         run: |
           echo "Proccess Failed at level 1"
 ### ----------------------------------------------------------------- ###

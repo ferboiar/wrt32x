@@ -211,6 +211,7 @@ rm -rf package/kenzok8/amule # error de dependencia con libcryptopp que no exist
 rm -rf package/kenzok8/luci-app-quickstart
 rm -rf package/kenzok8/luci-app-istorex
 rm -rf package/kenzok8/luci-app-tencentcloud-cos
+rm -rf package/kenzok8/nftables #da error al compilar
 
 git clone https://github.com/ferboiar/luci-app-fileassistant.git package/kenzok8/luci-app-fileassistant
 }

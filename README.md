@@ -68,7 +68,7 @@ If your router already has Openwrt firmware, simply download one of these files:
 
 If your a8450/rt3200 router does not come with openwrt and you want to convert it to UBI you must follow these instructions before uploading the firmware from this site: https://github.com/dangowrt/owrt-ubi-installer
 
-* Alternatively you can compile your own build from [here](https://firmware-selector.openwrt.org/?version=SNAPSHOT&target=mvebu%2Fcortexa9&id=linksys_wrt32x) for wrt32x and from [here](https://firmware-selector.openwrt.org/?version=SNAPSHOT&target=mediatek%2Fmt7622&id=linksys_e8450-ubi) for e8450/rt3200.
+> Alternatively you can compile your own build from [here](https://firmware-selector.openwrt.org/?version=SNAPSHOT&target=mvebu%2Fcortexa9&id=linksys_wrt32x) for wrt32x and from [here](https://firmware-selector.openwrt.org/?version=SNAPSHOT&target=mediatek%2Fmt7622&id=linksys_e8450-ubi) for e8450/rt3200.
 
 
 _______________________________________________________________________

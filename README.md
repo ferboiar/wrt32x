@@ -47,7 +47,7 @@ Common:
 - **OpenVPN** server/client (*openvpn-openssl, openvpn-easy-rsa, luci-app-openvpn, kmod-tun*)
 - **Softether VPN Client** (*luci-app-softether, softethervpn5-client*)
 - **Policy Based Routing** (*[pbr](https://docs.openwrt.melmac.net/pbr/), luci-app-pbr*) pbr which supports fw4, nft, nft sets and dnsmasq.nftset option (but because OpenWrt’s dnsmasq doesn’t support nft sets yet, you can’t use dnsmasq to resolve domain names from policies) as well as fw3, iptables, ipset and dnsmasq.ipset option. [luci-app-vpn-policy-routing](https://docs.openwrt.melmac.net/vpn-policy-routing/#description) and [luci-app-vpnbypass](https://docs.openwrt.melmac.net/vpn-policy-routing/#description) superseded by luci-app-pbr
-- **OpenSSL** instead of wolfssl or mbedtls
+- **OpenSSL** instead of wolfssl or mbedtls. OpenWrt changed the default SSL from wolfssl to mbedtls. This build includes only the full version of OpenSSL.
 - **USB Storage** (*kmod-usb-storage, kmod-usb-storage-extras, kmod-usb-storage-uas, kmod-usb-ohci, kmod-usb-uhci, kmod-usb2, kmod-usb3, kmod-fs-ext4, kmod-fs-vfat, kmod-fs-ntfs, kmod-scsi-core, kmod-nls-cp437, kmod-nls-iso8859-1, block-mount, block-hotplug, e2fsprogs, usbutils, usbids, ntfs-3g*)
 - **NetData** (*netdata, bash, coreutils-timeout, curl*). Access through http://router_ip:19999. luci-app-netdata doesn't work with firefox at least
 - **Themes**: [Argon](https://github.com/jerrykuku/luci-theme-argon "Argon"), Bootstrap (dark & light), ~[Edge](https://github.com/kiddin9/luci-theme-edge "Edge")~, [Material](https://github.com/LuttyYang/luci-theme-material "Material") and OpenWrt2020

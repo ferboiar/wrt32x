@@ -31,7 +31,7 @@ Target Profile: "Belkin RT3200 UBI" and "Linksys E8450 UBI"
 ## Features:
 Only for wrt32x:
 - Patches taken from: [Divested-WRT](https://divested.dev/unofficial-openwrt-builds/mvebu-linksys/patches/)
-- mwlwifi driver taken from: [Lean's OpenWRT](https://github.com/coolsnowwolf/lede/tree/master/package/kernel/mwlwifi)
+- ~mwlwifi driver taken from: [Lean's OpenWRT](https://github.com/coolsnowwolf/lede/tree/master/package/kernel/mwlwifi)~ Development of these drivers stopped years ago, and current openwrt releases already incorporate the latest version available.
 - The DFS channels don't work, despite leaving the region code as it comes by default... So BT was removed (*kmod-mwifiex-sdio, mwifiex-sdio-firmware, kmod- bluetooth, kmod-btmrvl, kmod-mmc*) to see if this way the DFS channels work
 - **Atheros 9k WIFI driver** (*ath9k-htc-firmware, kmod-ath, kmod-ath9k-common, kmod-ath9k-htc*)
 

@@ -596,13 +596,14 @@ jobs:
       - name: Pre Defconfig Addons
         run: |
           chmod +x scripts/$FUNCTIONS_SH
-          source scripts/$FUNCTIONS_SH
-          cd openwrt
-          if [[ $HARDWARE_DEVICE == "e8450" ]]; then
-            PRE_DEFCONFIG_ADDONS_NONCORTEX
-          else 
-            PRE_DEFCONFIG_ADDONS
-          fi
+#          NO LO VEO NECESARIO, LA FUNCION AÑADE VALORES A .CONFIG QUE POR DEFECTO YA CONSIDERO
+#          source scripts/$FUNCTIONS_SH
+#          cd openwrt
+#          if [[ $HARDWARE_DEVICE == "e8450" ]]; then
+#            PRE_DEFCONFIG_ADDONS_NONCORTEX
+#          else 
+#            PRE_DEFCONFIG_ADDONS
+#          fi
 ### ----------------------------------------------------------------- ###
       - name: CCACHE - Setup .config to use cache
         run: |
@@ -630,11 +631,13 @@ jobs:
           cd openwrt
           $GITHUB_WORKSPACE/scripts/$CREATE_ACL_SH -a
 ### ----------------------------------------------------------------- ###
-      - name: Populating .config
-        id: config
-        run: |
-          cd openwrt
-          make defconfig
+#      EL ARCHIVO  CONFIG UTILIZADO ES COMPLETO, NO VEO SENTIDO PARA DEFCONFIG
+#      OJO, POSIBLEMENTE UTIL CON COMPILACIONES SOBRE UN .CONFIG "VIEJO"
+#      - name: Populating .config
+#        id: config
+#        run: |
+#          cd openwrt
+#          make defconfig
 ### ----------------------------------------------------------------- ###
       - name: Setup For Compiling
         id: setup

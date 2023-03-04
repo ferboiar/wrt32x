@@ -537,9 +537,44 @@ usbids
 usbutils
 watchcat
 
+
 errores encontrados en el builder oficial:
 
-Unsupported package(s): dnsmasq_full_nftset, trusted-firmware-a-mt7622-snand-1ddr, luci-app-mqos, luci-app-timecontrol, luci-app-disks-info, dnsmasq_full_auth, dnsmasq_full_ipset, luci-app-rebootschedule, u-boot-mt7622_linksys_e8450, dnsmasq_full_conntrack, luci-app-tcpdump, luci-app-fileassistant, autocore-arm, luci-app-argon-config, dnsmasq_full_dnssec, dnsmasq_full_tftp, cpulimit, luci-app-temp-status, luci-app-ramfree, luci-app-dnsmasq-ipset, ipt2socks, dnsmasq_full_dhcp, luci-app-vssr, tcping, dnsmasq_full_dhcpv6, luci-app-log, luci-theme-argon, dnsmasq_full_noid, luci-app-cpu-status
+Unsupported package(s): 
+-dnsmasq_full_nftset, 
+-dnsmasq_full_auth, 
+-dnsmasq_full_ipset, 
+-dnsmasq_full_conntrack, 
+-dnsmasq_full_dnssec, 
+-dnsmasq_full_tftp, 
+-dnsmasq_full_dhcp, 
+-dnsmasq_full_dhcpv6, 
+-dnsmasq_full_noid, 
++dnsmasq
+
+trusted-firmware-a-mt7622-snand-1ddr, NO TOCAR
+u-boot-mt7622_linksys_e8450, NO TOCAR
+
+autocore-arm NO TOCAR
+cpulimit
+-ipt2socks
+tcping
+
+luci-app-mqos, 
+luci-app-timecontrol, 
+luci-app-disks-info, 
+luci-app-rebootschedule, 
+luci-app-tcpdump, 
+luci-app-fileassistant, 
+luci-theme-argon, 
+luci-app-argon-config, 
+luci-app-temp-status, 
+luci-app-ramfree, 
+-luci-app-dnsmasq-ipset, 
+-luci-app-vssr, 
+luci-app-log, 
+luci-app-cpu-status
+-acme
 
 
 Collected errors:
@@ -562,6 +597,7 @@ Collected errors:
  * check_data_file_clashes: Package dnsmasq-full wants to install file /home/aparcar/asu/worker1/cache/SNAPSHOT/mediatek/mt7622/build_dir/target-aarch64_cortex-a53_musl/root-mediatek/usr/share/dnsmasq/rfc6761.conf
 	But that file is already provided by package  * dnsmasq
  * opkg_install_cmd: Cannot install package dnsmasq-full.
+ 
  * check_data_file_clashes: Package libustream-openssl20201210 wants to install file /home/aparcar/asu/worker1/cache/SNAPSHOT/mediatek/mt7622/build_dir/target-aarch64_cortex-a53_musl/root-mediatek/lib/libustream-ssl.so
 	But that file is already provided by package  * libustream-mbedtls20201210
  * opkg_install_cmd: Cannot install package libustream-openssl.

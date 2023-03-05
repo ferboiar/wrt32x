@@ -35,6 +35,12 @@ Only for wrt32x:
 - The DFS channels don't work, despite leaving the region code as it comes by default... So BT was removed (*kmod-mwifiex-sdio, mwifiex-sdio-firmware, kmod- bluetooth, kmod-btmrvl, kmod-mmc*) to see if this way the DFS channels work
 - **Atheros 9k WIFI driver** (*ath9k-htc-firmware, kmod-ath, kmod-ath9k-common, kmod-ath9k-htc*)
 
+Only for e8450/rt3200 (taking "inspiration" from [here](https://forum.openwrt.org/t/build-for-belkin-rt3200-linksys-e8450-ubi-and-redmi-ax6s-xiaomi-ax3200/94569)):
+- Interrupt distribution over CPUs to improve system latency and throughput (irqbalance)
+- Using GCC with [Graphite](https://gcc.gnu.org/wiki/Graphite) support
+- Using the GCC "[-Ofast -fgraphite-identity -floop-nest-optimize -fdevirtualize-at-ltrans -fipa-pta](https://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html)" speed optimization flags during compilation
+- Using the GCC "[-mcpu=cortex-a53+crypto](https://gcc.gnu.org/onlinedocs/gcc/ARM-Options.html)" architecture optimization flag during compilation
+
 Common:
 - **NetData SQM char** from: https://github.com/Fail-Safe/netdata-chart-sqm ([how to set up](https://github.com/ferboiar/wrt32x/wiki/Build-configuration-tips#netdata-sqm-char "how to set up")) 
 - **OpenWRTScripts** from: https://github.com/richb-hanover/OpenWrtScripts

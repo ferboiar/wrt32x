@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Copyright (c) 2022 By Eliminater74
+# 2022
 #
 # This is free software, licensed under the MIT License.
 # See /LICENSE for more information.
@@ -8,7 +8,6 @@
 # File name: fetch_packages.sh
 # Description: OpenWRT Packages
 #
-# Updated By Eliminater74
 ################################################################################
 
 ### -------------------------------------------------------------------------------------------------------------- ###
@@ -66,6 +65,9 @@ UNSORTED_GIT_PACKAGES(){
   git clone https://github.com/ferboiar/luci-app-rebootschedule.git package/ferboiar/luci-app-rebootschedule
   ### my-default-settings (ferboiar's repo)
   git clone https://github.com/ferboiar/my-default-settings.git package/ferboiar/my-default-settings
+  
+  ### luci-app-argon-config (ferboiar's repo)
+  git clone https://github.com/ferboiar/luci-app-argon-config.git package/ferboiar/luci-app-argon-config
 }
 
 UNSORTED_PACKAGES() {
@@ -424,7 +426,7 @@ LUCI_THEMES() {
   ### luci-theme-argon
   git clone https://github.com/jerrykuku/luci-theme-argon.git package/jerrykuku/luci-theme-argon
   ### luci-app-argon-config
-  git clone https://github.com/jerrykuku/luci-app-argon-config.git package/jerrykuku/luci-app-argon-config
+#  git clone https://github.com/jerrykuku/luci-app-argon-config.git package/jerrykuku/luci-app-argon-config
 
   ### luci-theme-tano (Custom By lynxnexy) Movido a la funcion LYNXNEXY_PACKAGES
 #  git clone https://github.com/lynxnexy/luci-theme-tano.git package/lynxnexy/luci-theme-tano

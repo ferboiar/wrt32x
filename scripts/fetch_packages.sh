@@ -67,7 +67,7 @@ UNSORTED_GIT_PACKAGES(){
   git clone https://github.com/ferboiar/my-default-settings.git package/ferboiar/my-default-settings
   
   ### luci-app-argon-config (ferboiar's repo)
-  git clone https://github.com/ferboiar/luci-app-argon-config.git package/ferboiar/luci-app-argon-config
+#  git clone https://github.com/ferboiar/luci-app-argon-config.git package/ferboiar/luci-app-argon-config
 }
 
 UNSORTED_PACKAGES() {
@@ -214,6 +214,7 @@ rm -rf package/kenzok8/luci-app-quickstart
 rm -rf package/kenzok8/luci-app-istorex
 rm -rf package/kenzok8/luci-app-tencentcloud-cos
 rm -rf package/kenzok8/nftables #da error al compilar
+rm -rf package/kenzok8/luci-lib-ipkg #mejor nos quedamos con el oficial
 
 git clone https://github.com/ferboiar/luci-app-fileassistant.git package/kenzok8/luci-app-fileassistant
 }
@@ -241,7 +242,8 @@ len=0
 unset packages
 unset url
 unset placement
-url="https://github.com/coolsnowwolf/lede/trunk/package/lean"
+#url="https://github.com/coolsnowwolf/lede/trunk/package/lean"
+url="https://github.com/coolsnowwolf/lede/tree/master/package/lean"
 placement="package/lean"
 
 while read -r line
@@ -342,6 +344,7 @@ rm -rf package/sirpdboy_A/luci-theme-opentopd
 rm -rf package/sirpdboy_A/netdata
 rm -rf package/sirpdboy_A/speedtest-cli ## NEEDS FIXED
 rm -rf package/sirpdboy_A/smartdns ## NEEDS FIXED
+rm -rf package/sirpdboy_A/luci-lib-ipkg ## mejor nos quedamos con el oficial
 
 echo "END of sirpdboy's packages"
 
@@ -426,7 +429,7 @@ LUCI_THEMES() {
   ### luci-theme-argon
   git clone https://github.com/jerrykuku/luci-theme-argon.git package/jerrykuku/luci-theme-argon
   ### luci-app-argon-config
-#  git clone https://github.com/jerrykuku/luci-app-argon-config.git package/jerrykuku/luci-app-argon-config
+  git clone https://github.com/jerrykuku/luci-app-argon-config.git package/jerrykuku/luci-app-argon-config
 
   ### luci-theme-tano (Custom By lynxnexy) Movido a la funcion LYNXNEXY_PACKAGES
 #  git clone https://github.com/lynxnexy/luci-theme-tano.git package/lynxnexy/luci-theme-tano

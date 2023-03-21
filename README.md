@@ -57,7 +57,7 @@ Common:
 - **USB Storage** (*kmod-usb-storage, kmod-usb-storage-extras, kmod-usb-storage-uas, kmod-usb-ohci, kmod-usb-uhci, kmod-usb2, kmod-usb3, kmod-fs-ext4, kmod-fs-vfat, kmod-fs-ntfs, kmod-scsi-core, kmod-nls-cp437, kmod-nls-iso8859-1, block-mount, block-hotplug, e2fsprogs, usbutils, usbids, ntfs-3g*)
 - **NetData** (*netdata, bash, coreutils-timeout, curl*). Access through http://router_ip:19999. luci-app-netdata doesn't work with firefox at least
 - **Themes**: [Argon](https://github.com/jerrykuku/luci-theme-argon "Argon"), Bootstrap (dark & light), ~[Edge](https://github.com/kiddin9/luci-theme-edge "Edge")~, [Material](https://github.com/LuttyYang/luci-theme-material "Material") and OpenWrt2020
-- luci-app-adblock, banip (luci-app-banip marked as BROKEN because no compatible with FW4), luci-app-bcp38, luci-app-ddns, luci-app-fileassistant, luci-app-wifischedule, luci-app-watchcat, luci-app-nft-qos, luci-app-wol, bandwith monitor, luci-app-samba4, upnp, luci-app-ocmproxy, FW4, lucy-app-nft-qos, luci-app-mqos, luci-app-sqm, luci-app-vnstat2, luci-app-wifischedule...
+- luci-app-adblock, banip (luci-app-banip marked as BROKEN because no compatible with FW4), luci-app-bcp38, luci-app-ddns, luci-app-fileassistant, luci-app-wifischedule, luci-app-watchcat, luci-app-wol, bandwith monitor, luci-app-samba4, upnp, luci-app-ocmproxy, FW4, lucy-app-nft-qos, luci-app-mqos, luci-app-sqm, luci-app-vnstat2, luci-app-wifischedule...
 
 ## About FW4:
 - OpenWrt 22.03 and later ships with firewall4 by default, which uses nftables as a backend (instead of iptables). It accepts the same UCI configuration syntax as fw3.

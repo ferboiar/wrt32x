@@ -1,0 +1,10 @@
+irqbalance
+luci-ssl
+luci-app-attendedsysupgrade
+auc
+luci-app-banip
+htop
+luci-app-statistics
+collectd-mod-cpufreq
+collect-mod-thermal
+luci-app-https-dns-proxy

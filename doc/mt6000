@@ -8,3 +8,6 @@ luci-app-statistics
 collectd-mod-cpufreq
 collect-mod-thermal
 luci-app-https-dns-proxy
+
+Also, if you configure Adguard Home to listen on br-lan then this patch 8 seems to be necessary, otherwise the service starts too early and then fails
+https://github.com/openwrt/packages/pull/22211

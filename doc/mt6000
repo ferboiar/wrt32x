@@ -9,7 +9,6 @@ luci-app-acme
 luci-app-attendedsysupgrade
 luci-app-banip
 luci-app-bcp38
-luci-app-bird1-ipv4
 luci-app-dcwapd: https://edgewaterwireless.com/dual-channel-wi-fi-tutorial/
 luci-app-dockerman
 luci-app-ddns
@@ -17,8 +16,8 @@ luci-app-dnscrypt-proxy
 luci-app-hd-idle
 luci-app-https-dns-proxy
 luci-app-irqbalance
-lucy-app-nft-qos
-luci-app-ocmproxy
+luci-app-nft-qos
+luci-app-omcproxy
 luci-app-opkg
 luci-app-pbr
 luci-app-samba4
@@ -84,7 +83,6 @@ kmod-scsi-core
 kmod-nls-cp437
 kmod-nls-iso8859-1
 block-mount
-block-hotplug
 e2fsprogs
 usbutils
 usbids
@@ -106,7 +104,8 @@ more
 
 varios:
 ======
-acme-dnsapi
+acme-acmesh
+acme-acmesh-dnsapi
 adguardhome
 auc
 ca-certificates
@@ -117,7 +116,6 @@ msmtp
 nmap-full
 samba4-utils
 sysfsutils
-tcping
 tcpdump
 zoneinfo-europe
 
@@ -144,3 +142,7 @@ https://openwrt.org/toh/gl.inet/gl-mt6000
 3) Apply power whilst still holding the reset button 
 4) After 5 seconds head to http://192.168.1.1
 5) Flash OpenWRT https://downloads.openwrt.org/snapshots/targets/mediatek/filogic/openwrt-mediatek-filogic-glinet_gl-mt6000-squashfs-sysupgrade.bin
+
+listado en horizontal 
+luci-app-acme luci-app-attendedsysupgrade luci-app-banip luci-app-bcp38 luci-app-dcwapd luci-app-dockerman luci-app-ddns luci-app-dnscrypt-proxy luci-app-hd-idle luci-app-https-dns-proxy luci-app-irqbalance luci-app-nft-qos luci-app-omcproxy luci-app-opkg luci-app-pbr luci-app-samba4 luci-app-sqm luci-app-upnp luci-app-watchcat luci-app-wifischedule luci-app-wol luci-mod-admin-full luci-proto-ppp luci-ssl luci-app-statistics collectd-mod-cpufreq collectd-mod-thermal collectd-mod-ethstat collectd-mod-iptables collectd-mod-openvpn collectd-mod-sensors collectd-mod-syslog collectd-mod-vmem collectd-mod-wireless luci-app-vnstat2 luci-app-nlbwmon htop iperf3 netperf wireguard-tools luci-proto-wireguard luci-app-wireguard kmod-wireguard openvpn-openssl openvpn-easy-rsa luci-app-openvpn kmod-tun luci-app-softether softethervpn5-client kmod-usb-storage kmod-usb-storage-extras kmod-usb-storage-uas kmod-usb-ohci kmod-usb-uhci kmod-usb2 kmod-usb3 kmod-fs-ext4 kmod-fs-vfat kmod-fs-ntfs kmod-scsi-core kmod-nls-cp437 kmod-nls-iso8859-1 block-mount e2fsprogs usbutils usbids ntfs-3g luci-theme-material luci-theme-bootstrap attr dmesg fdisk gzip nano more acme-acmesh acme-acmesh-dnsapi adguardhome auc ca-certificates irqbalance ddns-scripts-cloudflare ddns-scripts-noip msmtp nmap-full samba4-utils sysfsutils tcpdump zoneinfo-europe
+

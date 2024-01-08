@@ -1,3 +1,8 @@
+SFO+HFO and WED instead of SQM
+SFO: software offloading
+WED: https://openwrt.org/toh/linksys/e8450#wireless_ethernet_dispatch_wed_hw_acceleration_for_wireless_clients
+
+
 LUCI:
 ====
 luci-app-acme
@@ -6,10 +11,12 @@ luci-app-banip
 luci-app-bcp38
 luci-app-bird1-ipv4
 luci-app-dcwapd: https://edgewaterwireless.com/dual-channel-wi-fi-tutorial/
+luci-app-dockerman
 luci-app-ddns
 luci-app-dnscrypt-proxy
 luci-app-hd-idle
 luci-app-https-dns-proxy
+luci-app-irqbalance
 lucy-app-nft-qos
 luci-app-ocmproxy
 luci-app-opkg
@@ -127,9 +134,13 @@ luci-app-tcpdump
 luci-app-timecontrol
 luci-theme-argon
 
-full version of OpenSSL instead of wolfssl
-
-
-
 Also, if you configure Adguard Home to listen on br-lan then this patch 8 seems to be necessary, otherwise the service starts too early and then fails
 https://github.com/openwrt/packages/pull/22211
+
+https://openwrt.org/toh/gl.inet/gl-mt6000
+
+1) Remove Power from the router
+2) Press and Hold the reset button
+3) Apply power whilst still holding the reset button 
+4) After 5 seconds head to http://192.168.1.1
+5) Flash OpenWRT https://downloads.openwrt.org/snapshots/targets/mediatek/filogic/openwrt-mediatek-filogic-glinet_gl-mt6000-squashfs-sysupgrade.bin

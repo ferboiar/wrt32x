@@ -1,0 +1,30 @@
+SFO+HFO and WED instead of SQM
+SFO: software offloading
+WED: https://openwrt.org/toh/linksys/e8450#wireless_ethernet_dispatch_wed_hw_acceleration_for_wireless_clients
+
+LUCI:
+====
+luci-app-acme
+luci-app-banip
+luci-app-bcp38
+NO luci-app-dockerman
+  NO docker-compose
+  NO dockerd
+luci-app-ddns
+luci-app-hd-idle
+luci-app-https-dns-proxy
+luci-app-irqbalance
+luci-app-nft-qos
+luci-app-ttyd
+
+luci-app-opkg
+luci-app-pbr
+luci-app-samba4
+luci-app-sqm
+luci-app-upnp
+luci-app-watchcat
+luci-app-wifischedule
+luci-app-wol
+luci-mod-admin-full
+luci-proto-ppp
+luci-ssl
